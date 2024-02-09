@@ -3,15 +3,68 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Exercício Semana 1</title>
-	<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><img align="center" 	src="https://conhecimentoinovacao.iscte-iul.pt/wp-	content/uploads/2021/02/rgb_iscte_pt_horizontal_positive.png" alt="Iscte" title="Logo Iscte" 	width= "400px" heigth="400px"></a>
+	<a href="https://www.iscte-iul.pt/">
+		<img src="https://conhecimentoinovacao.iscte-iul.pt/wp-content/uploads/2021/02/rgb_iscte_pt_horizontal_positive.png" 
+			alt="Iscte" title="Logo Iscte" 
+			width= "400px">
+	</a>
 </head>
 <body>
-	<form name= "input" action= "02.html">
-		Titulo: <input type="text" name="titulo"><br>
-		Descrição: <input type="text" name="descricao"><br>
+	<form name= "input" action= "s2Tiago.html">
+	
+		<table>
+		<tr align="left">
+			<th>Titulo:</th><th><input type="text" name="titulo"></th>
+		</tr>
+		<tr align="left">
+			<th>Descrição:</th><th><input type="text" name="descricao"></th>
+		</tr>
+		</table>
 		
+		<br>
 		
+		<table>
+		<tr align="left">
+			<th></th>
+			<th>Nome</th>
+			<th>Número</th>
+			<th>Contacto</th>
+		</tr>
+		<tr align="left">
+			<th>1ºMembro</th>
+			<th><input type="text" name="nome1"></th>
+			<th><input type="number" name="descricao1"></th>
+			<th><input type="number" name="telefone1"></th>
+		</tr>
+		<tr align="left">
+			<th>2ºMembro</th>
+			<th><input type="text" name="nome2"></th>
+			<th><input type="number" name="descricao2"></th>
+			<th><input type="number" name="telefone2"></th>
+		</tr>
+		<tr align="left">
+			<th>3ºMembro</th>
+			<th><input type="text" name="nome3"></th>
+			<th><input type="number" name="descricao3"></th>
+			<th><input type="number" name="telefone3"></th>
+		</tr>
+		</table>		
+		
+		<br>
+		
+		<fieldset>
+			<legend>Horário</legend>
+			<input type="radio" name="gr1" value="horarioOpcao1" checked>08h00 - 09h00<br>
+			<input type="radio" name="gr1" value="horarioOpcao2">09h15 - 10h15<br>
+			<input type="radio" name="gr1" value="horarioOpcao3">10h30 - 11h30<br>
+			<input type="radio" name="gr1" value="horarioOpcao4">11h45 - 12h45<br>
+		</fieldset><br>
 		<input type="submit" value="Submeter">
+		
+		<fieldset>
+		
+		</fieldset>
+		
 	</form>
 
 </body>
