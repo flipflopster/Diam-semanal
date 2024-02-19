@@ -1,7 +1,40 @@
-h1 {
-    background-color: darkblue;
-    color: ivory;
+header {
+    background-color: #ccc;
     }
+
+body {
+    
+    font-family: sans-serif;
+    
+}
+
+#adlinks {
+    align-self: flex-end;
+    
+        border-top: 3px solid #111;
+        padding-top: 10%;
+      
+
+}
+
+#projetoformnav {
+    padding-bottom: 10%;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 100%;
+  width: 200px;
+  position: fixed;
+  background-color: #aaa;
+}
+
+.content {
+padding-left: 20px;
+margin-left: 250px;
+}
 
 .teste {
     font-family: arial, hevetica, sans-serif;
