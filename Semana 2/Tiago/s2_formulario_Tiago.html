@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Exercício Semana 2</title>
+	 <center><figure>
+		<img width= "400px" src="https://conhecimentoinovacao.iscte-iul.pt/wp-content/uploads/2021/02/rgb_iscte_pt_horizontal_positive.png">	
+	</figure> </center>
+		
+	<h3>Formulario para Inscrição do projeto</h3>
+</header>
+
+<body>
+	<section>
+		<nav></nav>
+		<article>
+		<form name="Formulário" action="ProjetoAceite_Tiago.html">
+		<br>
+		<fieldset>
+			<legend><strong>Dados do Projeto</strong></legend>
+			<label for="title"><strong>Título:</strong></label><br>
+			<input type="text" id="title" name="title" required><br>
+		
+			<label for="description"><strong>Descrição:</strong></label><br>
+			<input type="text" id="description" name="description" required><br>
+		
+			<label for="projeto"><strong>Tipo de projeto:</strong></label><br>
+			<input type="text" list="tipos" name="tipo" id="tipo" required>
+			<datalist id="tipos">
+				<option value="Informática">
+				<option value="Telecomunicações">
+				<option value="Ciência">
+				<option value="Mecânica">
+				<option value="Gestão de Empresas">
+				<option value="Economia">			
+			</datalist>
+			
+		</fieldset>
+		
+		<fieldset>
+			<legend><strong>Alunos</strong></legend>
+			
+			<label><strong>Aluno 1:</strong></label><br>
+			Nome: <input type="text" id="name1" name="name1" required>
+			Número: <input type="number" id="num1" name="num1" required>
+			Telemóvel: <input type="tel" id="tele1" name="tele1" required><br><br>
+			Email: <input type="email" id="em1" name="em1" required>
+			Licenciatura: <input type="text" list="licenciaturas" name="licenciatura1" id="licenciatura1" required>
+			<br><br>
+
+			<label><strong>Aluno 2:</strong></label><br>
+			Nome: <input type="text" id="name2" name="name2">
+			Número: <input type="number" id="num2" name="num2">
+			Telemóvel: <input type="tel" id="tele2" name="tele2"><br><br>
+			Email: <input type="email" id="em2" name="em2">
+			Licenciatura: <input type="text" list="licenciaturas" name="licenciatura2" id="licenciatura2" required>
+			<br><br>
+
+			<label><strong>Aluno 3:</strong></label><br>
+			Nome: <input type="text" id="name3" name="name3">
+			Número: <input type="number" id="num3" name="num3">
+			Telemóvel: <input type="tel" id="tele3" name="tele3"><br><br>
+			Email: <input type="email" id="em3" name="em3">
+			Licenciatura: <input type="text" list="licenciaturas" name="licenciatura3" id="licenciatura3" required>
+			<br><br>
+		
+			<datalist id="licenciaturas">
+				<option value="Informática">
+				<option value="Telecomunicações">
+				<option value="Ciência">
+				<option value="Mecânica">
+				<option value="Gestão de Empresas">
+				<option value="Economia">			
+			</datalist><br>
+		</fieldset>
+
+		<fieldset>
+			<legend><strong>Horários</strong></legend>
+			<label for="hora"><strong>Escolha o seu horário de preferência</strong></label><br>
+			<input type="radio" id="1" name="hora" value="8:00-9:00" required><label for="1">8:00-9:00</label><br>
+			<input type="radio" id="2" name="hora" value="8:00-9:00" required><label for="2">9:00-10:00</label><br>
+			<input type="radio" id="3" name="hora" value="8:00-9:00" required><label for="3">10:00-11:00</label><br>
+			<input type="radio" id="4" name="hora" value="8:00-9:00" required><label for="4">11:00-12:00</label><br>
+		</fieldset>
+		<br>
+		<input type="submit" name="submit" value="Submeter">
+		</form><br><a href="s2_Tiago.html"><button>Voltar para o Menu</button></a><br>
+		</article>
+	</section>
+	
+	<footer>
+	<center><table style="width: 90%;">
+		<tr>
+			<th style="width:25%;">Criadores da página:</th>
+			<th style="width:25%;">Mais sobre o Concurso:</th>
+			<th colspan="2" style="width:40%;">Eventos:</th>
+		</tr>
+		<tr>
+			<td>Filipe Delmotte</td>
+			<td><strong>Júri: Prof. Jorge Louçã</strong></td>
+			<td><strong>Concertos:</strong></td>
+			<td><strong>Operas:</strong></td>
+		</tr>
+		<tr>
+			<td>Guilherme Lopes</td>
+			<td><strong>Prémio:</strong> Cupão de desconto 50% na <a href="https://www.prozis.com/pt/pt"><strong>Prozis</strong></a></td>
+			<td><a href="https://cartazculturallisboa.pt/evento/morta-grigaliunaite-museu-do-oriente/"><strong>Grigaliūnaitė</strong> - Museu do Oriente</a></td>
+			<td><a href="https://tnsc.pt/temporada-lirica-2023-2024-madama-butterfly-figueira-da-foz/"><strong>Madama Butterfly</strong> - Giacomo Puccini</a></td>
+		</tr>
+		<tr>
+			<td>Tiago Gonçalves</td>
+			<td><strong>Data de conclusão:</strong> Prevista para 10 de Maio</td>
+			<td><a href="https://cartazculturallisboa.pt/evento/don-quixote-orquestra-gulbenkian/"><strong>Don Quixote</strong> - Orquestra Gulbenkian</a></td>
+			<td><a href="https://tnsc.pt/temporada-lirica-2023-2024-falstaff/"><strong>Falstaff</strong> - Giuseppe Verdi</a></td>
+		</tr>
+		<tr>
+			<td> </td>
+			<td> </td>
+			<td><a href="https://cartazculturallisboa.pt/evento/piotr-anderszewski-calouste-gulbenkian/"><strong>Piotr Anderszewski</strong> - Calouste Gulbenkian</a></td>
+			<td> </td>
+		</tr>
+
+	</table></center>
+	</footer>
+	
+</body>
+
+</html>
