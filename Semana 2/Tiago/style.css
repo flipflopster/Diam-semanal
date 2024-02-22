@@ -16,14 +16,37 @@ header {
   color: white;
 }
 
+
+.tabelaProjetosSubmetidos{
+    border-collapse: collapse;
+    border-spacing: 0;
+	border: 1px solid black;
+}
+
+
+
+a:link, a:visited {
+  background-color: #f44336;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: red;
+}
+
 /* Create two columns/boxes that floats next to each other */
 nav {
   float: left;
-  width: 100%;
-  /* height: 300px; only for demonstration, should be removed */
+  width: 20%;
   background: #ccc;
   padding: 20px;
-  <!min-height: 100vh;>
+
+
+  
 }
 
 /* Style the list inside the menu */
@@ -33,11 +56,19 @@ nav ul {
   
 }
 
+#widthParaFormulario{
+	 width: 100%;
+}
+.container {
+    align-items: stretch; /* Isso faz com que ambos os elementos tenham a mesma altura */
+}
+
 article {
   float: left;
   padding: 20px;
-  width: 100%;
+  width: 80%;
   background-color: #f1f1f1;
+ 
 }
 
 /* Clear floats after the columns */
