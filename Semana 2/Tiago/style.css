@@ -57,11 +57,12 @@ nav ul {
 }
 
 #widthParaFormulario{
-	 width: 100%;
+	width: 100%;
 }
+/*
 .container {
-    align-items: stretch; /* Isso faz com que ambos os elementos tenham a mesma altura */
-}
+    align-items: stretch;
+}*/
 
 article {
   float: left;
