@@ -1,0 +1,104 @@
+* {/*Propriadade para todas as tag*/
+    box-sizing: border-box;
+}
+
+body {
+    font-family: arial, helvetica, sans-serif;
+    margin: 1px;
+}
+
+header, nav, footer{
+    background-color: lightblue;
+    overflow: auto;
+}
+
+header h1 {
+    color: aliceblue;
+}
+
+#banner {
+    background-size: 100% 100%;
+    text-align: center;
+    padding: 40px;
+}
+
+.container, .flex-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flex-container-formulario{
+	width: 80%;
+    margin: 0 auto;
+}
+
+article th,article table{
+	border-collapse: collapse;
+    border-spacing: 0;
+	border: 1px solid black;
+	text-align: left;
+	padding: 5px;
+}
+
+figure img{
+	width: 300px;
+}
+
+/*Propriadade para o nav*/
+nav a {
+  background-color: #f44336;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+nav{
+	background-color: blue;
+}
+
+nav a:hover {
+    color: orange;
+}
+nav a:active {
+    color: red;
+}
+nav li {
+    display: inline;
+    padding-right: 20px;
+}
+nav ul {
+    padding: 0;
+}
+
+section {
+    width: 69%;
+    margin-right: 1%;
+}
+
+aside {
+    width: 30%;
+    background-color: darkseagreen;
+    vertical-align: top;
+    padding: 0 10px;
+
+}
+
+aside a{
+	text-decoration: none;
+}
+
+footer {
+    color: azure;
+    text-align: center;
+}
+
+footer table{
+	width: 90%;
+}

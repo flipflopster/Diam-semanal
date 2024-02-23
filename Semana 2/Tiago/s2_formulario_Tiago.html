@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
-<header>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="style.css">
+<head>
+	<meta charset="utf-8">
 	<title>Exercício Semana 2</title>
-	 <center><figure>
-		<img width= "400px" src="https://conhecimentoinovacao.iscte-iul.pt/wp-content/uploads/2021/02/rgb_iscte_pt_horizontal_positive.png">	
-	</figure> </center>
-		
-	<h3>Formulario para Inscrição do projeto</h3>
+	<link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+	<div class="container">
+		<figure><img src="https://conhecimentoinovacao.iscte-iul.pt/wp-content/uploads/2021/02/rgb_iscte_pt_horizontal_positive.png"></figure>
+	</div>
+	<div id="banner">
+		<h2>Inscrição do Concurso</h2>
+	</div>
 </header>
 
-<body >
-	<section>
-		<article id="widthParaFormulario">
+
+<main>
+	<!-- Articles -->
+	<div class="flex-container-formulario">
+		<section>
+			
+		<article>
 		<form name="Formulário" action="ProjetoAceite_Tiago.html">
 		<br>
 		<fieldset>
@@ -42,25 +51,25 @@
 			
 			<label><strong>Aluno 1:</strong></label><br>
 			Nome: <input type="text" id="name1" name="name1" required>
-			Número: <input type="number" id="num1" name="num1" required>
-			Telemóvel: <input type="tel" id="tele1" name="tele1" required><br><br>
-			Email: <input type="email" id="em1" name="em1" required>
+			Número: <input type="number" id="num1" name="num1" required><br>
+			Telemóvel: <input type="tel" id="tele1" name="tele1" required>
+			Email: <input type="email" id="em1" name="em1" required><br>
 			Licenciatura: <input type="text" list="licenciaturas" name="licenciatura1" id="licenciatura1" required>
 			<br><br>
 
 			<label><strong>Aluno 2:</strong></label><br>
 			Nome: <input type="text" id="name2" name="name2">
-			Número: <input type="number" id="num2" name="num2">
-			Telemóvel: <input type="tel" id="tele2" name="tele2"><br><br>
-			Email: <input type="email" id="em2" name="em2">
+			Número: <input type="number" id="num2" name="num2"><br>
+			Telemóvel: <input type="tel" id="tele2" name="tele2">
+			Email: <input type="email" id="em2" name="em2"><br>
 			Licenciatura: <input type="text" list="licenciaturas" name="licenciatura2" id="licenciatura2">
 			<br><br>
 
 			<label><strong>Aluno 3:</strong></label><br>
 			Nome: <input type="text" id="name3" name="name3">
-			Número: <input type="number" id="num3" name="num3">
-			Telemóvel: <input type="tel" id="tele3" name="tele3"><br><br>
-			Email: <input type="email" id="em3" name="em3">
+			Número: <input type="number" id="num3" name="num3"><br>
+			Telemóvel: <input type="tel" id="tele3" name="tele3">
+			Email: <input type="email" id="em3" name="em3"><br>
 			Licenciatura: <input type="text" list="licenciaturas" name="licenciatura3" id="licenciatura3">
 			<br><br>
 		
@@ -85,44 +94,35 @@
 		<br>
 		<input type="submit" name="submit" value="Submeter">
 		</form><br><a href="s2_Tiago.html">Voltar para o Menu</a><br>
-		</article>
-	</section>
-	
-	<footer>
-	<center><table style="width: 90%;">
+		</article>	
+		<br>
+		</section>	
+	</div>
+</main>
+
+<!-- Footer -->
+<footer>
+	<center>
+	<table>
 		<tr>
-			<th style="width:25%;">Criadores da página:</th>
-			<th style="width:25%;">Mais sobre o Concurso:</th>
-			<th colspan="2" style="width:40%;">Eventos:</th>
+			<th>Criadores da página:</th>
+			<th>Mais sobre o Concurso:</th>
 		</tr>
 		<tr>
 			<td>Filipe Delmotte</td>
 			<td><strong>Júri: Prof. Jorge Louçã</strong></td>
-			<td><strong>Concertos:</strong></td>
-			<td><strong>Operas:</strong></td>
 		</tr>
 		<tr>
 			<td>Guilherme Lopes</td>
-			<td><strong>Prémio:</strong> Cupão de desconto 50% na <a href="https://www.prozis.com/pt/pt"><strong>Prozis</strong></a></td>
-			<td><a href="https://cartazculturallisboa.pt/evento/morta-grigaliunaite-museu-do-oriente/"><strong>Grigaliūnaitė</strong> - Museu do Oriente</a></td>
-			<td><a href="https://tnsc.pt/temporada-lirica-2023-2024-madama-butterfly-figueira-da-foz/"><strong>Madama Butterfly</strong> - Giacomo Puccini</a></td>
+			<td><strong>Data de conclusão:</strong> Prevista para 10 de Maio</td>
 		</tr>
 		<tr>
 			<td>Tiago Gonçalves</td>
-			<td><strong>Data de conclusão:</strong> Prevista para 10 de Maio</td>
-			<td><a href="https://cartazculturallisboa.pt/evento/don-quixote-orquestra-gulbenkian/"><strong>Don Quixote</strong> - Orquestra Gulbenkian</a></td>
-			<td><a href="https://tnsc.pt/temporada-lirica-2023-2024-falstaff/"><strong>Falstaff</strong> - Giuseppe Verdi</a></td>
+			<td><strong>Contato: +351 999333555</strong></td>
 		</tr>
-		<tr>
-			<td> </td>
-			<td> </td>
-			<td><a href="https://cartazculturallisboa.pt/evento/piotr-anderszewski-calouste-gulbenkian/"><strong>Piotr Anderszewski</strong> - Calouste Gulbenkian</a></td>
-			<td> </td>
-		</tr>
-
-	</table></center>
-	</footer>
-	
+		
+	</table>
+	</center>
+</footer>
 </body>
-
 </html>
