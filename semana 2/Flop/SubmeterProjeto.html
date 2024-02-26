@@ -57,14 +57,27 @@
 		
 		</fieldset><br>
 
-		<fieldset>
-			<legend><strong>Horários</strong></legend>
-			<label for="hora"><strong>Escolha o seu horário de preferência</strong></label><br>
-			<input type="radio" id="1" name="hora" value="8:00-9:00" required><label for="1">8:00-9:00</label><br>
-			<input type="radio" id="2" name="hora" value="8:00-9:00" required><label for="2">9:00-10:00</label><br>
-			<input type="radio" id="3" name="hora" value="8:00-9:00" required><label for="3">10:00-11:00</label><br>
-			<input type="radio" id="4" name="hora" value="8:00-9:00" required><label for="4">11:00-12:00</label><br>
-		</fieldset><br>
+        <form action="/action_page.php" method="get">
+            <label for="browser">Escolhe o tipo de projeto:</label>
+            <input list="browsers" name="browser" id="browser">
+            <datalist id="browsers">
+              <option value="Edge">
+              <option value="Firefox">
+              <option value="Chrome">
+              <option value="Opera">
+              <option value="Safari">
+            </datalist>
+            <input type="submit">
+          </form>
+
+        <datalist id="projs">
+            <option value="Edge">
+            <option value="Firefox">
+            <option value="Chrome">
+            <option value="Opera">
+            <option value="Safari">
+          </datalist>
+
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
       </div>

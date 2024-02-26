@@ -45,9 +45,10 @@ body {
 }
 
 .content {
-padding-left: 20px;
+padding:20px;
+
 float: left;
-margin-left: 250px;
+
 height: 100%;
 }
 
@@ -57,3 +58,4 @@ height: 100%;
     color: darkseagreen;
 }
     
+
