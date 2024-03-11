@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRIARQUESTA</title>
+</head>
+<body>
+    <h1>Insira texto da questão:</h1>
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    <form action="{% url 'votacao:submeterquestao' %}" method="post">
+        {% csrf_token %}
+         <input type="hidden" name="questaotexto" value="{{ questaotexto }}">
+
+        <input type="text" name="resposta">
+        <input type="submit" value="Criar"/>
+    </form>
+</body>
+</html>
