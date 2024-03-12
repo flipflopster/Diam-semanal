@@ -1,11 +1,13 @@
 from django.urls import path
 from . import views
 
+app_name = 'votacao'
+
 # (. significa que importa views da mesma directoria)
 
 urlpatterns = [
     # ex: votacao/
-    path("", views.index, name="index"),
+    path("", views.index, name='index'),
     # ex: votacao/1
     path('<int:questao_id>', views.detalhe, name='detalhe'),
     # ex: votacao/3/resultados
