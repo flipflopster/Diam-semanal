@@ -20,7 +20,12 @@
     {% endfor %}
     <input type="submit" value="Voto" />
 </form>
+<br/>
 
+<form action="{% url 'votacao:criaropcao' questao.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Adicionar uma nova opcao" />
+</form>
 
 </body>
 </html>

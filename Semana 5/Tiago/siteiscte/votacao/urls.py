@@ -12,4 +12,12 @@ urlpatterns = [
     path('<int:questao_id>/resultados', views.resultados, name='resultados'),
     # ex: votacao/5/voto
     path('<int:questao_id>/voto', views.voto, name='voto'),
+
+    # criar uma nova questao
+    path('criarquestao', views.criarquestao, name='criarquestao'),
+    path('adicionarquestao', views.adicionarquestao, name='adicionarquestao'),
+
+    # criar nova opçao para uma questao
+    path('<int:questao_id>/criaropcao', views.criaropcao, name='criaropcao'),
+    path('<int:questao_id>/adicionaropcao', views.adicionaropcao, name='adicionaropcao'),
 ]

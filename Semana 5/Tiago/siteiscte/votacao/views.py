@@ -1,9 +1,30 @@
-from django.http import Http404, HttpResponse, HttpResponseRedirect
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.utils import timezone
+
 from .models import Questao, Opcao
-from django.template import loader
+
+
+def criarquestao(request):
+    return render(request, 'votacao/criarquestao.html')
+
+
+def adicionarquestao(request):
+    x = Questao(questao_texto=request.POST['novaquestao'], pub_data=timezone.now())
+    x.save()
+    return HttpResponseRedirect(reverse('votacao:index'))
+
+
+def criaropcao(request, questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    return render(request, 'votacao:criaropcao.html', {'questao': questao})
+
+
+def adicionaropcao(request, questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
 
 
 def index(request):
@@ -39,10 +60,5 @@ def voto(request, questao_id):
     else:
         opcao_seleccionada.votos += 1
         opcao_seleccionada.save()
-        # Retorne sempre HttpResponseRedirect depois de
-        # tratar os dados POST de um form
-        # pois isso impede os dados de serem tratados
-        # repetidamente se o utilizador
-        # voltar para a página web anterior.
     return HttpResponseRedirect(
         reverse('votacao:resultados', args=(questao.id,)))
