@@ -11,7 +11,7 @@
 
 <form action="{% url 'votacao:adicionaropcao' questao.id %}" method="post">
     {% csrf_token %}
-    <label>Escreva uma pergunta: </label><br>
+    <label>Escreva uma opçao: </label><br>
     <input type="text" name="adicionaropcao" />
     <br/>
     <input type="submit" value="Guardar Opcao" />

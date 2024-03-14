@@ -1,4 +1,3 @@
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -19,12 +18,24 @@ def adicionarquestao(request):
 
 def criaropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
-    return render(request, 'votacao:criaropcao.html', {'questao': questao})
+    return render(request, 'votacao/criaropcao.html', {'questao': questao})
 
 
 def adicionaropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
+    questao.opcao_set.create(opcao_texto=request.POST['adicionaropcao'], votos=0)
     return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
+
+
+def removerquestao(request, questao_id):
+    # remover a questao e remover as opçoes associadas
+    # adicionar if para ver se existe uma opçao associada a questao que quer apagar
+    questao = get_object_or_404(Questao, pk=questao_id)
+    if questao.opcao_set.count() > 0:
+        for opcao in questao.opcao_set.all():
+            opcao.delete()
+    questao.delete()
+    return HttpResponseRedirect(reverse('votacao:index'))
 
 
 def index(request):

@@ -20,4 +20,7 @@ urlpatterns = [
     # criar nova opçao para uma questao
     path('<int:questao_id>/criaropcao', views.criaropcao, name='criaropcao'),
     path('<int:questao_id>/adicionaropcao', views.adicionaropcao, name='adicionaropcao'),
+
+    path('<int:questao_id>/removerquestao', views.removerquestao, name='removerquestao'),
+
 ]
