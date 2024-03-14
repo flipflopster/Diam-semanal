@@ -1,9 +1,25 @@
-<h1>{{ questao.questao_texto }}</h1>
-<ul>
-    {% for opcao in questao.opcao_set.all %}
-    <li>{{ opcao.opcao_texto }}: {{ opcao.votos }} voto{{ opcao.votos|pluralize }}
-    </li>
-    {% endfor %}
-</ul>
+<!DOCTYPE html>
+<html>
 
-<a href="{% url 'votacao:detalhe' questao.id %}">Votar novamente?</a>
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Questão {{questao.id}}</title>
+    </head>
+
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif">{{ questao.questao_texto }}</h1>
+    </header>
+
+    <body style="font-family: 'HelveticaNeueLT Std', sans-serif">
+
+        <ul>
+            {% for opcao in questao.opcao_set.all %}
+            <li>{{ opcao.opcao_texto }}: {{ opcao.votos }} voto{{ opcao.votos|pluralize }}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'votacao:detalhe' questao.id %}">Votar novamente?</a>
+
+    </body>
+</html>

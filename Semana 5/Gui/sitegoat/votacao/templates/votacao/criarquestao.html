@@ -1,14 +1,27 @@
-<h1>Criar Nova Questão</h1>
+<!DOCTYPE html>
+<html>
 
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Criar Questão</title>
+    </head>
 
-<form action="{% url 'votacao:submeterquestao' %}" method="post">
-    {% csrf_token %}
-    <label> Texto da Questão: <br>
-        <input type="text" name="questaotexto" value="{{ questaotexto }}" />
-    </label>
-    <br> <br>
-    <input type="submit" value="Submeter" />
-</form>
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif">Criar Nova Questão</h1>
+    </header>
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form action="{% url 'votacao:submeterquestao' %}" method="post">
+            {% csrf_token %}
+            <label> Texto da Questão: <br>
+                <input type="text" name="questaotexto" value="{{ questaotexto }}" />
+            </label>
+            <br> <br>
+            <input type="submit" value="Submeter" />
+        </form>
+
+    </body>
+</html>
