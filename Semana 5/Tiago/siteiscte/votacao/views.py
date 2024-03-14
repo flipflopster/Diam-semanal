@@ -38,6 +38,20 @@ def removerquestao(request, questao_id):
     return HttpResponseRedirect(reverse('votacao:index'))
 
 
+def removeropcao(request, questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    try:
+        opcao_seleccionada = questao.opcao_set.get(pk=request.POST['opcao'])
+    except (KeyError, Opcao.DoesNotExist):
+        return render(request, 'votacao/detalhe.html', {
+            'questao': questao,
+            'error_message': "Não escolheu uma opção",
+        })
+    else:
+        opcao_seleccionada.delete()
+    return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
+
+
 def index(request):
     latest_question_list = Questao.objects.order_by('-pub_data')[:5]
     # template = loader.get_template('votacao/index.html')

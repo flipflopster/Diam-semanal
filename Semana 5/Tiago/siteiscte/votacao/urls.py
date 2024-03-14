@@ -22,5 +22,6 @@ urlpatterns = [
     path('<int:questao_id>/adicionaropcao', views.adicionaropcao, name='adicionaropcao'),
 
     path('<int:questao_id>/removerquestao', views.removerquestao, name='removerquestao'),
+    path('<int:questao_id>/removeropcao', views.removeropcao, name='removeropcao'),
 
 ]

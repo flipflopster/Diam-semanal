@@ -19,7 +19,9 @@
     <br />
     {% endfor %}
     <input type="submit" value="Voto" />
+    <input type="submit" value="Remover opcao" formaction="{% url 'votacao:removeropcao' questao.id %}"/>
 </form>
+
 <br/>
 
 <form action="{% url 'votacao:criaropcao' questao.id %}" method="post">
