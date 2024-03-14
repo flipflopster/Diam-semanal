@@ -13,9 +13,18 @@ urlpatterns = [
     # ex: votacao/3/resultados
     path('<int:questao_id>/resultados', views.resultados, name='resultados'),
     # ex: votacao/5/voto
-    path('<int:questao_id>/voto', views.voto, name='voto'),
+    path('<int:questao_id>/trataropcao', views.trataropcao, name='trataropcao'),
+
     # criar questao
     path('criarquestao', views.criarquestao, name='criarquestao'),
     # submeter questao
-    path('submeterquestao', views.submeterquestao, name='submeterquestao')
+    path('submeterquestao', views.submeterquestao, name='submeterquestao'),
+
+    # criar opcao
+    path('<int:questao_id>/criaropcao', views.criaropcao, name='criaropcao'),
+    # submeter opcao
+    path('<int:questao_id>/submeteropcao', views.submeteropcao, name='submeteropcao'),
+
+    # apagar questao
+    path('<int:questao_id>/deletequestao', views.deletequestao, name='deletequestao')
 ]

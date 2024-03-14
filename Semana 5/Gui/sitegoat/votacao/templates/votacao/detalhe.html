@@ -4,12 +4,17 @@
     <p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
-<form action="{% url 'votacao:voto' questao.id %}" method="post">
+<form method="post"  action="{% url 'votacao:trataropcao' questao.id %}">
     {% csrf_token %}
     {% for opcao in questao.opcao_set.all %}
     <input type="radio" name="opcao" id="opcao{{ forloop.counter }}" value="{{ opcao.id }}" />
     <label for="opcao{{ forloop.counter }}"> {{ opcao.opcao_texto }} </label>
     <br />
     {% endfor %}
-    <input type="submit" value="Voto" />
+    <input type="submit" name="value" value="Voto" />
+    <input type="submit" name="value" value="Apagar Opção" />
+    <br>
 </form>
+<a href="{% url 'votacao:criaropcao' questao.id %}">Adicionar Opção</a>
+<br>
+<a href="{% url 'votacao:deletequestao' questao.id %}">Apagar Questão</a>

@@ -1,0 +1,14 @@
+<h1>{{questao.questao_texto}}</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'votacao:submeteropcao' questao.id %}" method="post">
+    {% csrf_token %}
+    <label> Escreva a sua Opção: <br>
+        <input type="text" name="opcaotexto" value="{{ opcaotexto }}" />
+    </label>
+    <br> <br>
+    <input type="submit" value="Submeter" />
+</form>
