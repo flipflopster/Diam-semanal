@@ -1,11 +1,28 @@
-{% if latest_question_list %}
-<ul>
-    {% for questao in latest_question_list %}
-    <li>
-        <a href="{% url 'votacao:detalhe' questao.id %}"> {{ questao.questao_texto }} </a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>Nao ha questoes disponiveis.</p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Questões</title>
+    </head>
+
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif">Últimas Questões</h1>
+    </header>
+
+    <body style="font-family: 'HelveticaNeueLT Std', sans-serif">
+        {% if latest_question_list %}
+        <ul>
+            {% for questao in latest_question_list %}
+            <li>
+                <a href="{% url 'votacao:detalhe' questao.id %}"> {{ questao.questao_texto }} </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Nao ha questoes disponiveis.</p>
+        {% endif %}
+        <a href="{% url 'votacao:criarquestao' %}">Criar Questão</a>
+    </body>
+
+</html>
