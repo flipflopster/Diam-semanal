@@ -13,8 +13,15 @@ urlpatterns = [
  # ex: votacao/5/voto
     path('<int:questao_id>/voto', views.voto,name='voto'),
 
-    path('submeterquestao', views.submeterquestao, name='submeterquestao'),
-
     path('criarquestao', views.criarquestao, name='criarquestao'),
 
+    path('submeterquestao', views.submeterquestao, name='submeterquestao'),
+
+    path('<int:questao_id>/criarvoto', views.criarvoto, name='criarvoto'),
+
+    path('<int:questao_id>/apagarvoto', views.apagarvoto, name='apagarvoto'),
+
+    path('<int:questao_id>/jjkvoto', views.jjkvoto, name='jjkvoto'),
+
+    path('<int:questao_id>/submetervoto', views.submetervoto, name='submetervoto'),
 ]

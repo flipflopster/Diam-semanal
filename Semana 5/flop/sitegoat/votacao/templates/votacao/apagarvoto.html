@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>APAGARVOTO</title>
+</head>
+<body>
+
+    <h1>APGAR {{ questao.questao_texto }}</h1>
+
+    <a href="{% url 'votacao:detalhes' questao.id  %}"><button type="button"> Voltar!  </button></a>
+    <a href="{% url 'votacao:jjkvoto' questao.id opcao.id %}"><button type="button"> Apagar!  </button></a>
+
+</body>
+</html>

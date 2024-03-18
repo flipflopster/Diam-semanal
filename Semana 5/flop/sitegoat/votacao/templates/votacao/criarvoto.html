@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CRIARQUESTA</title>
+    <title>CRIARVOTO</title>
 </head>
 <body>
-    <h1>Insira texto da questão:</h1>
+     <h1>Insira texto da opção {{ questao.questao_texto }}:</h1>
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
     {% endif %}
-    <form action="{% url 'votacao:submeterquestao' %}" method="post">
+    <form action="{% url 'votacao:submetervoto' questao.id %}" method="post">
         {% csrf_token %}
 
         <input type="text" name="resposta">

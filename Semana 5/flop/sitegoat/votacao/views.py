@@ -14,16 +14,29 @@ def index(request):
     context = {'latest_question_list':latest_question_list}
     return render(request, 'votacao/index.html',context)
 
-def criarquestao(request):
+def criarquestao(request,):
     return render(request, 'votacao/criarquestao.html')
 
+def criarvoto(request,questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    context = {'questao': questao}
+    return render(request, 'votacao/criarvoto.html',context)
+
+def apagarvoto(request,questao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    opcao_seleccionada = questao.opcao_set.get(pk=request.POST['opcao'])
+    context = {'questao': questao, 'opcao': opcao_seleccionada}
+
+    return render(request, 'votacao/apagarvoto.html',context)
+
+def jjkvoto(request,questao_id, opcao_id):
+    questao = get_object_or_404(Questao, pk=questao_id)
+    opcao_seleccionada = questao.opcao_set.get(pk=opcao_id)
+    opcao_seleccionada.delete()
+    return detalhe(request, questao_id)
+
 def detalhe(request, questao_id):
-    """
-    try:
-        questao = Questao.objects.get(pk=questao_id)
-    except Questao.DoesNotExist:
-        raise Http404("A questao nao existe")
-    """
+
     questao = get_object_or_404(Questao, pk=questao_id)
     return render(request, 'votacao/detalhe.html', {'questao': questao})
 def resultados(request, questao_id):
@@ -54,10 +67,20 @@ def voto(request, questao_id):
 
 
 def submeterquestao(request):
-    questaotexto = request.POST.get('resposta')
+    questaotexto = request.POST['resposta']
     q= Questao(questao_texto=questaotexto, pub_data=timezone.now())
     q.save()
     return index(request)
+
+def submetervoto(request,questao_id):
+
+    opcaotexto = request.POST['resposta']
+    q=get_object_or_404(Questao, pk=questao_id)
+    Opcao.objects.create(questao=q,opcao_texto=opcaotexto, votos = 0)
+
+
+    return detalhe(request, q.id)
+
 """
 def submeterquestao(request):
     if request.method == 'POST':

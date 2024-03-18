@@ -22,5 +22,7 @@
         {% endfor %}
         <input type="submit" value="Voto"/>
     </form>
+    <a href="{% url 'votacao:criarvoto' questao.id  %}"><button type="button"> Criar opção!  </button></a>
+    <a href="{% url 'votacao:apagarvoto' questao.id  %}"><button type="button"> Apagar opção!  </button></a>
 </body>
 </html>
