@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo user</title>
+</head>
+<body>
+<h1> Registar novo utilizador </h1>
+<form action="{% url 'votacao:registaruser' %}" method="post">
+    {% csrf_token %}
+    <label>Escreva o seu nome: </label>
+    <input type="text" name="novouser" required/>
+    <br/>
+    <label>Escreva o seu email: </label>
+    <input type="text" name="novouseremail" required/>
+    <br/>
+    <label>Escreva o sua password: </label>
+    <input type="text" name="novouserpassword" required/>
+    <br/>
+    <label>Escreva o seu curso: </label>
+    <input type="text" name="novousercurso" required/>
+    <br/>
+    <input type="submit" value="Guardar user"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagina inicial</title>
+
+</head>
+<body>
+<h1>Lista de questões</h1>
+<h2>Utilizador -> {{request.user.username}}</h2>
+<h2>Número votos realizados (total): {{request.user.aluno.numvotos}}</h2>
+<a href="{% url 'votacao:logoutview' %}">Logout</a>
+
+{% if latest_question_list %}
+<ul>
+    {% for questao in latest_question_list %}
+        <li>
+            <a href="{% url 'votacao:detalhe' questao.id %}">
+                {{ questao.questao_texto }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>Nao ha questoes disponiveis.</p>
+{% endif %}
+
+    <a href="{% url 'votacao:criarquestao' %}">Criar nova questao</a>
+    <br>
+    <a href="{% url 'votacao:perfil' %}">Meu Perfil</a>
+
+</body>
+</html>
