@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>{{ questao.questao_texto }}</h1>
+<h1> Questão: {{ questao.questao_texto }}</h1>
 <ul>
     {% for opcao in questao.opcao_set.all %}
 <li>
@@ -13,6 +13,6 @@
     voto{{ opcao.votos|pluralize }}</li>
 {% endfor %}
 </ul>
-<a href="{% url 'votacao:detalhe' questao.id %}">Votar novamente?</a>
+<a href="{% url 'votacao:detalhe' questao.id %}">Retornar a questão?</a>
 </body>
 </html>

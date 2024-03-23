@@ -7,17 +7,22 @@
 <body>
 
 <h1>Adicionar uma nova opcao</h1>
-<p></p>
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
 
 <form action="{% url 'votacao:criaropcao' questao.id %}" method="post">
     {% csrf_token %}
     <label>Escreva uma opçao: </label>
     <br>
     <input type="text" name="adicionaropcao" required/>
-    <br/>
+    <br/><br/>
     <input type="submit" value="Guardar Opcao" />
 </form>
+
 <ul>
+    <a href="{% url 'votacao:detalhe' questao.id %}">Retornar ao Questão</a>
+    <br>
     <a href="{% url 'votacao:index' %}">Retornar ao Index</a>
 </ul>
 </body>

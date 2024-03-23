@@ -5,9 +5,13 @@
     <title>Login</title>
 </head>
 <body>
+<h1>Login</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
 <form action="{% url 'votacao:loginview' %}" method="post">
     {% csrf_token %}
-    <h1>Login</h1>
     <label>Escreva o seu nome de utilizador: </label>
     <input type="text" name="username" required/>
     <br/>

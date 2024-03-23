@@ -6,6 +6,9 @@
 </head>
 <body>
 <h1> Registar novo utilizador </h1>
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
 <form action="{% url 'votacao:registaruser' %}" method="post">
     {% csrf_token %}
     <label>Escreva o seu nome: </label>

@@ -8,8 +8,8 @@
 <body>
 <table style="width:100%" border="1px">
     <th align="left"><h1>Lista de questões</h1></th>
-    <th></th>
-    <th align="left">
+
+    <th align="left" style="width:30%">
         {% if request.user.is_authenticated %}
         <ul>
             {% if request.user.is_superuser %}
@@ -28,7 +28,9 @@
         {% endif %}
     </th>
 </table>
-
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
 {% if request.user.is_superuser %}
     <ul>
         <a href="{% url 'votacao:criarquestao' %}">Criar nova questao</a>

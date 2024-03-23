@@ -19,6 +19,18 @@ def registaruser(request):
         except KeyError:
             return render(request, 'votacao/registar.html')
 
+        # Verifica se já existe um utlizador
+        if User.objects.filter(username=nameuser).exists():
+            return render(request, 'votacao/registar.html', {
+                'error_message': "Já existe um utilizador com esse nome",
+            })
+
+        # Verifica se já o curso contém no final um valor númerico
+        if not (type(cursouser[-1]) is int):
+            return render(request, 'votacao/registar.html', {
+                'error_message': "É necessario que o curso tenha em ultimo um valor inteiro",
+            })
+
         user = User.objects.create_user(nameuser, emailuser, passworduser)
         user.save()
         Aluno(user=user, curso=cursouser, numvotos=0).save()
@@ -44,14 +56,18 @@ def loginview(request):
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse('votacao:index'))
-        # Criar mensagem de erro
+        else:
+            return render(request, 'votacao/login.html', {
+                'error_message': "User e/ou password incorretos",
+            })
     else:
         return render(request, 'votacao/login.html')
 
 
 # Função para fazer o logout
 def logoutview(request):
-    logout(request)
+    if request.user.is_authenticated:
+        logout(request)
     return HttpResponseRedirect(reverse('votacao:index'))
 
 
@@ -61,13 +77,17 @@ def criarquestao(request):
             questao_texto = request.POST.get("novaquestao")
         except KeyError:
             return render(request, 'votacao/criarquestao.html')
+
+        if Questao.objects.filter(questao_texto=questao_texto).exists():
+            return render(request, 'votacao/criarquestao.html', {
+                'error_message': "Já existe essa questão",
+            })
+
         if questao_texto:
             if request.user.is_superuser:
                 questao = Questao(questao_texto=questao_texto, pub_data=timezone.now())
                 questao.save()
             return HttpResponseRedirect(reverse('votacao:index'))
-
-            # adicionar messagem de erro a indicar que o utilizador não é o administrador
         else:
             return HttpResponseRedirect(reverse('votacao:criarquestao'))
     else:
@@ -83,10 +103,14 @@ def criaropcao(request, questao_id):
             return render(request, 'votacao/criarquestao.html', {'questao': questao})
         if opcao:
             if request.user.is_superuser:
-                novaopcao = questao.opcao_set.create(opcao_texto=opcao, votos=0)
-                novaopcao.save()
+                if not Opcao.objects.filter(questao=questao, opcao_texto=opcao).exists():
+                    novaopcao = questao.opcao_set.create(opcao_texto=opcao, votos=0)
+                    novaopcao.save()
+                else:
+                    return render(request, 'votacao/criaropcao.html', {
+                        'questao': questao, 'error_message': "Já existe essa Opção"})
+
             return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
-            # adicionar messagem de erro a indicar que o utilizador não é o administrador
         else:
             return HttpResponseRedirect(reverse('votacao:criaropcao', args=(questao.id,)))
     else:
@@ -138,6 +162,7 @@ def detalhe(request, questao_id):
 # Função para obter os número de cada voto numa questão após ser feita um novo voto
 def resultados(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
+
     return render(request, 'votacao/resultados.html', {'questao': questao})
 
 
