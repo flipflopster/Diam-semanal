@@ -3,30 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Pagina inicial</title>
-
 </head>
+
 <body>
-<h1>Lista de questões</h1>
-<h2>Utilizador -> {{request.user.username}}</h2>
-<h2>Número votos realizados (total): {{request.user.aluno.numvotos}}</h2>
-<a href="{% url 'votacao:logoutview' %}">Logout</a>
+<table style="width:100%" border="1px">
+    <th align="left"><h1>Lista de questões</h1></th>
+    <th></th>
+    <th align="left">
+        {% if request.user.is_authenticated %}
+        <ul>
+            {% if request.user.is_superuser %}
+                <p>Adiministrador -> {{request.user.username}}</p>
+                {% else %}
+                <p>Utilizador -> {{request.user.username}}</p>
+            {% endif %}
+
+            <p>Número votos realizados (total): {{request.user.aluno.numvotos}}</p>
+            <p><a href="{% url 'votacao:perfil' %}">Meu Perfil</a></p>
+            <p><a href="{% url 'votacao:logoutview' %}">Logout</a></p>
+        </ul>
+        {% else %}
+            <p><a href="{% url 'votacao:loginview' %}">Login</a></p>
+            <p></p><a href="{% url 'votacao:registaruser' %}">Registar-se</a></p>
+        {% endif %}
+    </th>
+</table>
+
+{% if request.user.is_superuser %}
+    <ul>
+        <a href="{% url 'votacao:criarquestao' %}">Criar nova questao</a>
+    </ul>
+{% endif %}
 
 {% if latest_question_list %}
 <ul>
     {% for questao in latest_question_list %}
         <li>
-            <a href="{% url 'votacao:detalhe' questao.id %}">
-                {{ questao.questao_texto }}</a>
+            <a href="{% url 'votacao:detalhe' questao.id %}">{{ questao.questao_texto }}</a>
         </li>
     {% endfor %}
 </ul>
+
 {% else %}
     <p>Nao ha questoes disponiveis.</p>
 {% endif %}
-
-    <a href="{% url 'votacao:criarquestao' %}">Criar nova questao</a>
-    <br>
-    <a href="{% url 'votacao:perfil' %}">Meu Perfil</a>
-
 </body>
 </html>

@@ -7,6 +7,7 @@
 <body>
 <form action="{% url 'votacao:loginview' %}" method="post">
     {% csrf_token %}
+    <h1>Login</h1>
     <label>Escreva o seu nome de utilizador: </label>
     <input type="text" name="username" required/>
     <br/>
@@ -16,6 +17,6 @@
     <input type="submit" value="Fazer login"/>
 </form>
 <br>
-<a href="registar">Registar novo utilizador</a>
+    <a href="{% url 'votacao:index' %}">Voltar ao Index</a>
 </body>
 </html>

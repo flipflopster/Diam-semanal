@@ -6,7 +6,6 @@ from .models import Questao, Opcao, Aluno
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-# adicionar administrador esta autenticado no criarquestao,criaropcao, removerquestao e removeropcao
 
 
 # Função para registar novo Utilizador
@@ -53,7 +52,7 @@ def loginview(request):
 # Função para fazer o logout
 def logoutview(request):
     logout(request)
-    return HttpResponseRedirect(reverse('votacao:loginview'))
+    return HttpResponseRedirect(reverse('votacao:index'))
 
 
 def criarquestao(request):

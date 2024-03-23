@@ -7,14 +7,14 @@
 <body>
 <h1>O meu Perfil</h1>
 {% if request.user.is_authenticated%}
-    <h2> Nome do Utilizador: {{request.user.username}}</h2>
-    <h2> Email do Utilizador: {{request.user.email}}</h2>
-    <h2> Curso do Utilizador: {{request.user.aluno.curso}}</h2>
-    <h2> Número total de votos realizados: {{request.user.aluno.numvotos}}</h2>
+    <p> Nome do Utilizador: {{request.user.username}}</p>
+    <p> Email do Utilizador: {{request.user.email}}</p>
+    <p> Curso do Utilizador: {{request.user.aluno.curso}}</p>
+    <p> Número total de votos realizados: {{request.user.aluno.numvotos}}</p>
     <a href="{% url 'votacao:index' %}"> Retornar ao Menu </a>
 {% else %}
     <p>Erro: Não foi feito login.</p>
-    <a href="{% url 'votacao:loginview' %}"> Retornar ao Login </a>
+    <a href="{% url 'votacao:index' %}"> Retornar ao Index para fazer o Login </a>
 {%endif%}
 </body>
 </html>
