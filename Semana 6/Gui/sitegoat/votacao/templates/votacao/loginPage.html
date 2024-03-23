@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Login</title>
+    </head>
+
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif">Login</h1>
+    </header>
+
+    <body>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form action="{% url 'votacao:loadLogin' %}" method="post">
+            {% csrf_token %}
+            <label> Nome:
+                <input type="text" name="username" value="{{ username }}" />
+            </label>
+            <br>
+            <label> Password:
+                <input type="password" name="password" value="{{ password }}" />
+            </label>
+            <br> <br>
+            <input type="submit" name="result" value="Entrar" />
+        </form>
+
+    <br> <br>
+
+    Não tem conta? Clique em <a href="{% url 'votacao:registar' %}"> Registar </a>
+
+    </body>
+</html>
