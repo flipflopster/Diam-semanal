@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Registar</title>
+    </head>
+
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif">Registar</h1>
+    </header>
+
+    <body>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form action="{% url 'votacao:loadRegistar' %}" method="post">
+            {% csrf_token %}
+            <label> Nome: <input type="text" name="username" value="{{ username }}" required /> </label>
+
+            <br>
+
+            <label> Email: <input type="email" name="email" value="{{ email }}" required /> </label>
+
+            <br>
+
+            <label> Password: <input type="password" name="password" value="{{ password }}" required /> </label>
+
+            <br>
+
+            <label> Curso: <input type="text" name="curso" value="{{ curso }}" required /> </label>
+
+            <br> <br>
+
+            <input type="submit" name="result" value="Registar" />
+        </form>
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Perfil</title>
+    </head>
+
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif"> {{ request.user }} </h1>
+    </header>
+
+    <body style="font-family: 'HelveticaNeueLT Std', sans-serif">
+        Email: {{ request.user.email }} <br>
+        Curso: {{ request.user.aluno.curso }} <br>
+        Votos Feitos: {{ request.user.aluno.votos }} <br>
+        <a href="{% url 'votacao:logoutview' %}"> Logout </a>
+    </body>
+
+</html>
