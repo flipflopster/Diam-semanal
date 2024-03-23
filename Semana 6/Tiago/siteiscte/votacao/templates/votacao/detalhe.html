@@ -25,6 +25,8 @@
         <input type="submit" value="Remover opcao" formaction="{% url 'votacao:removeropcao' questao.id %}"/>
     {% endif %}
 </form>
+{% else %}
+    <p>Não existem opções associadas a esta questão</p>
 {% endif %}
 
 <br/>
