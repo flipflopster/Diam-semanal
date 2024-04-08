@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+	    <meta charset="UTF-8">
+	    <title>Questão {{questao.id}}</title>
+    </head>
+
+    <header>
+        <h1 style="font-family: 'Courier New', sans-serif">{{ questao.questao_texto }}</h1>
+    </header>
+
+    <body style="font-family: 'HelveticaNeueLT Std', sans-serif">
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form method="post"  action="{% url 'votacao:trataropcao' questao.id %}">
+            {% csrf_token %}
+            {% for opcao in questao.opcao_set.all %}
+            <input type="radio" name="opcao" id="opcao{{ forloop.counter }}" value="{{ opcao.id }}" />
+            <label for="opcao{{ forloop.counter }}"> {{ opcao.opcao_texto }} </label>
+            <br>
+            {% endfor %}
+            <br>
+            <input type="submit" name="value" value="Voto" />
+            {% if request.user.is_superuser %}
+                <input type="submit" name="value" value="Apagar Opção" />
+            {% endif %}
+            <br>
+        </form>
+
+        {% if request.user.is_superuser %}
+        <a href="{% url 'votacao:criaropcao' questao.id %}">Adicionar Opção</a>
+        <br> <br>
+        <a href="{% url 'votacao:deletequestao' questao.id %}">Apagar Questão</a>
+        {% endif %}
+
+    </body>
+</html>
