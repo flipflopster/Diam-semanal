@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'votacao/style.css' %}" />
+<!-- Index,detalhe, opcao, questao, upload, resultado-->
+
+<div id="base_body">
+    {% block base_body %}
+
+    <header>
+        <table>
+    <tr>
+        <th><h1>SiteIscte</h1></th>
+        <th></th>
+
+        {% if request.user.is_authenticated %}
+            <th><img src="{% static "votacao/images/iscte.jpeg" %}"></th>
+            <th>
+            {% if request.user.is_superuser %}
+                <p>{{request.user.username}} (Adiministrador)</p>
+                {% else %}
+                <p>{{request.user.username}} (Utilizador)</p>
+            {% endif %}
+                <p>Número votos realizados (total): {{request.user.aluno.numvotos}}</p>
+            </th>
+        {% endif %}
+
+    </tr>
+    </table>
+    </header>
+    <nav class="container">
+
+    <table>
+    {% if request.user.is_authenticated %}
+
+            <tr><a href="{% url 'votacao:perfil' %}">Meu Perfil</a></tr>
+            <tr><a href="{% url 'votacao:logoutview' %}">Logout</a></tr>
+
+        {% else %}
+            <tr><a href="{% url 'votacao:loginview' %}">Login</a></tr>
+            <tr><a href="{% url 'votacao:registaruser' %}">Registar-se</a></tr>
+    {% endif %}
+    </table>
+
+</nav>
+{% endblock %}
+</div>
+
+<!-- Login, registar-->
+<div id="base_login_registar">
+    {% block base_login_registar %}
+    <header>
+        <h1>SiteIscte</h1>
+    </header>
+    {% endblock %}
+</div>
+
+<!-- Perfil-->
+
+<div id="base_perfil">
+    {% block base_perfil %}
+        <header>
+        <table>
+    <tr>
+        <th><h1>SiteIscte</h1></th>
+        <th></th>
+
+        {% if request.user.is_authenticated %}
+            <th><img src="{% static "votacao/images/iscte.jpeg" %}"></th>
+        {% endif %}
+
+    </tr>
+    </table>
+    </header>
+    <nav class="container">
+
+    <table>
+    {% if request.user.is_authenticated %}
+        <tr><a href="{% url 'votacao:logoutview' %}">Logout</a></tr>
+        {% else %}
+    {% endif %}
+    </table>
+
+</nav>
+    {% endblock %}
+</div>
+
+<div id="base_index">
+    {% block base_index %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

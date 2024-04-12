@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>O meu perfil</title>
+</head>
+<body>
+    {% block base_login_registar %}
+    {% endblock %}
+
+    {% block base_body %}
+    {% endblock %}
+    {% block base_index %}
+
+<h1>O meu Perfil</h1>
+{% if request.user.is_authenticated%}
+    <p> Nome do Utilizador: {{request.user.username}}</p>
+    <p> Email do Utilizador: {{request.user.email}}</p>
+    <p> Curso do Utilizador: {{request.user.aluno.curso}}</p>
+    <p> Número total de votos realizados: {{request.user.aluno.numvotos}}</p>
+    <p><a href="{% url 'votacao:fazer_upload' %}"> Fazer Upload de uma imagem </a></p>
+    <a href="{% url 'votacao:index' %}"> Retornar ao Menu </a>
+{% else %}
+    <p>Erro: Não foi feito login.</p>
+    <a href="{% url 'votacao:index' %}"> Retornar ao Index para fazer o Login </a>
+{%endif%}
+    {% endblock %}
+
+</body>
+
+</html>

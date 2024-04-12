@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+{% block base_perfil %}
+{% endblock %}
+    {% block base_login_registar %}
+    {% endblock %}
+
+{% block base_index %}
+
+<h1> Questão: {{ questao.questao_texto }}</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+{% if questao.opcao_set.all.count != 0 %}
+<form action="{% url 'votacao:voto' questao.id %}" method="post">
+    {% csrf_token %}
+    {% for opcao in questao.opcao_set.all %}
+        <input type="radio" name="opcao" id="opcao{{ forloop.counter }}" value="{{ opcao.id }}" />
+        <label for="opcao{{ forloop.counter }}">{{ opcao.opcao_texto }}</label>
+    <br />
+    {% endfor %}
+    <br />
+    <input type="submit" value="Votar" />
+    {% if request.user.is_superuser %}
+        <input type="submit" value="Remover opcao" formaction="{% url 'votacao:removeropcao' questao.id %}"/>
+    {% endif %}
+</form>
+{% else %}
+    <p>Não existem opções associadas a esta questão</p>
+{% endif %}
+
+<br/>
+
+{% if request.user.is_superuser %}
+    <form action="{% url 'votacao:criaropcao' questao.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Adicionar uma nova opcao" /><br><br>
+        <input type="submit" value="Apagar questao" formaction="{% url 'votacao:removerquestao' questao.id %}"/>
+    </form>
+{% endif %}
+
+<ul>
+    {% if questao.opcao_set.all.count != 0 %}
+        <a href="{% url 'votacao:resultados' questao.id %}">Contagem dos votos</a><br>
+    {% endif %}
+    <a href="{% url 'votacao:index' %}">Retornar ao Index</a>
+</ul>
+
+{% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    {% block base_perfil %}
+    {% endblock %}
+    {% block base_body %}
+    {% endblock %}
+    {% block base_index %}
+
+<h1>Login</h1>
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<form action="{% url 'votacao:loginview' %}" method="post">
+    {% csrf_token %}
+    <label>Escreva o seu nome de utilizador: </label>
+    <input type="text" name="username" required/>
+    <br/>
+    <label>Escreva o sua password: </label>
+    <input type="text" name="password" required/>
+    <br/>
+    <input type="submit" value="Fazer login"/>
+</form>
+<br>
+    <a href="{% url 'votacao:index' %}">Voltar ao Index</a>
+    {% endblock %}
+</body>
+</html>

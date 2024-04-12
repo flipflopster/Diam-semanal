@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block base_perfil %}
+{% endblock %}
+{% block base_login_registar %}
+    {% endblock %}
+{% block base_index %}
+
+<h1>Adicionar uma nova questao</h1>
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<form action="{% url 'votacao:criarquestao' %}" method="post">
+    {% csrf_token %}
+    <label>Escreva uma pergunta: </label>
+    <br>
+    <input type="text" name="novaquestao" required/>
+    <br/><br>
+    <input type="submit" value="Guardar Questao"/>
+</form>
+<ul>
+    <a href="{% url 'votacao:index' %}">Retornar ao Index</a>
+</ul>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block base_perfil %}
+    {% endblock %}
+    {% block base_login_registar %}
+    {% endblock %}
+    {% block base_index %}
+ <form method="post" enctype="multipart/form-data" action="{% url 'votacao:fazer_upload' %}">
+ {% csrf_token %}
+     <br/>
+     <input type="file" name="myfile">
+     <br/>
+     <input type="submit" value="Upload">
+ </form>
+
+ {% if uploaded_file_url %}
+    <p>Feito o upload para:<a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+ {% endif %}
+    <p><a href="{% url 'votacao:perfil' %}">Voltar ao perfil</a></p>
+    <p><a href="{% url 'votacao:index' %}">Voltar ao Index</a></p>
+    {% endblock %}
+
+</body>
+</html>

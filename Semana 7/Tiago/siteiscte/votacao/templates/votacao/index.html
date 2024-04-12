@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagina inicial</title>
+</head>
+
+<body>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'votacao/style.css' %}" />
+
+{% block base_perfil %}
+{% endblock %}
+
+{% block base_login_registar %}
+{% endblock %}
+
+{% block base_index %}
+<main>
+<article>
+    <h1>Lista de questões</h1>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'votacao:criarquestao' %}">Criar nova questao</a>
+    {% endif %}
+
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+{% if latest_question_list %}
+<ul>
+    {% for questao in latest_question_list %}
+        <li>
+            <a href="{% url 'votacao:detalhe' questao.id %}">{{ questao.questao_texto }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+    <p>Nao ha questoes disponiveis.</p>
+{% endif %}
+</article>
+</main>
+
+{% endblock %}
+
+
+</body>
+</html>

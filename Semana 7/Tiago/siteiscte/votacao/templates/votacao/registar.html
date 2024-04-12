@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo user</title>
+</head>
+<body>
+    {% block base_perfil %}
+{% endblock %}
+    {% block base_body %}
+    {% endblock %}
+    {% block base_index %}
+<h1> Registar novo utilizador </h1>
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<form action="{% url 'votacao:registaruser' %}" method="post">
+    {% csrf_token %}
+    <label>Escreva o seu nome: </label>
+    <input type="text" name="novouser" required/>
+    <br/>
+    <label>Escreva o seu email: </label>
+    <input type="text" name="novouseremail" required/>
+    <br/>
+    <label>Escreva o sua password: </label>
+    <input type="text" name="novouserpassword" required/>
+    <br/>
+    <label>Escreva o seu curso: </label>
+    <input type="text" name="novousercurso" required/>
+    <br/><br/>
+    <input type="submit" value="Guardar user"/>
+</form>
+        <br/>
+    <a href="{% url 'votacao:index' %}">Voltar ao Index</a>
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "votacao/base.html" %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block base_perfil %}
+    {% endblock %}
+    {% block base_login_registar %}
+    {% endblock %}
+    {% block base_index %}
+<h1> Questão: {{ questao.questao_texto }}</h1>
+<ul>
+    {% for opcao in questao.opcao_set.all %}
+<li>
+    {{ opcao.opcao_texto }} -- {{ opcao.votos }}
+    voto{{ opcao.votos|pluralize }}</li>
+{% endfor %}
+</ul>
+        <a href="{% url 'votacao:detalhe' questao.id %}">Retornar a questão?</a>
+        <p><a href="{% url 'votacao:index' %}">Voltar ao Index</a></p>
+
+    {% endblock %}
+
+</body>
+</html>
