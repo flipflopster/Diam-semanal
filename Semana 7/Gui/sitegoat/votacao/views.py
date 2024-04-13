@@ -1,4 +1,5 @@
 import django.contrib.auth.models
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User, AnonymousUser
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -17,10 +18,16 @@ def index(request):
     return render(request, 'votacao/index.html', context)
 
 
+def not_LogIn(user):
+    return not user.is_authenticated
+
+
+@user_passes_test(not_LogIn, login_url='/votacao/userPage')
 def loginPage(request):
     return render(request, 'votacao/loginPage.html')
 
 
+@user_passes_test(not_LogIn, login_url='/votacao/userPage')
 def loadLogin(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -32,10 +39,12 @@ def loadLogin(request):
         return render(request, 'votacao/loginPage.html', {'error_message': "Este utilizador não existe."})
 
 
+@user_passes_test(not_LogIn, login_url='/votacao/userPage')
 def registar(request):
     return render(request, 'votacao/registar.html')
 
 
+@user_passes_test(not_LogIn, login_url='/votacao/userPage')
 def loadRegistar(request):
     username = request.POST['username']
     try:
@@ -61,20 +70,18 @@ def loadRegistar(request):
         return index(request)
 
 
+@login_required(login_url='/votacao/loginPage')
 def userPage(request):
     return render(request, 'votacao/userPage.html')
 
 
+@login_required(login_url='/votacao/loginPage')
 def logoutview(request):
     logout(request)
     return HttpResponseRedirect(reverse('votacao:index'))
 
 
-def umaview(request):
-    if not request.user.is_authenticated:
-        return render(request, 'umaapp/login_error.html')
-
-
+@login_required(login_url='/votacao/loginPage')
 def trataropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     try:
@@ -100,6 +107,7 @@ def trataropcao(request, questao_id):
             return render(request, 'votacao/detalhe.html', {'questao': questao})
 
 
+@login_required(login_url='/votacao/loginPage')
 def detalhe(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     if request.user.is_authenticated:
@@ -113,10 +121,13 @@ def resultados(request, questao_id):
     return render(request, 'votacao/resultados.html', {'questao': questao})
 
 
+@login_required(login_url='/votacao/loginPage')
+@permission_required("superuser", login_url='/votacao')
 def criarquestao(request):
     return render(request, 'votacao/criarquestao.html')
 
 
+@permission_required("superuser", login_url='/votacao')
 def submeterquestao(request):
     questaotexto = request.POST.get('questaotexto')
     if questaotexto == '':
@@ -127,11 +138,13 @@ def submeterquestao(request):
         return HttpResponseRedirect(reverse('votacao:index'))
 
 
+@permission_required("superuser", login_url='/votacao')
 def criaropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     return render(request, 'votacao/criaropcao.html', {'questao': questao})
 
 
+@permission_required("superuser", login_url='/votacao')
 def submeteropcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     opcaotexto = request.POST.get('opcaotexto')
@@ -144,12 +157,14 @@ def submeteropcao(request, questao_id):
         return HttpResponseRedirect(reverse('votacao:detalhe', args=(questao.id,)))
 
 
+@permission_required("superuser", login_url='/votacao')
 def deletequestao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     questao.delete()
     return HttpResponseRedirect(reverse('votacao:index'))
 
 
+@permission_required("superuser", login_url='/votacao')
 def deleteopcao(request, questao_id):
     questao = get_object_or_404(Questao, pk=questao_id)
     try:
@@ -168,6 +183,7 @@ def deleteopcao(request, questao_id):
     return render(request, 'votacao/detalhe.html', {'questao': questao})
 
 
+@login_required(login_url='/votacao/loginPage')
 def uploadpp(request):
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']

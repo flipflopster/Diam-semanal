@@ -42,16 +42,16 @@
     <ul>
         {% for questao in latest_question_list %}
         <li>
-            <a href="{% url 'votacao:detalhe' questao.id %}"> {{ questao.questao_texto }} </a>
+            <a href="{% url 'votacao:resultados' questao.id %}"> {{ questao.questao_texto }} </a>
         </li>
         {% endfor %}
     </ul>
     {% else %}
     <p>Nao ha questoes disponiveis.</p>
     {% endif %}
-    {% if request.user.is_superuser %}
+
     <a href="{% url 'votacao:criarquestao' %}"><button class="button2">Criar Questão</button></a>
-    {% endif %}
+
     </body> </article> {% endblock %}
 
     <nav>
@@ -59,12 +59,9 @@
         <br>
         <a href="{% url 'votacao:index' %}"><button class="button1">Página Inicial</button></a>
         <br>
-
-        {% if request.user.is_authenticated %}
         <a href="{% url 'votacao:userPage' %}"><button class="button1">Perfil</button></a>
-        {% else %}
+        <br>
         <a href="{% url 'votacao:loginPage' %}"><button class="button1">Login</button></a>
-        {% endif %}
 
         {% block nav %} {% endblock %}
 

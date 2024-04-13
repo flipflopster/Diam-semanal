@@ -10,6 +10,16 @@
 {% block header %} {{ questao.questao_texto }} {% endblock %}
 
 
+{% block nav %}
+        <br>
+        <p class="dotdiv"> </p>
+        <br>
+        <a href="{% url 'votacao:criaropcao' questao.id %}"><button class="button1">Adicionar Opção</button></a>
+        <br>
+        <a href="{% url 'votacao:deletequestao' questao.id %}"><button class="button1">Apagar Questão</button></a>
+{% endblock %}
+
+
 {% block body %} <article> <body>
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
@@ -22,9 +32,7 @@
         {% endfor %}
     </ul>
 
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'votacao:detalhe' questao.id %}"><button class="button2">Votar novamente?</button></a>
-    {% endif %}
+    <a href="{% url 'votacao:detalhe' questao.id %}"><button class="button2">Votar</button></a>
 </body> </article> {% endblock %}
 
 </html>

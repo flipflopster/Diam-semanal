@@ -11,14 +11,12 @@
 
 
     {% block nav %}
-    {% if request.user.is_superuser %}
         <br>
         <p class="dotdiv"> </p>
         <br>
         <a href="{% url 'votacao:criaropcao' questao.id %}"><button class="button1">Adicionar Opção</button></a>
         <br>
         <a href="{% url 'votacao:deletequestao' questao.id %}"><button class="button1">Apagar Questão</button></a>
-    {% endif %}
     {% endblock %}
 
 
