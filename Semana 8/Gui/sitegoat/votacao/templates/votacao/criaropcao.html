@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+    {% extends "votacao/index.html" %}
+
+
+    {% block title %}Criar Opção{% endblock %}
+
+
+    {% block header_title %}{{questao.questao_texto}}{% endblock %}
+
+
+    {% block body %} <article> <body>
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form action="{% url 'votacao:submeteropcao' questao.id %}" method="post">
+            {% csrf_token %}
+            <label> Escreva a sua Opção: <br>
+                <input class="form1" type="text" name="opcaotexto" value="{{ opcaotexto }}" />
+            </label>
+            <br> <br>
+            <input class="button2" type="submit" value="Submeter" />
+        </form>
+
+    </body> </article> {% endblock %}
+
+</html>
