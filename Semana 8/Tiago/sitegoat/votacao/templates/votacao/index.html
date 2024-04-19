@@ -31,14 +31,44 @@
                 $("#hideListQuestion").hide();
             });
             
-            $("#showUserDetalhes").hover(function(){
-                $("#dadosUser").show();
-            });
-            
             $('#showUserDetalhes').hover(function() {
                 $("#dadosUser").fadeIn('fast');    
                 }, function() {$("#dadosUser").fadeOut('fast');
-    });
+            });
+            
+            $('#validarComentario').click(function (){
+                
+                let texto = $('#comentario').val();
+                let palavras = texto.split(" ");
+                let arrayInsultos = [
+                    "abecula","abentesma","achavascado","alimária",
+                    "andrajoso", "barregã", "biltre", "cacóstomo",
+                    "cuarra", "estólido", "estroso", "estultilóquio", 
+                    "nefelibata","néscio", "pechenga", "sevandija", 
+                    "somítico", "tatibitate", "xexé", "cheché", "xexelento"];
+                
+                let existeInsulto = Boolean(false);
+                let insulto = 'nenhum';
+                
+                for(let i = 0; i < palavras.length; i++) {
+                    let palavrasmin = palavras[i].toLowerCase();
+                    for (let z = 0; z < arrayInsultos.length; z++) {
+                        if (palavrasmin === arrayInsultos[z]) {
+                            existeInsulto = Boolean(true);
+                            insulto = palavrasmin;
+                            break;
+                        }
+                    }
+                    if (existeInsulto === true) {
+                        break;
+                    }
+                }
+                if (existeInsulto === true) {
+                     $("#comentario").val("Por favor insira um cometario");
+                }else{
+                     $("#alerta_comentario").text("Validado");
+                }
+            });
         });
     </script>
 </head>

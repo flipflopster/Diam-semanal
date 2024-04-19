@@ -32,9 +32,14 @@
         <input class="button2" type="submit" name="result" value="Registar" />
         </form>
 
-    <input><br><br>
-    <?= para o 4) será necessario usar javascript e jquery>
-    <button id="validarComentario">Validar comentario</button>
+    
+    
+    <label for="comentario">Comentario:<br>
+    <textarea id="comentario" name="comentario" rows="4" cols="50">Insira um comentario</textarea>
+    </label>
+    <p id="alerta_comentario"></p>
+
+    <input id="validarComentario" type="button" value="Validar Comentario">
 </body> </article> {% endblock %}
 
 </html>
