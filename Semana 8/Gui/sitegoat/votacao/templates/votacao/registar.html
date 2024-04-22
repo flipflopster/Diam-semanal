@@ -27,10 +27,16 @@
         <label> Password: <input class="form1" type="password" name="password" value="{{ password }}" required /> </label>
         <br>
         <label> Curso: <input class="form1" type="text" name="curso" value="{{ curso }}" required /> </label>
+        <br>
+        <label> Comentário: <input id="comment" class="form1" type="text" name="comment" required /> </label>
         <br> <br>
 
         <input class="button2" type="submit" name="result" value="Registar" />
         </form>
+
+        <div id="validation"></div>
+        <button id="validate" class="button2"> Validar Comentário </button>
+        <br> <br>
 
 </body> </article> {% endblock %}
 

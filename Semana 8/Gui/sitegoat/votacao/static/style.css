@@ -125,3 +125,11 @@ table {
     height: 30px;
     border: 2px solid black;
 }
+
+.username {
+    text-decoration: none;
+}
+
+.username:hover {
+    text-decoration: underline white 2px;
+}

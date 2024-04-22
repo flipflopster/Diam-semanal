@@ -31,9 +31,13 @@
 
     {% load static %}
 
+    <img id="profilep" style="border: 2px solid black; border-radius: 2px" width="400" height="400" src='{% static request.user.aluno.profile_picture %}'>
+
+    <div id="dados">
     Email: {{ request.user.email }} <br>
     Curso: {{ request.user.aluno.curso }} <br>
     Votos Feitos: {{ request.user.aluno.votos }} <br>
+    </div>
 
     </body> </aside>
 
