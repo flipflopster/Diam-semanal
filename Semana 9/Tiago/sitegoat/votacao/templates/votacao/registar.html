@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+{% extends "votacao/index.html" %}
+
+
+{% block title %}Registar{% endblock %}
+
+
+{% block header_title %}Registar{% endblock %}
+{% block header_name %} {% endblock %}
+{% block profile_pic %} {% endblock %}
+
+
+{% block body %} <article> <body>
+
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+
+    <form action="{% url 'votacao:loadRegistar' %}" method="post">
+        {% csrf_token %}
+        <label> Nome: <input class="form1" type="text" name="username" value="{{ username }}" required /> </label>
+        <br>
+        <label> Email: <input class="form1" type="email" name="email" value="{{ email }}" required /> </label>
+        <br>
+        <label> Password: <input class="form1" type="password" name="password" value="{{ password }}" required /> </label>
+        <br>
+        <label> Curso: <input class="form1" type="text" name="curso" value="{{ curso }}" required /> </label>
+        <br> <br>
+
+        <input class="button2" type="submit" name="result" value="Registar" />
+        </form>
+
+    
+    
+    <label for="comentario">Comentario:<br>
+    <textarea id="comentario" name="comentario" rows="4" cols="50">Insira um comentario</textarea>
+    </label>
+    <p id="alerta_comentario"></p>
+
+    <input id="validarComentario" type="button" value="Validar Comentario">
+</body> </article> {% endblock %}
+
+</html>

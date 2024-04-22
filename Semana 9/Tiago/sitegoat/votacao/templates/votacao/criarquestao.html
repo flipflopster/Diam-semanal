@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+    {% extends "votacao/index.html" %}
+
+
+    {% block title %}Criar Questão{% endblock %}
+
+
+    {% block header_title %}Criar Nova Questão{% endblock %}
+
+
+    {% block body %} <article> <body>
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form action="{% url 'votacao:submeterquestao' %}" method="post">
+            {% csrf_token %}
+            <label> Texto da Questão: <br>
+                <input class="form1" type="text" name="questaotexto" value="{{ questaotexto }}" />
+            </label>
+            <br> <br>
+            <input class="button2" type="submit" value="Submeter" />
+        </form>
+
+    </body> </article> {% endblock %}
+
+</html>
