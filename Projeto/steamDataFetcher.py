@@ -8,7 +8,7 @@ KEY = os.environ.get("134FB76FD1295AF1BCCA484FED9947E5")
 steam = Steam(KEY)
 appId1 = '2766090'
 appId2 = '1088710'
-cache_file = 'cache/game-details.pkl'
+cache_file = 'cache/game-details-cache.pkl'
 
 # Load cache from file if it exists
 if os.path.exists(cache_file):
