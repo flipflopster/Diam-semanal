@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 
 class Utilizador(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
     biografia = models.CharField(max_length=255)
     localidade = models.CharField(max_length=100)
 
@@ -26,24 +27,43 @@ class Lista_Amigos(models.Model):
     utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
     utilizador_seguido_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
 
+    def nomes(self):
+        def get_username_attributes(utilizador_id, utilizador_seguido_id):
+            utilizador = Utilizador.objects.get(id=utilizador_id)
+            utilizador_seguido = Utilizador.objects.get(id=utilizador_seguido_id)
+            return utilizador.username, utilizador_seguido.username
+        
+        username1, username2 = get_username_attributes(self.utilizador_id, self.utilizador_seguido_id)
+        
+        return username1, username2
 
 
 
 
 class Jogo(models.Model):
     nome = models.CharField(max_length=100)
-    media = models.FloatField(default=0.0)
+    steam_id = models.IntegerField()
+    totalPontos = models.IntegerField(default=0)
     numeroRatings = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.nome
+    
+    def steamId(self):
+        return self.steam_id
+   
+    def media(self):
+            return round(float(self.totalPontos / self.numeroRatings), 2)
 
 
 
 class ListaUtilizadorJogo(models.Model):
     class EstadosJogo(models.TextChoices):
-        COMPLETED = 'CM', _('Completed')
-        PLANTOPLAY = 'PP', _('Plan To Play')
-        DROPPED = 'DR', _('Dropped')
-        PLAYING = 'PL', _('Playing')
-        ONHOLD = 'OH', _('On Hold')
+        COMPLETED = 'CM', ('Completed')
+        PLANTOPLAY = 'PP', ('Plan To Play')
+        DROPPED = 'DR', ('Dropped')
+        PLAYING = 'PL', ('Playing')
+        ONHOLD = 'OH', ('On Hold')
 
     estado = models.CharField(
         max_length=2,
