@@ -27,42 +27,14 @@ class Lista_Amigos(models.Model):
     utilizador_seguido_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
 
 
-class Empresa(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=255)
 
-
-class Personagem(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=255)
 
 
 class Jogo(models.Model):
     nome = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=255)
-    empresa_id = models.OneToManyField(Empresa, on_delete=models.CASCADE)
     media = models.FloatField(default=0.0)
     numeroRatings = models.IntegerField(default=0)
 
-class ListaJogoPersonagem(models.Model):
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
-    personagem_id = models.OneToManyField(Pesonagem, on_delete=models.CASCADE)
-
-class FotosJogo(models.Model):
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
-    fotoLink = models.CharField(max_length=255)
-
-    class TiposImagens(models.TextChoices):
-        THUMBNAIL = 'TN', _('Thumbnail')
-        BANNER = 'BN', _('Banner')
-        INGAME = 'IG', _('In Game')
-        
-
-    tipo = models.CharField(
-        max_length=2,
-        choices=TiposImagens.choices,
-        default=TiposImagens.INGAME,
-    )
 
 
 class ListaUtilizadorJogo(models.Model):
@@ -108,6 +80,38 @@ class ListaGameplays(models.Model):
 
 
 """
+
+
+class Empresa(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=255)
+    
+class Personagem(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=255)
+
+
+class ListaJogoPersonagem(models.Model):
+    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
+    personagem_id = models.OneToManyField(Pesonagem, on_delete=models.CASCADE)
+
+class FotosJogo(models.Model):
+    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
+    fotoLink = models.CharField(max_length=255)
+
+    class TiposImagens(models.TextChoices):
+        THUMBNAIL = 'TN', _('Thumbnail')
+        BANNER = 'BN', _('Banner')
+        INGAME = 'IG', _('In Game')
+        
+
+    tipo = models.CharField(
+        max_length=2,
+        choices=TiposImagens.choices,
+        default=TiposImagens.INGAME,
+    )
+
+
     curso = models.CharField(max_length=100)
     votosmax = models.IntegerField()
     votos = models.IntegerField(default=0)
