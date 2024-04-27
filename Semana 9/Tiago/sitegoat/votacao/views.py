@@ -12,6 +12,8 @@ from .models import Questao, Opcao, Aluno
 from django.contrib.auth import authenticate, login, logout
 
 
+
+
 def index(request):
     latest_question_list = Questao.objects.order_by('-pub_data')[:5]
     context = {'latest_question_list': latest_question_list}

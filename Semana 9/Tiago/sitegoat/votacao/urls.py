@@ -1,4 +1,6 @@
 from django.urls import path
+
+from sitegoat.views import LoginView
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -44,5 +46,7 @@ urlpatterns = [
     path('<int:questao_id>/submeteropcao', views.submeteropcao, name='submeteropcao'),
 
     # apagar questao
-    path('<int:questao_id>/deletequestao', views.deletequestao, name='deletequestao')
+    path('<int:questao_id>/deletequestao', views.deletequestao, name='deletequestao'),
+
+    path('login/', LoginView.as_view(), name='login'),
 ]
