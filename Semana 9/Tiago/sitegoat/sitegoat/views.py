@@ -13,7 +13,7 @@ def index(request):
 
 
 class LoginView(APIView):
-    def post(request):
+    def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
