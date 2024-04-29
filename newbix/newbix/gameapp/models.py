@@ -21,9 +21,10 @@ class Utilizador(models.Model):
     localidade = models.CharField(max_length=100)
 
 
+
 class Lista_Amigos(models.Model):
-    utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
-    utilizador_seguido_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
+    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_id')
+    utilizador_seguido_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_seguido_id')
 
     def nomes(self):
         def get_username_attributes(utilizador_id, utilizador_seguido_id):
@@ -54,20 +55,20 @@ class Jogo(models.Model):
 
 class ListaUtilizadorJogo(models.Model):
     class EstadosJogo(models.TextChoices):
-        COMPLETED = 'CM', ('Completed')
-        PLANTOPLAY = 'PP', ('Plan To Play')
-        DROPPED = 'DR', ('Dropped')
-        PLAYING = 'PL', ('Playing')
-        ONHOLD = 'OH', ('On Hold')
+        COMPLETED = 'CM', 'Completed'
+        PLANTOPLAY = 'PP', 'Plan To Play'
+        DROPPED = 'DR', 'Dropped'
+        PLAYING = 'PL', 'Playing'
+        ONHOLD = 'OH', 'On Hold'
 
     estado = models.CharField(
         max_length=2,
         choices=EstadosJogo.choices,
         default=EstadosJogo.PLANTOPLAY,
     )
-    utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=5)
+    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
 
 
 class Review(models.Model):
@@ -83,13 +84,13 @@ class Gameplay(models.Model):
 
 
 class LinksUtilizador(models.Model):
-    utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
+    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     link = models.CharField(max_length=127)
 
 
 class ListaGameplays(models.Model):
-    listaUtliziadorJogo_id = models.OneToManyField(ListaUtilizadorJogo, on_delete=models.CASCADE)
-    gameplay_id = models.OneToManyField(Gameplay, on_delete=models.CASCADE)
+    listaUtliziadorJogo_id = models.ForeignKey(ListaUtilizadorJogo, on_delete=models.CASCADE)
+    gameplay_id = models.ForeignKey(Gameplay, on_delete=models.CASCADE)
 
 
 """

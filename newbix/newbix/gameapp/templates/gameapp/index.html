@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html>
 
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
     <title> {% block title %}Newbix{% endblock %} </title>
 
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'utils/style.css' %}" />
     <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
-    <script src="{% static 'script.js' %}"></script>
+    <!-- <script src="{% static 'script.js' %}"></script> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- <script src="script.js"></script> -->
+
+    <script>
+
+        $(document).ready(function() {
+            $("#dropdown_button").click(function() {
+            $("#my_dropdown").fadeIn(400);
+        });
+
+        $(window).on("click", function() {
+            if (!$(event.target).is('#dropdown_button')) {
+                $("#my_dropdown").fadeOut(400);
+            }
+        });
+
+        $("#dropdown_button2").click(function() {
+            $("#my_dropdown2").fadeIn(400);
+        });
+
+        $(window).on("click", function() {
+            if (!$(event.target).is('#dropdown_button2')) {
+                $("#my_dropdown2").fadeOut(400);
+            }
+        });
+
+    });
+
+    </script>
 
 </head>
 
@@ -27,7 +56,7 @@
 
                 <a href="{% url 'index' %}">
                         
-                <img src=NewBix.png height="58px">
+                <img src='{% static "utils/NewBix.png" %}' height="58px">
                 <!--<img height="46" src='{% static "NewBix.png" %}'>-->
                 
                 </a>

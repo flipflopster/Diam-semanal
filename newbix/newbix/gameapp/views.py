@@ -11,4 +11,4 @@ from django.contrib.auth import authenticate, login, logout
 
 
 def index(request):
-    return render(request, 'votacao/index.html')
+    return render(request, 'gameapp/index.html')
