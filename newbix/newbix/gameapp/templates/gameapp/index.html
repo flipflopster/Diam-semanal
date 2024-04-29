@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %}Newbix{% endblock %} </title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <script src="{% static 'script.js' %}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- <script src="script.js"></script> -->
+
+</head>
+
+
+<body>
+
+<header>
+
+    <table>
+
+        <th style="width: 10%">
+
+            <figure style="margin: 0px">
+
+                <a href="{% url 'index' %}">
+                        
+                <img src=NewBix.png height="58px">
+                <!--<img height="46" src='{% static "NewBix.png" %}'>-->
+                
+                </a>
+                
+            </figure> 
+
+        </th>
+
+
+        <th style="width: 10%">
+
+            <div class="dropdown">
+
+                <button id="dropdown_button" class="dropbtn">Games</button>
+
+                <div id="my_dropdown" class="dropdown_content">
+
+                    <a href="#">Top</a>
+                    <a href="#">Recent</a>
+                    <a href="#">Most Popular</a>
+
+                </div>
+
+            </div>
+
+        </th>
+
+        <th style="width: 10%">
+
+            <div class="dropdown">
+
+                <button id="dropdown_button2" class="dropbtn">Forums</button>
+
+                <div id="my_dropdown2" class="dropdown_content">
+
+                    <a href="#">Reviews</a>
+                    <a href="#">Gameplays</a>
+                    <a href="#">Posts</a>
+
+                </div>
+
+            </div>
+
+        </th>
+
+        <th style="width: 40%">
+            
+            <form class="search_form">
+
+                <select class="header_bar" style="width: 16%;" name="filter">
+
+                    <option value="volvo">All</option>
+
+                    <option value="volvo">Games</option>
+
+                    <option value="saab">Characters</option>
+
+                    <option value="audi">User</option>
+
+                    <option value="fiat">Reviews</option>
+
+                </select>
+
+                <label class="header_bar" style="width: 4%;">search:
+                <input class="header_bar" style="width: 60%;" type="text" name="search" value="" />
+                </label>
+                
+                <input class="header_bar" style="width: 10%;" type="submit" name="result" value="Entrar" />
+
+            </form>
+
+        </th>
+
+        {% block header_login %}
+        <th style="width: 10%">
+                
+            <a href="Proj_Gui.html"><button class="button1">Sign In</button></a>
+
+        </th>
+
+        <th style="width: 10%">
+                
+            <a href="Proj_Gui.html"><button class="button1">Login</button></a>
+
+        </th>
+        {% endblock %}
+
+    </table>
+
+</header>
+
+
+<section>
+
+    <aside>
+        {% block left_aside%}
+
+        {% endblock %}
+    </aside>
+
+    <article>
+        {% block center_article%}
+
+        {% endblock %}
+    </article>
+
+    <nav>
+        {% block right_nav%}
+
+        {% endblock %}
+    </nav>
+
+</section>
+
+
+<footer>
+
+footer
+
+</footer>
+
+</body>
+
+
+</html>
