@@ -22,6 +22,6 @@ from . import views
 
 urlpatterns = [
  path("", views.index, name='index'),
- path('votacao/', include('gameapp.urls')),
+ path('gameapp/', include('gameapp.urls')),
  path('admin/', admin.site.urls),
 ]

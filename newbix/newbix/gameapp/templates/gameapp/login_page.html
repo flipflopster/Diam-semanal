@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+{% extends "gameapp/index.html" %}
+
+    {% block title %}Login{% endblock %}
+
+    {% block header_login %} {% endblock %}
+
+    {% block center_article %}
+
+        {% if error_message %}
+        <p><strong> {{ error_message }} </strong></p>
+        {% endif %}
+
+        <form action="{% url 'gameapp:login_load' %}" method="post">
+
+            {% csrf_token %}
+            <label> Nome:
+            <input type="text" name="username" value="{{ username }}" />
+            </label>
+
+            <br>
+
+            <label> Password:
+            <input type="password" name="password" value="{{ password }}" />
+            </label>
+
+            <br> <br>
+
+            <input type="submit" value="Entrar" />
+        </form>
+
+        <br> <br>
+
+        Não tem conta? Clique em <a href="{% url 'gameapp:signin' %}">Sign In</a>
+
+    {% endblock %}
+
+</html>

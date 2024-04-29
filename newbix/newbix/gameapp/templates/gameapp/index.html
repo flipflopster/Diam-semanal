@@ -54,8 +54,8 @@
 
             <figure style="margin: 0px">
 
-                <a href="{% url 'index' %}">
-                        
+                <a href="{% url 'gameapp:index' %}">
+
                 <img src='{% static "utils/NewBix.png" %}' height="58px">
                 <!--<img height="46" src='{% static "NewBix.png" %}'>-->
                 
@@ -108,15 +108,13 @@
 
                 <select class="header_bar" style="width: 16%;" name="filter">
 
-                    <option value="volvo">All</option>
+                    <option value="all">All</option>
 
-                    <option value="volvo">Games</option>
+                    <option value="games">Games</option>
 
-                    <option value="saab">Characters</option>
+                    <option value="characters">Characters</option>
 
-                    <option value="audi">User</option>
-
-                    <option value="fiat">Reviews</option>
+                    <option value="user">User</option>
 
                 </select>
 
@@ -124,24 +122,54 @@
                 <input class="header_bar" style="width: 60%;" type="text" name="search" value="" />
                 </label>
                 
-                <input class="header_bar" style="width: 10%;" type="submit" name="result" value="Entrar" />
+                <input class="header_bar" style="width: 10%; cursor: pointer;" type="submit" name="result" value="Entrar" />
 
             </form>
 
         </th>
 
         {% block header_login %}
-        <th style="width: 10%">
-                
+
+        {% if request.user.is_authenticated %}
+
+        <th style="width: 14%">
+
             <a href="Proj_Gui.html"><button class="button1">Sign In</button></a>
 
         </th>
 
-        <th style="width: 10%">
-                
-            <a href="Proj_Gui.html"><button class="button1">Login</button></a>
+        <th style="width: 6%">
+
+            <figure style="margin: 0px">
+
+                <a href="{% url 'index' %}">
+
+                {% if request.user.aluno.profile_picture %}
+                <img class="profilepic" src='{% static request.user.aluno.profile_picture %}'>
+                {% else %}
+                <img class="profilepic" src='{% static "utils/defaultpp.jpg" %}'>
+                {% endif %}
+
+                </a>
+
+            </figure>
 
         </th>
+
+        {% else %}
+        <th style="width: 10%">
+                
+            <a href="{% url 'gameapp:signin' %}"><button class="button1">Sign In</button></a>
+
+        </th>
+
+        <th style="width: 10%">
+                
+            <a href="{% url 'gameapp:login' %}"><button class="button1">Login</button></a>
+
+        </th>
+        {% endif %}
+
         {% endblock %}
 
     </table>
@@ -159,6 +187,8 @@
 
     <article>
         {% block center_article%}
+
+        <h1>Welcome!</h1>
 
         {% endblock %}
     </article>
