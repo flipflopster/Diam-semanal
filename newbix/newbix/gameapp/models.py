@@ -22,9 +22,6 @@ class Utilizador(models.Model):
     biografia = models.CharField(max_length=255)
     localidade = models.CharField(max_length=100)
     jogos_completos = models.IntegerField()
-
-    data_entrada = models.DateField()
-
     profile_picture = models.CharField(max_length=100)
 
 
@@ -99,6 +96,20 @@ class ListaGameplays(models.Model):
     listaUtliziadorJogo_id = models.ForeignKey(ListaUtilizadorJogo, on_delete=models.CASCADE)
     gameplay_id = models.ForeignKey(Gameplay, on_delete=models.CASCADE)
 
+
+class Thread(models.Model):
+    criador_id = models.ForeignKey(Utilizador, on_delete=models.SET_NULL, null=True)
+    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=127)
+    descricao = models.CharField(max_length=511)
+    data = models.DateTimeField('data de publicacao')
+    
+
+class Comentario(models.Model):
+    thread_id = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    poster_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    texto = models.CharField(max_length=255)
+    data = models.DateTimeField('data de publicacao')
 
 """
 
