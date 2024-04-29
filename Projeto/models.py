@@ -17,8 +17,15 @@ from django.contrib.auth.models import User
 class Utilizador(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
+
+    genero = models.CharField(max_length=50)
     biografia = models.CharField(max_length=255)
     localidade = models.CharField(max_length=100)
+    jogos_completos = models.IntegerField()
+
+    data_entrada = models.DateField()
+
+    profile_picture = models.CharField(max_length=100)
 
     
 
