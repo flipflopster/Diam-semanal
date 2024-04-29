@@ -5,7 +5,7 @@ import requests
 import random
 import json
 
-#os.system('chcp 65001')
+os.system('chcp 65001')
 KEY = os.environ.get("134FB76FD1295AF1BCCA484FED9947E5")
 steam = Steam(KEY)
 appId1 = '2766090' #random funcciona
@@ -63,12 +63,25 @@ def get_game_details(app_id):
 
 
 """
-def cache_game_details(app_id, game_details):
+def cache_game_details(app_id):
     # Cache the data
-    cache[app_id] = game_details
+    if is_cached(app_id):
+        print('already cached')
+        return
+    
+    cache[app_id] = get_game_details(app_id)
     with open(cache_file, 'w', encoding='utf-8') as f:
         json.dump(cache, f)
+    print('cached')
 
+def remove_from_cache(app_id):
+    if app_id in cache:
+        del cache[app_id]
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            json.dump(cache, f)
+        print('removed from cache')
+        return
+    print('not in cache')
 
 def get_game_details(app_id):
     # Try to get data from cache first
@@ -78,7 +91,7 @@ def get_game_details(app_id):
         return game_details
 
     # If data is not in cache, fetch it from the API
-    details = steam.apps.get_app_details(app_id,country ='US', filters="basic,screenshots")
+    details = steam.apps.get_app_details(app_id, filters="basic,screenshots")
     game_details = details.get(app_id, {}).get('data', {})
 
     # Check if game details are empty
@@ -95,7 +108,6 @@ def get_game_details(app_id):
 def is_cached(app_id):
     
     result = app_id in cache
-    print(result)
     return result
 
 def get_type(app_id):
@@ -164,12 +176,16 @@ def get_screenshots(app_id, n):
 
 
 
-#get_game_details(appId4)
+#get_game_details(appId3)
+print(is_cached(appId1))
+cache_game_details(appId1)
+print(is_cached(appId1))
+remove_from_cache(appId1)
+print(is_cached(appId1))
 #print(get_screenshots(appId1,5))
 #print(get_random_appids(1)[0])
 #print(get_random_appids(1)[0])
 #get_game_details(get_random_appids(1)[0])
 #get_game_details(get_random_appids(1)[0])
-cache_game_details(appId1, get_game_details(appId1))
 #get_all_appids()
-#is_cached(appId1)
+

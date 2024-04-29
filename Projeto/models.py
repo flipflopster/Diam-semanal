@@ -24,8 +24,8 @@ class Utilizador(models.Model):
 
 
 class Lista_Amigos(models.Model):
-    utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
-    utilizador_seguido_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
+    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    utilizador_seguido_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
 
     def nomes(self):
         def get_username_attributes(utilizador_id, utilizador_seguido_id):
@@ -70,8 +70,8 @@ class ListaUtilizadorJogo(models.Model):
         choices=EstadosJogo.choices,
         default=EstadosJogo.PLANTOPLAY,
     )
-    utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
+    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
     rating = models.IntegerField(default=5)
 
 
@@ -88,14 +88,28 @@ class Gameplay(models.Model):
 
 
 class LinksUtilizador(models.Model):
-    utilizador_id = models.OneToManyField(Utilizador, on_delete=models.CASCADE)
+    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     link = models.CharField(max_length=127)
 
 
 class ListaGameplays(models.Model):
-    listaUtliziadorJogo_id = models.OneToManyField(ListaUtilizadorJogo, on_delete=models.CASCADE)
-    gameplay_id = models.OneToManyField(Gameplay, on_delete=models.CASCADE)
+    listaUtliziadorJogo_id = models.ForeignKey(ListaUtilizadorJogo, on_delete=models.CASCADE)
+    gameplay_id = models.ForeignKey(Gameplay, on_delete=models.CASCADE)
 
+
+class Thread(models.Model):
+    criador_id = models.ForeignKey(Utilizador, on_delete=models.SET_NULL, null=True)
+    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=127)
+    descricao = models.CharField(max_length=511)
+    data = models.DateTimeField('data de publicacao')
+    
+
+class Comentario(models.Model):
+    thread_id = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    poster_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    texto = models.CharField(max_length=255)
+    data = models.DateTimeField('data de publicacao')
 
 
 
@@ -112,11 +126,11 @@ class Personagem(models.Model):
 
 
 class ListaJogoPersonagem(models.Model):
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
-    personagem_id = models.OneToManyField(Pesonagem, on_delete=models.CASCADE)
+    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
+    personagem_id = models.ForeignKey(Pesonagem, on_delete=models.CASCADE)
 
 class FotosJogo(models.Model):
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
+    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
     fotoLink = models.CharField(max_length=255)
 
     class TiposImagens(models.TextChoices):
