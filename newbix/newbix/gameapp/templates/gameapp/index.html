@@ -37,6 +37,16 @@
             }
         });
 
+        $("#dropdown_button3").click(function() {
+            $("#my_dropdown3").fadeIn(400);
+        });
+
+        $(window).on("click", function() {
+            if (!$(event.target).is('#dropdown_button3')) {
+                $("#my_dropdown3").fadeOut(400);
+            }
+        });
+
     });
 
     </script>
@@ -132,20 +142,35 @@
 
         {% if request.user.is_authenticated %}
 
-        <th style="width: 14%">
+        <th style="width: 14%; text-align: right">
 
-            <a href="Proj_Gui.html"><button class="button1">Sign In</button></a>
+            <div class="dropdown" style="text-align: center">
+
+                <button id="dropdown_button3" class="dropbtn">{{ request.user }}</button>
+
+                <div id="my_dropdown3" class="dropdown_content">
+
+                    <a href="#">Completed Game List</a>
+                    <a href="#">Plan-to-Play List</a>
+                    <a href="#">Gameplays</a>
+                    <a href="#">Reviews</a>
+                    <a href="#">Threads</a>
+                    <a href="{% url 'gameapp:logout' %}">LogOut</a>
+
+                </div>
+
+            </div>
 
         </th>
 
         <th style="width: 6%">
 
-            <figure style="margin: 0px">
+            <figure style="margin: 0">
 
-                <a href="{% url 'index' %}">
+                <a href="{% url 'gameapp:profile' %}">
 
-                {% if request.user.aluno.profile_picture %}
-                <img class="profilepic" src='{% static request.user.aluno.profile_picture %}'>
+                {% if request.user.utilizador.profile_picture %}
+                <img class="profilepic" src='{% static request.user.utilizador.profile_picture %}'>
                 {% else %}
                 <img class="profilepic" src='{% static "utils/defaultpp.jpg" %}'>
                 {% endif %}
@@ -179,25 +204,19 @@
 
 <section>
 
+    {% block main_body %}
     <aside>
-        {% block left_aside%}
 
-        {% endblock %}
     </aside>
 
     <article>
-        {% block center_article%}
 
-        <h1>Welcome!</h1>
-
-        {% endblock %}
     </article>
 
     <nav>
-        {% block right_nav%}
 
-        {% endblock %}
     </nav>
+    {% endblock %}
 
 </section>
 

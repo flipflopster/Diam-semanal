@@ -12,7 +12,7 @@ header {
 }
 
 body {
-    background-color: black;
+    background-color: rgb(10, 10, 10);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     /*font-size: 16px;
     font-family: 'HelveticaNeueLT Std', sans-serif;*/
@@ -23,13 +23,13 @@ body {
 }
 
 section {
+    text-align: center;
     display: -webkit-flex;
     display: flex;
     height: 78%;
 }
 
 aside {
-    background-color: lawngreen;
     height: 100%;
     -webkit-flex: 1;
     -ms-flex: 1;
@@ -37,7 +37,7 @@ aside {
 }
 
 article {
-    background-color: rgb(40, 40, 40);
+    background-color: rgb(30, 30, 30);
     height: 100%;
     -webkit-flex: 5;
     -ms-flex: 5;
@@ -45,7 +45,6 @@ article {
 }
 
 nav {
-    background-color: lawngreen;
     height: 100%;
     -webkit-flex: 1;
     -ms-flex: 1;
@@ -189,7 +188,50 @@ h6 {
 
 .profilepic {
     border: 3px solid black;
-    border-radius: 58px;
-    width: 58px;
-    height: 58px;
+    border-radius: 40px;
+    width: 40px;
+    height: 40px;
+    transition: 0.2s;
+}
+
+.profilepic:hover {
+    border-color: white;
+    transition: 0.2s;
+}
+
+.form1 {
+    padding-top: 20px;
+    font-size: large;
+    color: white;
+    background-color: inherit;
+    width: 120px;
+    border: none;
+    border-bottom: 2px solid white;
+    padding-left: 8px;
+    transition: 0.2s;
+}
+
+.form1:focus, .form1:hover {
+    background-color: inherit;
+    border: none;
+    border-bottom: 2px solid white;
+    width: 128px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.label1 {
+    width: 100px;
+    font-size: large;
+}
+
+.form_box {
+    padding-top: 24px;
+    padding-left: 16px;
+    text-align: left;
+    height: auto;
+    background-color: rgb(20, 20, 20);
+    margin-top: 82px;
+    margin-bottom: 82px;
+    box-shadow: rgb(0, 0, 0) 0 20px 30px -10px;
 }

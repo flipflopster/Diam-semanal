@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html>
 
-</body>
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}{{ request.user }} Profile{% endblock %}
+
+    {% block header_login %}
+
+     <th style="width: 20%">
+
+         <a href="{% url 'gameapp:logout' %}"><button class="button1">LogOut</button></a>
+
+     </th>
+
+    {% endblock %}
+
+    {% block main_body %}
+    <aside>
+
+        <figure style="margin: 8px">
+
+                {% if request.user.utilizador.profile_picture %}
+                <img class="profilepic" src='{% static request.user.utilizador.profile_picture %}'>
+                {% else %}
+                <img class="profilepic" src='{% static "utils/defaultpp.jpg" %}'>
+                {% endif %}
+
+            </figure>
+
+    </aside>
+
+    <article>
+
+    </article>
+
+    <nav>
+
+    </nav>
+
+    {% endblock %}
+
+
 </html>

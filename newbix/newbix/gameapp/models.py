@@ -21,7 +21,7 @@ class Utilizador(models.Model):
     genero = models.CharField(max_length=50)
     biografia = models.CharField(max_length=255)
     localidade = models.CharField(max_length=100)
-    jogos_completos = models.IntegerField()
+    jogos_completos = models.IntegerField(default=0)
     profile_picture = models.CharField(max_length=100)
 
 

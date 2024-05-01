@@ -5,12 +5,44 @@
 
     {% block title %}Sign In{% endblock %}
 
-    {% block header_login %} {% endblock %}
+    {% block header_login %} <th width="20%"></th> {% endblock %}
 
-    {% block center_article %}
+    {% block main_body %}
+    <center>
 
+        {% if error_message %}
+        <strong> {{ error_message }} </strong>
+        {% endif %}
 
+        <form action="{% url 'gameapp:signin_load' %}" method="post">
 
+            {% csrf_token %}
+            <label class="label1"> Name:
+            <input class="form1" type="text" name="username" value="{{ username }}" required />
+            </label>
+
+            <br>
+
+            <label class="label1"> Email:
+            <input class="form1" type="email" name="email" value="{{ email }}" required />
+            </label>
+
+            <br>
+
+            <label class="label1"> Password:
+            <input class="form1" type="password" name="password" value="{{ password }}" required />
+            </label>
+
+            <br> <br>
+
+            <input class="button1" type="submit" value="Sign In" />
+        </form>
+
+        <br> <br>
+
+        Already have an account? Click <a href="{% url 'gameapp:login' %}">Log In</a>
+
+        </center>
     {% endblock %}
 
 </html>

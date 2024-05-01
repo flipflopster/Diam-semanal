@@ -20,4 +20,14 @@ $(document).ready(function() {
         }
     });
 
+    $("#dropdown_button3").click(function() {
+        $("#my_dropdown3").fadeIn(400);
+    });
+
+    $(window).on("click", function() {
+        if (!$(event.target).is('#dropdown_button3')) {
+            $("#my_dropdown3").fadeOut(400);
+        }
+    });
+
 });
