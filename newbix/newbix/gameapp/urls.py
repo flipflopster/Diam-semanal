@@ -23,4 +23,8 @@ urlpatterns = [
     path("<int:appId>/gameDetails", views.gameDetails, name='gameDetails'),
     path("<int:appId>/addTolist", views.addToList, name='addToList'),
     path("<int:appId>/threadsForGameSearch", views.threadsForGameSearch, name='threadsForGameSearch'),
+    path("<int:appId>/createThread", views.createThread, name='createThread'),
+    path("submitThread", views.submitThread, name='submitThread'),
+
+
 ]

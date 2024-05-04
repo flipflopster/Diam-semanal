@@ -27,6 +27,9 @@
         {% else %}
             <button class="block-element button1 disabled-button" disabled title="Must be logged in">Add to List</button>
         {% endif %}
+            <a href="{% url 'gameapp:createThread' game_details.steam_appid %}">
+                <button class="block-element button1">Create Thread</button>
+            </a>
             <a href="{% url 'gameapp:threadsForGameSearch' game_details.steam_appid %}"> <!-- replace with your forums URL -->
                 <button class="block-element button1">Check threads for game</button>
             </a>

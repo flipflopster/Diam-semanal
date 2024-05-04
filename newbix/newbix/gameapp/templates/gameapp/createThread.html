@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search {{ request.keyword }}{% endblock %}
+
+    {% block main_article %}
+        <h2>Create a new thread</h2>
+        <form method="POST" action="{% url 'gameapp:submitThread' %}">
+            {% csrf_token %}
+            <label for="titulo">Title:</label><br>
+            <input type="text" id="titulo" name="titulo"><br>
+            <label for="descricao">Description:</label><br>
+            <textarea id="descricao" name="descricao"></textarea><br>
+            <input type="submit" value="Submit">
+        </form>
+    {% endblock %}
+</html>

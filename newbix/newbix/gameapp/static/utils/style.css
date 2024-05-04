@@ -275,3 +275,9 @@ h6 {
 .game-link:hover::after {
     background: rgba(0, 0, 0, 0.5);
 }
+
+.entry {
+    margin-bottom: 20px;  /* Adjust as needed */
+    padding-left: 20px;   /* Add left spacing */
+    padding-right: 20px;  /* Add right spacing */
+}

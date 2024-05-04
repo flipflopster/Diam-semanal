@@ -23,8 +23,12 @@ def index(request):
     return render(request, 'gameapp/index.html')
 
 def threadsForGameSearch(request,appId):
-    resultArrayThreads = Thread.objects.filter(jogo_id=appId)
-    return render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'appId':appId})
+    jogo = Jogo.objects.get(steam_id=appId)
+    resultArrayThreads = Thread.objects.filter(jogo_id=jogo)
+    print('test')
+    for result in resultArrayThreads:
+        print(result.titulo)
+    return render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'gameName':jogo.nome})
 
 def search_results(request):
     filter = request.POST['filter']
@@ -55,6 +59,7 @@ def search_results(request):
     return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
 
 def gameDetails(request,appId):
+    jogo = None  # Define jogo before the try block
     try:
         jogo = Jogo.objects.get(steam_id=appId)
         numeroRatings = jogo.numeroRatings
@@ -63,7 +68,6 @@ def gameDetails(request,appId):
     except Jogo.DoesNotExist:
         numeroRatings = 0
         totalPontos = 0
-
     if numeroRatings == 0:
         media = 0
     else:
@@ -77,11 +81,31 @@ def gameDetails(request,appId):
         utilizador = Utilizador.objects.get(user_id=request.user)
 
         # Check if a ListaUtilizadorJogo record exists for the current user and game
-        inList = ListaUtilizadorJogo.objects.filter(jogo_id=jogo, utilizador_id=utilizador).exists()
+        if jogo:  # Only execute this line if jogo is not None
+            inList = ListaUtilizadorJogo.objects.filter(jogo_id=jogo, utilizador_id=utilizador).exists()
+        else:
+            inList = False
     else:
         inList = False
 
     return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings':numeroRatings, 'media':media, 'inList':inList})
+
+
+def createThread(request,appId):
+    request.session['appId'] = appId
+    return render(request, 'gameapp/createThread.html')
+
+def submitThread(request):
+    appId = request.session.get('appId')
+    titulo = request.POST.get('titulo')
+    descricao = request.POST.get('descricao')
+    print(titulo)
+    print(descricao)
+    jogo = Jogo.objects.get(steam_id=appId)
+    utilizador = Utilizador.objects.get(user_id=request.user)
+
+    Thread.objects.create(titulo=titulo, descricao=descricao, jogo_id=jogo, criador_id=utilizador,data=timezone.now())
+    return threadsForGameSearch(request,appId)
 
 def addToList(request,appId):
     game_details = request.session.get('game_details', None)

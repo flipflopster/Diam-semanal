@@ -7,6 +7,14 @@
     {% block title %}Search: {{ keyword }}{% endblock %}
 
     {% block main_article %}
-
-{% endblock %}
+        {% for result in resultArrayThreads %}
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <div>
+                    <p>{{ result.titulo}}</p>
+                    <p>Thread's game:</p>
+                    <p>{{ gameName }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    {% endblock %}
 </html>
