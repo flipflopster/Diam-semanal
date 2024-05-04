@@ -18,8 +18,9 @@ urlpatterns = [
     path("logout", views.logout_load, name='logout'),
 
 
-    path("results", views.search_results, name='results'),
+    path("searchResults", views.search_results, name='searchResults'),
     path("gameAddedToList", views.gameAddedToList, name='gameAddedToList'),
     path("<int:appId>/gameDetails", views.gameDetails, name='gameDetails'),
     path("<int:appId>/addTolist", views.addToList, name='addToList'),
+    path("<int:appId>/threadsForGameSearch", views.threadsForGameSearch, name='threadsForGameSearch'),
 ]

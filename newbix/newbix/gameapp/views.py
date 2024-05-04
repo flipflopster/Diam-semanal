@@ -9,8 +9,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django import forms
-from .models import Utilizador
-from .steamDataFetcher import get_search_results_array, get_game_details
+from .models import Utilizador, Thread
+from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached
 from .models import ListaUtilizadorJogo
 from .models import Jogo
 
@@ -22,17 +22,37 @@ def not_authenticated(user):
 def index(request):
     return render(request, 'gameapp/index.html')
 
+def threadsForGameSearch(request,appId):
+    resultArrayThreads = Thread.objects.filter(jogo_id=appId)
+    return render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'appId':appId})
+
 def search_results(request):
     filter = request.POST['filter']
     searchKeyword = request.POST['search']
     print(filter)
     print(searchKeyword)
-    resultArray = ['teste']
+    resultArrayGames = ['empty']
+    resultArrayUsers =['empty']
+    resultArrayThreads = ['empty']
     if filter == 'games':
-        resultArray = get_search_results_array(searchKeyword)
-    for result in resultArray:
-        print(result.get('name'))
-    return render(request, 'gameapp/results.html', {'keyword': searchKeyword, 'resultArray':resultArray, 'filter':filter,})
+        resultArrayGames = get_search_results_array(searchKeyword)
+    elif filter == 'threads':
+        resultArrayThreads = Thread.objects.filter(titulo__icontains=searchKeyword)
+    elif filter == 'users':
+        resultArrayUsers = Utilizador.objects.filter(username__icontains=searchKeyword)
+    elif filter == 'all':
+        resultArrayGames = get_search_results_array(searchKeyword)
+        resultArrayThreads = list(Thread.objects.filter(titulo__icontains=searchKeyword))
+        resultArrayUsers = list(Utilizador.objects.filter(username__icontains=searchKeyword))
+
+    for result in resultArrayGames:
+        print(result)
+    for result in resultArrayThreads:
+        print(result)
+    for result in resultArrayUsers:
+        print(result)
+
+    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
 
 def gameDetails(request,appId):
     try:
@@ -48,12 +68,20 @@ def gameDetails(request,appId):
         media = 0
     else:
         media = round(float(totalPontos / numeroRatings), 2)
-    print(appId)
+
     game_details = get_game_details(appId)
     request.session['game_details'] = game_details
-    print(numeroRatings)
-    print(totalPontos)
-    return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings':numeroRatings, 'media':media})
+
+    if request.user.is_authenticated:
+        # Get the Utilizador object related to the User
+        utilizador = Utilizador.objects.get(user_id=request.user)
+
+        # Check if a ListaUtilizadorJogo record exists for the current user and game
+        inList = ListaUtilizadorJogo.objects.filter(jogo_id=jogo, utilizador_id=utilizador).exists()
+    else:
+        inList = False
+
+    return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings':numeroRatings, 'media':media, 'inList':inList})
 
 def addToList(request,appId):
     game_details = request.session.get('game_details', None)
@@ -80,7 +108,9 @@ def gameAddedToList(request):
     new_rating = int(request.POST.get('rating'))  # replace with the actual rating from the form
     estado = request.POST.get('estado')  # replace status with estado
 
-    print(estado)
+
+    cache_game_details(game_details.get('steam_appid'))
+
 
     try:
         jogo = Jogo.objects.get(steam_id=game_details.get('steam_appid'))

@@ -114,7 +114,7 @@
 
         <th style="width: 40%">
             
-            <form class="search_form" action="{% url 'gameapp:results' %}" method="post">
+            <form class="search_form" action="{% url 'gameapp:searchResults' %}" method="post">
                 {% csrf_token %}
 
                 <select class="header_bar" style="width: 16%;" name="filter">
@@ -125,7 +125,7 @@
 
                     <option value="threads">Threads</option>
 
-                    <option value="user">User</option>
+                    <option value="users">Users</option>
 
                 </select>
 

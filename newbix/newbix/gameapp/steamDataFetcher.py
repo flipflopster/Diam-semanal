@@ -12,12 +12,16 @@ appId1 = '2766090' #random funcciona
 appId2 = '1088710' #yakuza
 appId3 = '609970' #random não funcciona
 appId4 = '1435010'
-cache_file = 'static/game-details-cache.json'
+cache_file = 'gameapp/static/cache/game-details-cache.json'
 
 # Load cache from file if it exists
 if os.path.exists(cache_file):
     with open(cache_file, 'r', encoding='utf-8') as f:
-        cache = json.load(f)
+        if f.read():
+            f.seek(0)  # Reset file read position
+            cache = json.load(f)
+        else:
+            cache = {}
 else:
     cache = {1: {}}
 
@@ -46,7 +50,7 @@ def cache_game_details(app_id):
     if is_cached(app_id):
         print('already cached')
         return
-    
+    print(os.getcwd())
     cache[app_id] = get_game_details(app_id)
     with open(cache_file, 'w', encoding='utf-8') as f:
         json.dump(cache, f)

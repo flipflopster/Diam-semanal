@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+    {% block main_article %}
+
+    <p>Search Results for: {{ keyword}}</p>
+        {% if filter == 'all' %}
+            {% if resultArrayUsers %}
+                <h1>Users:</h1>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        {% for result in resultArrayUsers %}
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="game-link" style="text-decoration: none; color: inherit;">
+                                <div>
+                                    <p>{{ result.username}}</p>
+                                    <img src="{{ result.profile_picture }}" alt="Image">
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div><br><br>
+
+            {% else %}
+                <h1>No users found</h1><br><br>
+            {% endif %}
+
+            {% if resultArrayGames %}
+                <h1>Games:</h1>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        {% for result in resultArrayGames %}
+                            <a href="{% url 'gameapp:gameDetails' result.id.0 %}" class="game-link" style="text-decoration: none; color: inherit;">
+                                <div>
+                                    <p>{{ result.name }}</p>
+                                    <img src="{{ result.img }}" alt="Image">
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div><br><br>
+
+            {% else %}
+                <h1>No games found</h1><br><br>
+            {% endif %}
+
+            {% if resultArrayThreads %}
+                <h1>Threads:</h1>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        {% for result in resultArrayThreads %}
+                            <p>teste thread</p>
+                        {% endfor %}
+                    </div>
+
+            {% else %}
+                <h1>No threads found</h1><br><br>
+            {% endif %}
+        {% endif %}
+
+
+        {% if filter == 'users' %}
+            {% if resultArrayUsers %}
+                <h1>Users:</h1>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        {% for result in resultArrayUsers %}
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="game-link" style="text-decoration: none; color: inherit;">
+                                <div class="game-div">
+                                    <p>{{ result.username}}</p>
+                                    <img src="{{ result.profile_picture }}" alt="Image">
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div><br><br>
+
+            {% else %}
+                <h1>No users found</h1><br><br>
+            {% endif %}
+        {% endif %}
+
+        {% if filter == 'games' %}
+            {% if resultArrayGames %}
+                <h1>Games:</h1>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    {% for result in resultArrayGames %}
+                        <a href="{% url 'gameapp:gameDetails' result.id.0 %}"  class="game-link" style="text-decoration: none; color: inherit;">
+                            <div>
+                                <p>{{ result.name }}</p>
+                                <img src="{{ result.img }}" alt="Image">
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div><br><br>
+            {% else %}
+                <h1>No games found</h1><br><br>
+            {% endif %}
+        {% endif %}
+
+        {% if filter == 'threads' %}
+            {% if resultArrayThreads %}
+                <h1>Threads:</h1>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        {% for result in resultArrayThreads %}
+                            <p>teste thread</p>
+                        {% endfor %}
+                    </div>
+
+            {% else %}
+                <h1>No threads found</h1><br><br>
+            {% endif %}
+        {% endif %}
+
+    {% endblock %}
+
+
+</html>

@@ -253,3 +253,25 @@ h6 {
     font-size: 20px;
     color: #32a852;
 }
+
+.game-link {
+    position: relative;
+    display: inline-block; /* this is needed for the pseudo-element to work correctly */
+    padding-bottom: 10px; /* adjust this value as needed */
+}
+
+.game-link::after {
+    content: "";
+    position: absolute;
+    top: 0; /* adjust these values to change the size of the rectangle */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.5s ease;
+    z-index: 1; /* increased z-index */
+}
+
+.game-link:hover::after {
+    background: rgba(0, 0, 0, 0.5);
+}
