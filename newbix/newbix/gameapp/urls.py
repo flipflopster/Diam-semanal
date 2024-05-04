@@ -3,7 +3,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'gameapp'
+app_name = ('gameapp')
 
 
 urlpatterns = [
@@ -16,4 +16,10 @@ urlpatterns = [
 
     path("profile", views.profile_page, name='profile'),
     path("logout", views.logout_load, name='logout'),
+
+
+    path("results", views.search_results, name='results'),
+    path("gameAddedToList", views.gameAddedToList, name='gameAddedToList'),
+    path("<int:appId>/gameDetails", views.gameDetails, name='gameDetails'),
+    path("<int:appId>/addTolist", views.addToList, name='addToList'),
 ]

@@ -8,8 +8,11 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
-
+from django import forms
 from .models import Utilizador
+from .steamDataFetcher import get_search_results_array, get_game_details
+from .models import ListaUtilizadorJogo
+from .models import Jogo
 
 
 def not_authenticated(user):
@@ -18,6 +21,113 @@ def not_authenticated(user):
 
 def index(request):
     return render(request, 'gameapp/index.html')
+
+def search_results(request):
+    filter = request.POST['filter']
+    searchKeyword = request.POST['search']
+    print(filter)
+    print(searchKeyword)
+    resultArray = ['teste']
+    if filter == 'games':
+        resultArray = get_search_results_array(searchKeyword)
+    for result in resultArray:
+        print(result.get('name'))
+    return render(request, 'gameapp/results.html', {'keyword': searchKeyword, 'resultArray':resultArray, 'filter':filter,})
+
+def gameDetails(request,appId):
+    try:
+        jogo = Jogo.objects.get(steam_id=appId)
+        numeroRatings = jogo.numeroRatings
+        totalPontos = jogo.totalPontos
+
+    except Jogo.DoesNotExist:
+        numeroRatings = 0
+        totalPontos = 0
+
+    if numeroRatings == 0:
+        media = 0
+    else:
+        media = round(float(totalPontos / numeroRatings), 2)
+    print(appId)
+    game_details = get_game_details(appId)
+    request.session['game_details'] = game_details
+    print(numeroRatings)
+    print(totalPontos)
+    return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings':numeroRatings, 'media':media})
+
+def addToList(request,appId):
+    game_details = request.session.get('game_details', None)
+
+    class GameForm(forms.Form):
+        RATING_CHOICES = [(i, str(i)) for i in range(11)]
+        STATUS_CHOICES = [
+            (ListaUtilizadorJogo.EstadosJogo.COMPLETED, 'Completed'),
+            (ListaUtilizadorJogo.EstadosJogo.PLANTOPLAY, 'Plan To Play'),
+            (ListaUtilizadorJogo.EstadosJogo.DROPPED, 'Dropped'),
+            (ListaUtilizadorJogo.EstadosJogo.PLAYING, 'Playing'),
+            (ListaUtilizadorJogo.EstadosJogo.ONHOLD, 'On Hold')
+        ]
+
+        rating = forms.ChoiceField(choices=RATING_CHOICES)
+        estado = forms.ChoiceField(choices=STATUS_CHOICES)
+
+    form = GameForm()
+    request.session['game_details'] = game_details
+    return render(request, 'gameapp/addToList.html', {'game_details': game_details,'form':form,})
+
+def gameAddedToList(request):
+    game_details = request.session.get('game_details', None)
+    new_rating = int(request.POST.get('rating'))  # replace with the actual rating from the form
+    estado = request.POST.get('estado')  # replace status with estado
+
+    print(estado)
+
+    try:
+        jogo = Jogo.objects.get(steam_id=game_details.get('steam_appid'))
+
+    except Jogo.DoesNotExist:
+        # If no Jogo object with the given steam_id exists, create one
+        jogo = Jogo.objects.create(
+            steam_id=game_details.get('steam_appid'),
+            nome=game_details.get('name'),
+            numeroRatings=0,
+            totalPontos=0
+        )
+
+    # Get the Utilizador object related to the User
+    utilizador = Utilizador.objects.get(user_id=request.user)
+
+    lista_utilizador_jogo, created = ListaUtilizadorJogo.objects.get_or_create(
+        jogo_id=jogo,
+        utilizador_id=utilizador,  # use the Utilizador object
+        defaults={
+            'estado': estado,  # replace status with estado
+            'rating': new_rating  # replace with the actual rating from the form
+        }
+    )
+
+    if created:
+        # If the ListaUtilizadorJogo object is newly created, increment numeroRatings
+        jogo.numeroRatings += 1
+        jogo.totalPontos += new_rating
+        jogo.save()
+
+    else:
+        # If the ListaUtilizadorJogo object already exists and the form data is different, update it
+        if lista_utilizador_jogo.estado != estado or lista_utilizador_jogo.rating != new_rating:
+            # Subtract the existing rating from totalPontos and add the new rating
+            jogo.totalPontos -= lista_utilizador_jogo.rating
+            jogo.totalPontos += new_rating
+            jogo.numeroRatings = ListaUtilizadorJogo.objects.filter(jogo_id=jogo).count()
+            jogo.save()
+
+            # Update the estado and rating in the ListaUtilizadorJogo record
+            lista_utilizador_jogo.estado = estado
+            lista_utilizador_jogo.rating = new_rating
+            lista_utilizador_jogo.save()
+
+    request.session['game_details'] = game_details
+    return gameDetails(request, game_details.get('steam_appid'))
 
 
 @user_passes_test(not_authenticated, login_url='/gameapp/profile')

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search {{ request.keyword }}{% endblock %}
+
+    {% block main_article %}
+    <h1>{{game_details.name}}</h1>
+    <img src="{{game_details.header_image}}" alt="{{game_details.name}}"><br><br>
+    <form method="post" action="{% url 'gameapp:gameAddedToList' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+    {% endblock %}
+</html>

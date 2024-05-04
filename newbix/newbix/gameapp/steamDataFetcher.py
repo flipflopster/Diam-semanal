@@ -12,7 +12,7 @@ appId1 = '2766090' #random funcciona
 appId2 = '1088710' #yakuza
 appId3 = '609970' #random não funcciona
 appId4 = '1435010'
-cache_file = 'cache/game-details-cache.json'
+cache_file = 'static/game-details-cache.json'
 
 # Load cache from file if it exists
 if os.path.exists(cache_file):
@@ -38,7 +38,6 @@ def get_all_appids():
     for app in data['applist']['apps']: 
         if app.get('name'):
             all_appids.append(app['appid'])  # Add each app id to the list
-    print(all_appids)
     return all_appids
 
 
@@ -64,6 +63,7 @@ def remove_from_cache(app_id):
 
 def get_game_details(app_id):
     # Try to get data from cache first
+    app_id = str(app_id)
     game_details = cache.get(app_id)
     if game_details is not None:
         #print(('cached       ' + json.dumps(game_details, ensure_ascii=False) + '---------------------------------------------------------------------------------------------------------------------').encode('utf-8'))
@@ -233,7 +233,6 @@ def parse_result_img(game):
 def parse_result_price(game):
     return game.get('price')
 
-
 #print(parse_result_img(get_search_results_array('yakuza')[0]))
 #get_game_details(appId3)
 #print(is_cached(appId1))
@@ -241,12 +240,10 @@ def parse_result_price(game):
 #print(is_cached(appId1))
 #remove_from_cache(appId1)
 #print(is_cached(appId1))
-#print(get_game_details('1088710'))
 #print(get_screenshots(appId2,5))
 #print(get_random_appids(1)[0])
 #print(get_random_appids(1)[0])
 #get_game_details(get_random_appids(1)[0])
 #get_game_details(get_random_appids(1)[0])
 #get_all_appids()
-cache_game_details(appId1)
-#print(requests.get('https://api.steampowered.com/ISteamApps/GetAppList/v2/'))
+

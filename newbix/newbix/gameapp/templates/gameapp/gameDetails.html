@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search {{ request.keyword }}{% endblock %}
+
+    {% block main_article %}
+        <h2>{{ game_details.name }}</h2>
+        <img src="{{ game_details.header_image }}" alt="{{ game_details.name }}"><br><br>
+        <div class="game-stats">
+            <p class="game-rating">Número Ratings: {{ numeroRatings }}</p>
+            <p class="game-points">Média: {{ media }}</p>
+        </div><br><br>
+        {# %if user.is_authenticated %#}
+        {% if True %}
+            <a href="{% url 'gameapp:addToList' game_details.steam_appid %}">
+                <button class="block-element button1">Add to List {{game_details.steam_appid}}</button>
+            </a>
+        {% else %}
+            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Add to List</button>
+        {% endif %}
+
+        <h3>About the Game</h3>
+        <p>{{ game_details.about_the_game|safe }}</p>
+
+        <h3>Detailed Description</h3>
+        <p>{{ game_details.detailed_description|safe }}</p>
+
+        <h3>Supported Languages</h3>
+        <p>{{ game_details.supported_languages|safe }}</p>
+
+        <!--
+        <h3>System Requirements</h3>
+        <h4>PC:</h4>
+
+            <ul class="requirements-list">
+            {% for key, value in game_details.pc_requirements.items %}
+                {% if key != "minimum" and key != "recommended" %}
+                    <li>{{ key }}: {{ value|safe }}</li>
+                {% else %}
+                    <li>{{ value|safe }}</li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+
+            <h4>Mac:</h4>
+            <ul class="requirements-list">
+            {% for key, value in game_details.mac_requirements.items %}
+                {% if key != "minimum" and key != "recommended" %}
+                    <li>{{ key }}: {{ value|safe }}</li>
+                {% else %}
+                    <li>{{ value|safe }}</li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+
+            <h4>Linux:</h4>
+            <ul class="requirements-list">
+            {% for key, value in game_details.linux_requirements.items %}
+                {% if key != "minimum" and key != "recommended" %}
+                    <li>{{ key }}: {{ value|safe }}</li>
+                {% else %}
+                    <li>{{ value|safe }}</li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+-->
+
+        <h3>Screenshots</h3>
+        {% for screenshot in game_details.screenshots %}
+            <img src="{{ screenshot.path_thumbnail }}" alt="Screenshot {{ forloop.counter }}">
+        {% endfor %}
+    {% endblock %}
+</html>

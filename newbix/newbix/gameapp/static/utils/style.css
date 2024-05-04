@@ -11,6 +11,8 @@ header {
     font-weight: bolder;
 }
 
+
+
 body {
     background-color: rgb(10, 10, 10);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -234,4 +236,20 @@ h6 {
     margin-top: 82px;
     margin-bottom: 82px;
     box-shadow: rgb(0, 0, 0) 0 20px 30px -10px;
+}
+
+.disabled-button {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.5; /* make the button appear greyed out */
+}
+
+.game-stats {
+    margin-bottom: 20px;
+}
+
+.game-rating, .game-points {
+    font-size: 20px;
+    color: #32a852;
 }

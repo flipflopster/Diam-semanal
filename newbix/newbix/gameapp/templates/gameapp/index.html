@@ -114,7 +114,8 @@
 
         <th style="width: 40%">
             
-            <form class="search_form">
+            <form class="search_form" action="{% url 'gameapp:results' %}" method="post">
+                {% csrf_token %}
 
                 <select class="header_bar" style="width: 16%;" name="filter">
 
@@ -122,7 +123,7 @@
 
                     <option value="games">Games</option>
 
-                    <option value="characters">Characters</option>
+                    <option value="threads">Threads</option>
 
                     <option value="user">User</option>
 
@@ -132,7 +133,8 @@
                 <input class="header_bar" style="width: 60%;" type="text" name="search" value="" />
                 </label>
                 
-                <input class="header_bar" style="width: 10%; cursor: pointer;" type="submit" name="result" value="Entrar" />
+                <input class="header_bar" style="width: 10%; cursor: pointer;" type="submit" name="result" value="Procurar" />
+
 
             </form>
 
@@ -210,7 +212,9 @@
     </aside>
 
     <article>
+        {% block main_article %}
 
+        {% endblock %}
     </article>
 
     <nav>
