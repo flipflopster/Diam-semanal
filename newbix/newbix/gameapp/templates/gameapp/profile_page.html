@@ -17,20 +17,47 @@
 
     {% endblock %}
 
-    {% block main_body %}
-    <aside>
+    {% block left_aside %}
+
+        <br>
 
         <figure style="margin: 8px">
 
-                {% if request.user.utilizador.profile_picture %}
-                <img class="profilepic" src='{% static request.user.utilizador.profile_picture %}'>
-                {% else %}
-                <img class="profilepic" src='{% static "utils/defaultpp.jpg" %}'>
-                {% endif %}
+            {% if request.user.utilizador.profile_picture %}
+            <img class="profile" src='{% static request.user.utilizador.profile_picture %}'>
+            {% else %}
+            <img class="profile" src='{% static "utils/defaultpp.jpg" %}'>
+            {% endif %}
 
-            </figure>
+        </figure>
 
-    </aside>
+        <br>
+
+    <h6>{{ request.user }}</h6>
+
+    <p>
+        {% if request.user.last_login %}
+        Last time online: {{ request.user.last_login.date }}
+        {% endif %}
+    </p>
+
+    <p>
+        NewBixer since: {{ request.user.date_joined.date }}
+    </p>
+
+    <p>Completed Games: {{ request.user.utilizador.jogos_completos }}
+
+    <p>{% if request.user.utilizador.localidade %}
+    From: {{ request.user.utilizador.localidade }}
+    {% endif %}</p>
+
+    <p>Genre: {% if request.user.utilizador.localidade %}
+    {{ request.user.utilizador.genero }}
+    {% else %}
+    Not specified
+    {% endif %}</p>
+
+    {% endblock %}
 
     <article>
 
@@ -40,7 +67,6 @@
 
     </nav>
 
-    {% endblock %}
 
 
 </html>

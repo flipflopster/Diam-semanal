@@ -129,11 +129,11 @@
 
                 </select>
 
-                <label class="header_bar" style="width: 4%;">search:
-                <input class="header_bar" style="width: 60%;" type="text" name="search" value="" />
+                <label class="header_bar" style="width: 8%;">Your text:
+                <input class="header_bar" style="width: 56%;" type="text" name="search" value="" />
                 </label>
                 
-                <input class="header_bar" style="width: 10%; cursor: pointer;" type="submit" name="result" value="Procurar" />
+                <input class="header_bar" style="width: 10%; cursor: pointer;" type="submit" name="result" value="Search" />
 
 
             </form>
@@ -152,6 +152,7 @@
 
                 <div id="my_dropdown3" class="dropdown_content">
 
+                    <a href="{% url 'gameapp:profile' %}">Profile</a>
                     <a href="#">Completed Game List</a>
                     <a href="#">Plan-to-Play List</a>
                     <a href="#">Gameplays</a>
@@ -203,12 +204,13 @@
 
 </header>
 
-
+{% block main_body %}
 <section>
 
-    {% block main_body %}
     <aside>
+        {% block left_aside %}
 
+        {% endblock %}
     </aside>
 
     <article>
@@ -218,11 +220,13 @@
     </article>
 
     <nav>
+        {% block right_nav %}
 
+        {% endblock %}
     </nav>
-    {% endblock %}
 
 </section>
+{% endblock %}
 
 
 <footer>
