@@ -8,6 +8,7 @@
     {% block header_login %} <th width="20%"></th> {% endblock %}
 
     {% block main_body %}
+    <section>
     <center>
 
         {% if error_message %}
@@ -43,6 +44,7 @@
         Already have an account? Click <a href="{% url 'gameapp:login' %}">Log In</a>
 
         </center>
+        </section>
     {% endblock %}
 
 </html>

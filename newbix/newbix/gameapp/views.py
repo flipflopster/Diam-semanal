@@ -81,7 +81,7 @@ def search_results(request):
 
     return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
 
-def gameDetails(request,appId):
+def gameDetails(request, appId):
     jogo = None  # Define jogo before the try block
     try:
         jogo = Jogo.objects.get(steam_id=appId)
@@ -111,7 +111,7 @@ def gameDetails(request,appId):
     else:
         inList = False
 
-    return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings':numeroRatings, 'media':media, 'inList':inList})
+    return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings': numeroRatings, 'media': media, 'inList': inList})
 
 
 def createThread(request,appId):
