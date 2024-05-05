@@ -84,9 +84,9 @@
 
                 <div id="my_dropdown" class="dropdown_content">
 
-                    <a href="#">Top</a>
-                    <a href="#">Recent</a>
-                    <a href="#">Most Popular</a>
+                    <a href="{% url 'gameapp:topGamesResults' %}">Top</a>
+
+                    <a href="{% url 'gameapp:popularGamesResults' %}">Most Popular</a>
 
                 </div>
 
@@ -104,7 +104,7 @@
 
                     <a href="#">Reviews</a>
                     <a href="#">Gameplays</a>
-                    <a href="#">Posts</a>
+                    <a href="{% url 'gameapp:recentThreadsResults' %}">Threads</a>
 
                 </div>
 
@@ -152,9 +152,14 @@
 
                 <div id="my_dropdown3" class="dropdown_content">
 
+<<<<<<< Updated upstream
                     <a href="{% url 'gameapp:profile' %}">Profile</a>
                     <a href="#">Completed Game List</a>
                     <a href="#">Plan-to-Play List</a>
+=======
+
+                    <a href="{% url 'gameapp:userListView' request.user.id %}">User List</a>
+>>>>>>> Stashed changes
                     <a href="#">Gameplays</a>
                     <a href="#">Reviews</a>
                     <a href="#">Threads</a>
@@ -170,7 +175,7 @@
 
             <figure style="margin: 0">
 
-                <a href="{% url 'gameapp:profile' %}">
+                <a href="{% url 'gameapp:profileView' request.user.utilizador.id %}">
 
                 {% if request.user.utilizador.profile_picture %}
                 <img class="profilepic" src='{% static request.user.utilizador.profile_picture %}'>
@@ -215,7 +220,7 @@
 
     <article>
         {% block main_article %}
-
+            <h2>main bby</h2>
         {% endblock %}
     </article>
 

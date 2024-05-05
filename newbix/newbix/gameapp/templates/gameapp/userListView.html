@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+    {% block main_article %}
+        <h2>{{utilizador.username}}'s list</h2>
+        {% for entry in resultArrayEntries %}
+            <div style="display: flex; align-items: center;">
+                <a href="{% url 'gameapp:gameDetailsView' entry.jogo_id.steam_id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div style="display: flex; align-items: center;">
+                        <img src="{{ entry.jogo_id.get_img_url }}" alt="Image">
+                        <p style="margin-left: 10px;">{{ entry.jogo_id.nome }} </p>
+                    </div>
+                </a>
+                <div style="display: flex; justify-content: flex-end; margin-left: 10px; width: 200px;">
+                    <p>Rating: {{ entry.rating }}</p>  <!-- Display the rating -->
+                    <p>Estado: {{ entry.estado }}</p>  <!-- Display the estado -->
+                    <p>Last Modified: {{ entry.last_altered }}</p>
+                </div>
+            </div>
+        {% empty %}
+        {% endfor %}
+    {% endblock %}
+</html>

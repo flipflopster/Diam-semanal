@@ -17,54 +17,62 @@
     {% endblock %}
 
     {% block main_article %}
-        <h2>{{ game_details.name }}</h2>
-        <img src="{{ game_details.header_image }}" alt="{{ game_details.name }}"><br><br>
+        <h2>{{ gameDetails.name }}</h2>
+        <img src="{{ gameDetails.header_image }}" alt="{{ gameDetails.name }}"><br><br>
         <div class="game-stats">
-            <p class="game-rating">Número Ratings: {{ numeroRatings }}</p>
-            <p class="game-points">Média: {{ media }}</p>
+            <p class="game-rating">Número Ratings: {% if jogo %} {{ jogo.numeroRatings }} {%else%} 0 {% endif %}</p>
+            <p class="game-points">Média: {% if jogo %} {{ jogo.media }} {%else%} 0 {% endif %}</p>
         </div><br><br>
         {% if user.is_authenticated %}
             {% if inList %}
-                <a href="{% url 'gameapp:addToList' game_details.steam_appid %}">
+                <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
                     <button class="block-element button1">Alter list entry details</button>
                 </a>
-                <a href="{% url 'gameapp:createThread' game_details.steam_appid %}">
+                <a href="{% url 'gameapp:createThread' gameDetails.steam_appid %}">
                     <button class="block-element button1">Create Thread</button>
                 </a>
+                <a href="{% url 'gameapp:createReview' gameDetails.steam_appid %}">
+                    <button class="block-element button1">Create Review</button>
+                </a>
+                <a href="https://www.youtube.com/watch?v=5skpcb3881U">
+                    <button class="block-element button1">Create Gameplay</button>
+                </a>
             {% else %}
-                <a href="{% url 'gameapp:addToList' game_details.steam_appid %}">
+                <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
                     <button class="block-element button1">Add to List</button>
                 </a>
                 <button class="block-element button1 disabled-button" disabled title="Must be in list">Create Thread</button>
-
+                <button class="block-element button1 disabled-button" disabled title="Must be in list">Create Review</button>
+                <button class="block-element button1 disabled-button" disabled title="Must be in list">Create Gameplay</button>
             {% endif %}
 
         {% else %}
             <button class="block-element button1 disabled-button" disabled title="Must be logged in">Add to List</button>
             <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Thread</button>
-
+            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Review</button>
+            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Gameplay</button>
         {% endif %}
 
 
 
-            <a href="{% url 'gameapp:threadsForGameSearch' game_details.steam_appid %}"> <!-- replace with your forums URL -->
+            <a href="{% url 'gameapp:threadsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
                 <button class="block-element button1">Check threads for game</button>
             </a>
         <h3>About the Game</h3>
-        <p>{{ game_details.about_the_game|safe }}</p>
+        <p>{{ gameDetails.about_the_game|safe }}</p>
 
         <h3>Detailed Description</h3>
-        <p>{{ game_details.detailed_description|safe }}</p>
+        <p>{{ gameDetails.detailed_description|safe }}</p>
 
         <h3>Supported Languages</h3>
-        <p>{{ game_details.supported_languages|safe }}</p>
+        <p>{{ gameDetails.supported_languages|safe }}</p>
 
         <!--
         <h3>System Requirements</h3>
         <h4>PC:</h4>
 
             <ul class="requirements-list">
-            {% for key, value in game_details.pc_requirements.items %}
+            {% for key, value in gameDetails.pc_requirements.items %}
                 {% if key != "minimum" and key != "recommended" %}
                     <li>{{ key }}: {{ value|safe }}</li>
                 {% else %}
@@ -75,7 +83,7 @@
 
             <h4>Mac:</h4>
             <ul class="requirements-list">
-            {% for key, value in game_details.mac_requirements.items %}
+            {% for key, value in gameDetails.mac_requirements.items %}
                 {% if key != "minimum" and key != "recommended" %}
                     <li>{{ key }}: {{ value|safe }}</li>
                 {% else %}
@@ -86,7 +94,7 @@
 
             <h4>Linux:</h4>
             <ul class="requirements-list">
-            {% for key, value in game_details.linux_requirements.items %}
+            {% for key, value in gameDetails.linux_requirements.items %}
                 {% if key != "minimum" and key != "recommended" %}
                     <li>{{ key }}: {{ value|safe }}</li>
                 {% else %}
@@ -96,7 +104,7 @@
             </ul>
 -->
         <h3>Screenshots</h3>
-        {% for screenshot in game_details.screenshots %}
+        {% for screenshot in gameDetails.screenshots %}
             <img src="{{ screenshot.path_thumbnail }}" alt="Screenshot {{ forloop.counter }}">
         {% endfor %}
     {% endblock %}

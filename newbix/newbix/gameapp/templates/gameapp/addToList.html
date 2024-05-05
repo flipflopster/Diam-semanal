@@ -7,12 +7,16 @@
     {% block title %}Search {{ request.keyword }}{% endblock %}
 
     {% block main_article %}
-    <h1>{{game_details.name}}</h1>
-    <img src="{{game_details.header_image}}" alt="{{game_details.name}}"><br><br>
+    <h1>{{game_d_details.name}}</h1>
+    <img src="{{gameDetails.header_image}}" alt="{{gameDetails.name}}"><br><br>
     <form method="post" action="{% url 'gameapp:gameAddedToList' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Submit">
+    </form>
+    <form method="post" action="{% url 'gameapp:gameRemovedFromList' gameDetails.steam_appid %}">
+        {% csrf_token %}
+        <input type="submit" value="Remove from list">
     </form>
     {% endblock %}
 </html>

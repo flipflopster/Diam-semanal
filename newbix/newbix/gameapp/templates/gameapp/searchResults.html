@@ -17,7 +17,7 @@
 
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                         {% for result in resultArrayUsers %}
-                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="game-link" style="text-decoration: none; color: inherit;">
+                            <a href="{% url 'gameapp:profileView' result.user_id.id %}" class="game-link" style="text-decoration: none; color: inherit;">
                                 <div>
                                     <p>{{ result.username}}</p>
                                     <img src="{{ result.profile_picture }}" alt="Image">
@@ -35,12 +35,16 @@
 
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                         {% for result in resultArrayGames %}
-                            <a href="{% url 'gameapp:gameDetails' result.id.0 %}" class="game-link" style="text-decoration: none; color: inherit;">
-                                <div>
-                                    <p>{{ result.name }}</p>
+                            <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link" style="text-decoration: none; color: inherit;">
+                            <div>
+                                <p>{{ result.name }}</p>
+                                {% if result.img %}
                                     <img src="{{ result.img }}" alt="Image">
-                                </div>
-                            </a>
+                                {% else %}
+                                    <img src="{{result.capsule_imagev5}}" alt="Image">
+                                {% endif %}
+                            </div>
+                        </a>
                         {% endfor %}
                     </div><br><br>
 
@@ -69,7 +73,7 @@
 
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                         {% for result in resultArrayUsers %}
-                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="game-link" style="text-decoration: none; color: inherit;">
+                            <a href="{% url 'gameapp:profileView' result.user_id.id %}" class="game-link" style="text-decoration: none; color: inherit;">
                                 <div class="game-div">
                                     <p>{{ result.username}}</p>
                                     <img src="{{ result.profile_picture }}" alt="Image">
@@ -89,10 +93,14 @@
 
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                     {% for result in resultArrayGames %}
-                        <a href="{% url 'gameapp:gameDetails' result.id.0 %}"  class="game-link" style="text-decoration: none; color: inherit;">
+                        <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link" style="text-decoration: none; color: inherit;">
                             <div>
                                 <p>{{ result.name }}</p>
-                                <img src="{{ result.img }}" alt="Image">
+                                {% if result.img %}
+                                    <img src="{{ result.img }}" alt="Image">
+                                {% else %}
+                                    <img src="{{result.capsule_imagev5}}" alt="Image">
+                                {% endif %}
                             </div>
                         </a>
                     {% endfor %}
@@ -105,13 +113,16 @@
         {% if filter == 'threads' %}
             {% if resultArrayThreads %}
                 <h1>Threads:</h1>
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        {% for result in resultArrayThreads %}
-                            <p>teste thread</p>
-                        {% endfor %}
-                    </div>
-
+                {% for result in resultArrayThreads %}
+                    <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                        <div>
+                            <p>Titulo: {{ result.titulo}}</p>
+                            <p>Thread's game:</p>
+                            <p>{{ result.jogo_id.nome }}</p>
+                            <p>Creador: {{ result.criador_id.username }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
             {% else %}
                 <h1>No threads found</h1><br><br>
             {% endif %}

@@ -3,13 +3,15 @@ from django.contrib.auth.decorators import login_required, permission_required, 
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.db.models import FloatField, F
+from django.db.models.functions import Cast
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django import forms
-from .models import Utilizador, Thread, Comentario
+from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review
 from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name
 from .models import ListaUtilizadorJogo
 from .models import Jogo
@@ -24,14 +26,13 @@ def index(request):
 
 def threadsForGameSearch(request,appId):
     if not Jogo.objects.filter(steam_id=appId).exists():
-        jogo = Jogo.objects.create(steam_id=appId, nome=get_name(appId))
+        resultArrayThreads = []
+        render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'gameName':get_name(appId)})
     else:
         jogo = Jogo.objects.get(steam_id=appId)
 
     resultArrayThreads = Thread.objects.filter(jogo_id=jogo)
-    print('test')
-    for result in resultArrayThreads:
-        print(result.titulo)
+
     return render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'gameName':jogo.nome})
 
 def threadView(request,threadId):
@@ -50,14 +51,11 @@ def threadView(request,threadId):
             inList = False
     else:
         inList = False
-    print(inList)
     return render(request, 'gameapp/threadView.html', {'thread':thread, 'commentArray':commentArray, 'inList':inList})
 
 def search_results(request):
     filter = request.POST['filter']
     searchKeyword = request.POST['search']
-    print(filter)
-    print(searchKeyword)
     resultArrayGames = ['empty']
     resultArrayUsers =['empty']
     resultArrayThreads = ['empty']
@@ -72,32 +70,37 @@ def search_results(request):
         resultArrayThreads = list(Thread.objects.filter(titulo__icontains=searchKeyword))
         resultArrayUsers = list(Utilizador.objects.filter(username__icontains=searchKeyword))
 
-    for result in resultArrayGames:
-        print(result)
-    for result in resultArrayThreads:
-        print(result)
-    for result in resultArrayUsers:
-        print(result)
+
 
     return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
 
+<<<<<<< Updated upstream
 def gameDetails(request, appId):
     jogo = None  # Define jogo before the try block
+=======
+def createReview(request,appId):
+    request.session['appId'] = appId
+    game= Jogo.objects.get(steam_id=appId)
+    return render(request, 'gameapp/createReview.html', {'game':game})
+
+def submitReview(request):
+    appId = request.session.get('appId')
+    listaUtliziadorJogo_id = ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId), utilizador_id=Utilizador.objects.get(user_id=request.user))
+    titulo = request.POST.get('titulo')
+    texto = request.POST.get('texto')
+
+    Review.objects.create(titulo=titulo, texto=texto, listaUtliziadorJogo_id=listaUtliziadorJogo_id)
+    return redirect('gameapp:gameDetailsView', appId=appId)
+
+def gameDetailsView(request,appId):
+>>>>>>> Stashed changes
     try:
         jogo = Jogo.objects.get(steam_id=appId)
-        numeroRatings = jogo.numeroRatings
-        totalPontos = jogo.totalPontos
-
     except Jogo.DoesNotExist:
-        numeroRatings = 0
-        totalPontos = 0
-    if numeroRatings == 0:
-        media = 0
-    else:
-        media = round(float(totalPontos / numeroRatings), 2)
+        jogo = None
 
-    game_details = get_game_details(appId)
-    request.session['game_details'] = game_details
+    gameDetails = get_game_details(appId)
+    request.session['gameDetails'] = gameDetails
 
     if request.user.is_authenticated:
         # Get the Utilizador object related to the User
@@ -111,8 +114,16 @@ def gameDetails(request, appId):
     else:
         inList = False
 
+<<<<<<< Updated upstream
     return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings': numeroRatings, 'media': media, 'inList': inList})
+=======
+    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo':jogo, 'inList':inList})
+>>>>>>> Stashed changes
 
+def userListView(request,userId):
+    utilizador = Utilizador.objects.get(user_id=userId)
+    resultArrayEntries = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador)
+    return render(request, 'gameapp/userListView.html', {'utilizador':utilizador, 'resultArrayEntries':resultArrayEntries})
 
 def createThread(request,appId):
     request.session['appId'] = appId
@@ -126,8 +137,6 @@ def submitThread(request):
     appId = request.session.get('appId')
     titulo = request.POST.get('titulo')
     descricao = request.POST.get('descricao')
-    print(titulo)
-    print(descricao)
     jogo = Jogo.objects.get(steam_id=appId)
     utilizador = Utilizador.objects.get(user_id=request.user)
 
@@ -136,11 +145,13 @@ def submitThread(request):
 
 def submitComment(request):
     threadId = request.session.get('threadId')
+    texto = request.POST.get('text')
+    Comentario.objects.create(texto=texto, thread_id=Thread.objects.get(id=threadId), poster_id=Utilizador.objects.get(user_id=request.user))
 
-    return threadView(request,threadId)
+    return redirect('gameapp:threadView', threadId=threadId)
 
 def addToList(request,appId):
-    game_details = request.session.get('game_details', None)
+    gameDetails = request.session.get('gameDetails', None)
 
     class GameForm(forms.Form):
         RATING_CHOICES = [(i, str(i)) for i in range(11)]
@@ -156,26 +167,53 @@ def addToList(request,appId):
         estado = forms.ChoiceField(choices=STATUS_CHOICES)
 
     form = GameForm()
-    request.session['game_details'] = game_details
-    return render(request, 'gameapp/addToList.html', {'game_details': game_details,'form':form,})
+    request.session['gameDetails'] = gameDetails
+    return render(request, 'gameapp/addToList.html', {'gameDetails': gameDetails,'form':form,})
+
+def topGamesResults(request):
+    filter = 'games'
+    searchKeyword = 'Top Games'
+    resultArrayGamesAux = Jogo.objects.all().order_by('-media')
+    resultArrayGames = []
+    for game in resultArrayGamesAux:
+        resultArrayGames.append(get_game_details(game.steam_id))
+    resultArrayThreads = ['empty']
+    resultArrayUsers =['empty']
+    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
+
+def recentThreadsResults(request):
+    filter = 'threads'
+    searchKeyword = 'Recent Threads'
+    resultArrayThreads = Thread.objects.all().order_by('-created_at')
+    resultArrayGames = ['empty']
+    resultArrayUsers =['empty']
+
+    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
+
+def popularGamesResults(request):
+    filter = 'games'
+    searchKeyword = 'Popular Games'
+    resultArrayGamesAux = Jogo.objects.all().order_by('-numeroRatings')
+    resultArrayGames = []
+    for game in resultArrayGamesAux:
+        resultArrayGames.append(get_game_details(game.steam_id))
+    resultArrayThreads = ['empty']
+    resultArrayUsers =['empty']
+    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
 
 def gameAddedToList(request):
-    game_details = request.session.get('game_details', None)
+    gameDetails = request.session.get('gameDetails', None)
     new_rating = int(request.POST.get('rating'))  # replace with the actual rating from the form
     estado = request.POST.get('estado')  # replace status with estado
 
-
-    cache_game_details(game_details.get('steam_appid'))
-
-
     try:
-        jogo = Jogo.objects.get(steam_id=game_details.get('steam_appid'))
+        jogo = Jogo.objects.get(steam_id=gameDetails.get('steam_appid'))
 
     except Jogo.DoesNotExist:
         # If no Jogo object with the given steam_id exists, create one
         jogo = Jogo.objects.create(
-            steam_id=game_details.get('steam_appid'),
-            nome=game_details.get('name'),
+            steam_id=gameDetails.get('steam_appid'),
+            nome=gameDetails.get('name'),
             numeroRatings=0,
             totalPontos=0
         )
@@ -212,9 +250,24 @@ def gameAddedToList(request):
             lista_utilizador_jogo.rating = new_rating
             lista_utilizador_jogo.save()
 
-    request.session['game_details'] = game_details
-    return gameDetails(request, game_details.get('steam_appid'))
+    request.session['gameDetails'] = gameDetails
+    return gameDetailsView(request, gameDetails.get('steam_appid'))
 
+
+def gameRemovedFromList(request, appId):
+    jogo = Jogo.objects.get(steam_id=appId)
+    utilizador = Utilizador.objects.get(user_id=request.user)
+
+    lista_utilizador_jogo = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=utilizador)
+    ratingToSubtract = lista_utilizador_jogo.rating
+    lista_utilizador_jogo.delete()
+
+    jogo.numeroRatings = ListaUtilizadorJogo.objects.filter(jogo_id=jogo).count()
+
+    jogo.totalPontos -= ratingToSubtract
+    jogo.save()
+
+    return gameDetailsView(request, appId)
 
 @user_passes_test(not_authenticated, login_url='/gameapp/profile')
 def login_page(request):
@@ -249,14 +302,37 @@ def signin_load(request):
     password = request.POST['password']
     email = request.POST['email']
     user = User.objects.create_user(username=username, email=email, password=password)
-    Utilizador.objects.create(user_id=user)
+    Utilizador.objects.create(user_id=user,username=username)
     login(request, user)
     return index(request)
 
+def profileView(request,userId):
+
+    utilizador = Utilizador.objects.get(id=userId)
+
+    if request.user.is_authenticated:
+        utilizador_logado = Utilizador.objects.get(user_id=request.user)
+        isFriend = Lista_Amigos.objects.filter(utilizador_id=utilizador_logado, utilizador_seguido_id=utilizador).exists()
+    return render(request, 'gameapp/profileView.html', {'utilizador':utilizador, 'isFriend':isFriend})
+
+def addFriend(request,userId):
+    utilizador = Utilizador.objects.get(user_id=request.user)
+    utilizador_seguido = Utilizador.objects.get(id=userId)
+    if not utilizador == utilizador_seguido:
+        Lista_Amigos.objects.create(utilizador_id=utilizador, utilizador_seguido_id=utilizador_seguido)
+    return redirect('gameapp:profileView', userId=userId)
+
+def removeFriend(request, userId):
+    utilizador = Utilizador.objects.get(user_id=request.user)
+    utilizador_seguido = Utilizador.objects.get(id=userId)
+    if not utilizador == utilizador_seguido:
+        Lista_Amigos.objects.filter(utilizador_id=utilizador, utilizador_seguido_id=utilizador_seguido).delete()
+
+    return redirect('gameapp:profileView', userId=userId)
 
 @login_required(login_url='/gameapp/login')
-def profile_page(request):
-    return render(request, 'gameapp/profile_page.html')
+def profileEdit(request):
+    return render(request, 'gameapp/profileEdit.html')
 
 
 def logout_load(request):

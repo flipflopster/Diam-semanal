@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search {{ request.keyword }}{% endblock %}
+
+    {% block main_body %}
+    <aside>
+        {% if request.user.is_authenticated %}
+            {% if request.user == utilizador.user_id %}
+                <a href="{% url 'gameapp:profileEdit'  %}">
+                    <button class="block-element button1" >Edit Profile</button>
+                </a>
+            {% else %}
+                {% if not isFriend %}
+                    <a href="{% url 'gameapp:addFriend' utilizador.id %}">
+                        <button class="block-element button1"  >Add Friend</button>
+                    </a>
+                {% else %}
+                    <a href="{% url 'gameapp:removeFriend' utilizador.id %}">
+                        <button class="block-element button1" >Remove Friend</button>
+                    </a>
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+    </aside>
+
+    <article>
+        {% block main_article %}
+            <h2>{{ utilizador.user_id.username }}</h2>
+            <img src='{% static utilizador.profile_picture %}' alt="Profile Picture"><br><br>
+            <h1>Biografia: {{utilizador.biografia}}</h1>
+        {% endblock %}
+    </article>
+
+    <nav>
+
+    </nav>
+    {% endblock %}
+
+</html>

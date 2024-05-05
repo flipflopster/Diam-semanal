@@ -146,6 +146,7 @@ h6 {
     border-radius: 8px;
     border: solid black 3px;
     transition: 0.4s;
+
 }
   
 .dropbtn:hover, .dropbtn:focus {
@@ -156,6 +157,7 @@ h6 {
 .dropdown {
     position: relative;
     display: inline-block;
+    z-index: 2
 }
   
 .dropdown_content {
@@ -267,6 +269,7 @@ h6 {
     position: relative;
     display: inline-block; /* this is needed for the pseudo-element to work correctly */
     padding-bottom: 10px; /* adjust this value as needed */
+    padding-top: 10px;
 }
 
 .game-link::after {
@@ -286,7 +289,40 @@ h6 {
 }
 
 .entry {
-    margin-bottom: 20px;  /* Adjust as needed */
+    margin-bottom: 0;  /* Adjust to remove space between entries */
     padding-left: 20px;   /* Add left spacing */
     padding-right: 20px;  /* Add right spacing */
+}
+
+.forum-style {
+    width: 80%;
+    margin: auto;
+}
+
+.comment {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user-info {
+    font-weight: bold;
+}
+
+.comment-text {
+    margin-top: 10px;
+}
+
+a {
+    color: inherit;  /* the color will be the same as the parent element */
+    text-decoration: none;  /* removes the underline */
+}
+
+a:visited {
+    color: inherit;
+}
+
+a:hover {
+    color: inherit;
 }

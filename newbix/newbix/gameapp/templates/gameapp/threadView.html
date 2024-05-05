@@ -7,26 +7,50 @@
     {% block title %}Search: {{ keyword }}{% endblock %}
 
     {% block main_article %}
+        <h1>Jogo: </h1>
+
+        <a href="{% url 'gameapp:gameDetailsView' thread.jogo_id.steam_id %}">
+        <h2>{{ thread.jogo_id.nome }}</h2><br>
+        </a>
+
         <h2>Titulo: {{ thread.titulo }}</h2><br>
         <h2>Descrição:</h2>
         <p>{{ thread.descricao }}</p><br><br>
+        <h2>Criador:</h2>
+        <a href="{% url 'gameapp:profileView' thread.criador_id.id %}">
+        <p>{{ thread.criador_id.username }}</p><br><br>
+        </a>
+
 
         {% if user.is_authenticated %}
-            {% if inList %}
+
                 <a href="{% url 'gameapp:createComment' thread.id %}">
                     <button class="block-element button1">Create Comment</button>
                 </a>
-            {% else %}
-                    <button class="block-element button1 disabled-button" disabled title="Game must be in list">Create Comment</button>
-            {% endif %}
+
         {% else %}
             <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Comment</button>
         {% endif %}
+        <br><h2>Comentários:</h2><br>
         {% if commentArray %}
+            <div class="forum-style">
             {% for comment in commentArray %}
-                <h1>Comentário:</h1>
-                <p>{{ comment.texto }}</p><br><br>
+                <div class="comment">
+                    <div class="user-info">
+                        <p>User: {{comment.poster_id.username}}</p>
+                        <p>Data: {{comment.created_at}}</p>
+                    </div>
+                    <div class="comment-text">
+                        <p>Comment: {{ comment.texto }}</p>
+                        {% if request.user.utilizador == comment.poster_id %}
+                            <a href="google.com">
+                                <button class="block-element button1">Delete Comment</button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
             {% endfor %}
+            </div>
         {% else %}
             <h1>Comentários:</h1>
             <h2>No comments found</h2><br><br>

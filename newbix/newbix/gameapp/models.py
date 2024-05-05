@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, get_capsule_imagev5
+
 
 # def loginview(request):
 #    username = request.POST['username']
@@ -29,6 +31,7 @@ class Lista_Amigos(models.Model):
     utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_id')
     utilizador_seguido_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE,
                                               related_name='utilizador_seguido_id')
+    data = models.DateTimeField(auto_now_add=True)
 
     def nomes(self):
         def get_username_attributes(utilizador_id, utilizador_seguido_id):
@@ -46,6 +49,27 @@ class Jogo(models.Model):
     steam_id = models.IntegerField()
     totalPontos = models.IntegerField(default=0)
     numeroRatings = models.IntegerField(default=0)
+    media = models.FloatField(default=0)
+
+    def get_img_url(self):
+        return get_capsule_imagev5(self.steam_id)
+
+    def save(self, *args, **kwargs):
+        if not is_cached(self.steam_id):
+            cache_game_details(self.steam_id)
+
+        if self.numeroRatings != 0:
+            self.media = round(float(self.totalPontos / self.numeroRatings), 2)
+        else:
+            self.media = 0
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+
+        remove_from_cache(self.steam_id)
+
+        # call the original delete method
+        super(Jogo, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.nome
@@ -53,8 +77,7 @@ class Jogo(models.Model):
     def steamId(self):
         return self.steam_id
 
-    def media(self):
-        return round(float(self.totalPontos / self.numeroRatings), 2)
+
 
 
 class ListaUtilizadorJogo(models.Model):
@@ -73,19 +96,23 @@ class ListaUtilizadorJogo(models.Model):
     utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_altered = models.DateTimeField(auto_now=True)
+
+
 
 
 class Review(models.Model):
     listaUtliziadorJogo_id = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=127)
     texto = models.CharField(max_length=511)
-
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Gameplay(models.Model):
     titulo = models.CharField(max_length=127)
     descricao = models.CharField(max_length=255)
     link = models.CharField(max_length=127)
-
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class LinksUtilizador(models.Model):
     utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
