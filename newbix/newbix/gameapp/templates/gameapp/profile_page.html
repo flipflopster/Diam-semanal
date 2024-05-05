@@ -1,23 +1,10 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 {% extends "gameapp/index.html" %}
 
 {% load static %}
 
-    {% block title %}{{ request.user }} Profile{% endblock %}
-
-    {% block header_login %}
-    <!--
-     <th style="width: 20%">
-
-         <a href="{% url 'gameapp:logout' %}"><button class="button1">LogOut</button></a>
-
-     </th>
-    -->
-    {% endblock %}
-
-
+    {% block title %} {{ utilizador.username }} Profile {% endblock %}
 
     {% block left_aside %}
 
@@ -47,14 +34,14 @@
         NewBixer since: {{ request.user.date_joined.date }}
     </p>
 
-    <p>Completed Games: {{ request.user.utilizador.jogos_completos }}
+    <p>Completed Games: {{ utilizador.jogos_completos }}
 
-    <p>{% if request.user.utilizador.localidade %}
-    From: {{ request.user.utilizador.localidade }}
+    <p>{% if utilizador.localidade %}
+    From: {{ utilizador.localidade }}
     {% endif %}</p>
 
-    <p>Genre: {% if request.user.utilizador.localidade %}
-    {{ request.user.utilizador.genero }}
+    <p>Genre: {% if utilizador.genero %}
+    {{ utilizador.genero }}
     {% else %}
     Not specified
     {% endif %}</p>
@@ -63,8 +50,8 @@
     {% endblock %}
 
 
-
-
-
+    {% block main_article %}
+    {{utilizador.biografia}}
+    {% endblock %}
 
 </html>

@@ -9,7 +9,9 @@
 
     {% block main_body %}
     <section>
-    <center>
+        <aside></aside>
+
+        <aside class="form_box">
 
         {% if error_message %}
         <strong> {{ error_message }} </strong>
@@ -42,9 +44,10 @@
         <br> <br>
 
         Already have an account? Click <a href="{% url 'gameapp:login' %}">Log In</a>
+        </aside>
 
-        </center>
-        </section>
+    <aside></aside>
+    </section>
     {% endblock %}
 
 </html>

@@ -78,8 +78,6 @@ class Jogo(models.Model):
         return self.steam_id
 
 
-
-
 class ListaUtilizadorJogo(models.Model):
     class EstadosJogo(models.TextChoices):
         COMPLETED = 'CM', 'Completed'
@@ -100,19 +98,19 @@ class ListaUtilizadorJogo(models.Model):
     last_altered = models.DateTimeField(auto_now=True)
 
 
-
-
 class Review(models.Model):
     listaUtliziadorJogo_id = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=127)
     texto = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
 class Gameplay(models.Model):
     titulo = models.CharField(max_length=127)
     descricao = models.CharField(max_length=255)
     link = models.CharField(max_length=127)
     created_at = models.DateTimeField(auto_now_add=True)
+
 
 class LinksUtilizador(models.Model):
     utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
@@ -130,13 +128,14 @@ class Thread(models.Model):
     titulo = models.CharField(max_length=127)
     descricao = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
 
 class Comentario(models.Model):
     thread_id = models.ForeignKey(Thread, on_delete=models.CASCADE)
     poster_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     texto = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
+
 
 """
 

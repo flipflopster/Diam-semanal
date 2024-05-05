@@ -24,20 +24,24 @@ def not_authenticated(user):
 def index(request):
     return render(request, 'gameapp/index.html')
 
-def threadsForGameSearch(request,appId):
+
+def threadsForGameSearch(request, appId):
     if not Jogo.objects.filter(steam_id=appId).exists():
         resultArrayThreads = []
-        render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'gameName':get_name(appId)})
+        render(request, 'gameapp/threadsForGameSearch.html',
+               {'resultArrayThreads': resultArrayThreads, 'gameName': get_name(appId)})
     else:
         jogo = Jogo.objects.get(steam_id=appId)
 
     resultArrayThreads = Thread.objects.filter(jogo_id=jogo)
 
-    return render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'gameName':jogo.nome})
+    return render(request, 'gameapp/threadsForGameSearch.html',
+                  {'resultArrayThreads': resultArrayThreads, 'gameName': jogo.nome})
 
-def threadView(request,threadId):
+
+def threadView(request, threadId):
     thread = Thread.objects.get(id=threadId)
-    commentArray= list(Comentario.objects.filter(thread_id=thread))
+    commentArray = list(Comentario.objects.filter(thread_id=thread))
     jogo = thread.jogo_id
 
     if request.user.is_authenticated:
@@ -51,13 +55,15 @@ def threadView(request,threadId):
             inList = False
     else:
         inList = False
-    return render(request, 'gameapp/threadView.html', {'thread':thread, 'commentArray':commentArray, 'inList':inList})
+    return render(request, 'gameapp/threadView.html',
+                  {'thread': thread, 'commentArray': commentArray, 'inList': inList})
+
 
 def search_results(request):
     filter = request.POST['filter']
     searchKeyword = request.POST['search']
     resultArrayGames = ['empty']
-    resultArrayUsers =['empty']
+    resultArrayUsers = ['empty']
     resultArrayThreads = ['empty']
     if filter == 'games':
         resultArrayGames = get_search_results_array(searchKeyword)
@@ -70,27 +76,29 @@ def search_results(request):
         resultArrayThreads = list(Thread.objects.filter(titulo__icontains=searchKeyword))
         resultArrayUsers = list(Utilizador.objects.filter(username__icontains=searchKeyword))
 
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
+                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
 
 
-    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
-
-
-def createReview(request,appId):
+def createReview(request, appId):
     request.session['appId'] = appId
-    game= Jogo.objects.get(steam_id=appId)
-    return render(request, 'gameapp/createReview.html', {'game':game})
+    game = Jogo.objects.get(steam_id=appId)
+    return render(request, 'gameapp/createReview.html', {'game': game})
+
 
 def submitReview(request):
     appId = request.session.get('appId')
-    listaUtliziadorJogo_id = ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId), utilizador_id=Utilizador.objects.get(user_id=request.user))
+    listaUtliziadorJogo_id = ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId),
+                                                             utilizador_id=Utilizador.objects.get(user_id=request.user))
     titulo = request.POST.get('titulo')
     texto = request.POST.get('texto')
 
     Review.objects.create(titulo=titulo, texto=texto, listaUtliziadorJogo_id=listaUtliziadorJogo_id)
     return redirect('gameapp:gameDetailsView', appId=appId)
 
-def gameDetailsView(request,appId):
 
+def gameDetailsView(request, appId):
     try:
         jogo = Jogo.objects.get(steam_id=appId)
     except Jogo.DoesNotExist:
@@ -111,22 +119,25 @@ def gameDetailsView(request,appId):
     else:
         inList = False
 
+    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'inList': inList})
 
-    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo':jogo, 'inList':inList})
 
-
-def userListView(request,userId):
+def userListView(request, userId):
     utilizador = Utilizador.objects.get(user_id=userId)
     resultArrayEntries = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador)
-    return render(request, 'gameapp/userListView.html', {'utilizador':utilizador, 'resultArrayEntries':resultArrayEntries})
+    return render(request, 'gameapp/userListView.html',
+                  {'utilizador': utilizador, 'resultArrayEntries': resultArrayEntries})
 
-def createThread(request,appId):
+
+def createThread(request, appId):
     request.session['appId'] = appId
     return render(request, 'gameapp/createThread.html')
 
-def createComment(request,threadId):
+
+def createComment(request, threadId):
     request.session['threadId'] = threadId
     return render(request, 'gameapp/createComment.html')
+
 
 def submitThread(request):
     appId = request.session.get('appId')
@@ -136,16 +147,19 @@ def submitThread(request):
     utilizador = Utilizador.objects.get(user_id=request.user)
 
     Thread.objects.create(titulo=titulo, descricao=descricao, jogo_id=jogo, criador_id=utilizador)
-    return threadsForGameSearch(request,appId)
+    return threadsForGameSearch(request, appId)
+
 
 def submitComment(request):
     threadId = request.session.get('threadId')
     texto = request.POST.get('text')
-    Comentario.objects.create(texto=texto, thread_id=Thread.objects.get(id=threadId), poster_id=Utilizador.objects.get(user_id=request.user))
+    Comentario.objects.create(texto=texto, thread_id=Thread.objects.get(id=threadId),
+                              poster_id=Utilizador.objects.get(user_id=request.user))
 
     return redirect('gameapp:threadView', threadId=threadId)
 
-def addToList(request,appId):
+
+def addToList(request, appId):
     gameDetails = request.session.get('gameDetails', None)
 
     class GameForm(forms.Form):
@@ -163,7 +177,8 @@ def addToList(request,appId):
 
     form = GameForm()
     request.session['gameDetails'] = gameDetails
-    return render(request, 'gameapp/addToList.html', {'gameDetails': gameDetails,'form':form,})
+    return render(request, 'gameapp/addToList.html', {'gameDetails': gameDetails, 'form': form, })
+
 
 def topGamesResults(request):
     filter = 'games'
@@ -173,17 +188,23 @@ def topGamesResults(request):
     for game in resultArrayGamesAux:
         resultArrayGames.append(get_game_details(game.steam_id))
     resultArrayThreads = ['empty']
-    resultArrayUsers =['empty']
-    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
+    resultArrayUsers = ['empty']
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
+                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
+
 
 def recentThreadsResults(request):
     filter = 'threads'
     searchKeyword = 'Recent Threads'
     resultArrayThreads = Thread.objects.all().order_by('-created_at')
     resultArrayGames = ['empty']
-    resultArrayUsers =['empty']
+    resultArrayUsers = ['empty']
 
-    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
+                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
+
 
 def popularGamesResults(request):
     filter = 'games'
@@ -193,8 +214,11 @@ def popularGamesResults(request):
     for game in resultArrayGamesAux:
         resultArrayGames.append(get_game_details(game.steam_id))
     resultArrayThreads = ['empty']
-    resultArrayUsers =['empty']
-    return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
+    resultArrayUsers = ['empty']
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
+                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
+
 
 def gameAddedToList(request):
     gameDetails = request.session.get('gameDetails', None)
@@ -264,6 +288,7 @@ def gameRemovedFromList(request, appId):
 
     return gameDetailsView(request, appId)
 
+
 @user_passes_test(not_authenticated, login_url='/gameapp/profile')
 def login_page(request):
     return render(request, 'gameapp/login_page.html')
@@ -297,27 +322,30 @@ def signin_load(request):
     password = request.POST['password']
     email = request.POST['email']
     user = User.objects.create_user(username=username, email=email, password=password)
-    Utilizador.objects.create(user_id=user,username=username)
+    Utilizador.objects.create(user_id=user, username=username)
     login(request, user)
     return index(request)
 
-def profileView(request,userId):
 
+def profile_page(request, userId):
     utilizador = Utilizador.objects.get(id=userId)
 
     if request.user.is_authenticated:
         utilizador_logado = Utilizador.objects.get(user_id=request.user)
-        isFriend = Lista_Amigos.objects.filter(utilizador_id=utilizador_logado, utilizador_seguido_id=utilizador).exists()
+        isFriend = Lista_Amigos.objects.filter(utilizador_id=utilizador_logado,
+                                               utilizador_seguido_id=utilizador).exists()
     else:
         isFriend = False
-    return render(request, 'gameapp/profileView.html', {'utilizador':utilizador, 'isFriend':isFriend})
+    return render(request, 'gameapp/profile_page.html', {'utilizador': utilizador, 'isFriend': isFriend})
 
-def addFriend(request,userId):
+
+def addFriend(request, userId):
     utilizador = Utilizador.objects.get(user_id=request.user)
     utilizador_seguido = Utilizador.objects.get(id=userId)
     if not utilizador == utilizador_seguido:
         Lista_Amigos.objects.create(utilizador_id=utilizador, utilizador_seguido_id=utilizador_seguido)
     return redirect('gameapp:profileView', userId=userId)
+
 
 def removeFriend(request, userId):
     utilizador = Utilizador.objects.get(user_id=request.user)
@@ -327,9 +355,10 @@ def removeFriend(request, userId):
 
     return redirect('gameapp:profileView', userId=userId)
 
+
 @login_required(login_url='/gameapp/login')
-def profileEdit(request):
-    return render(request, 'gameapp/profileEdit.html')
+def profile_settings(request):
+    return render(request, 'gameapp/profile_settings.html')
 
 
 def logout_load(request):
