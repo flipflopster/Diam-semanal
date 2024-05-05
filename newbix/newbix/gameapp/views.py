@@ -74,10 +74,7 @@ def search_results(request):
 
     return render(request, 'gameapp/searchResults.html', {'keyword': searchKeyword, 'resultArrayGames':resultArrayGames, 'resultArrayThreads':resultArrayThreads, 'resultArrayUsers':resultArrayUsers, 'filter':filter,})
 
-<<<<<<< Updated upstream
-def gameDetails(request, appId):
-    jogo = None  # Define jogo before the try block
-=======
+
 def createReview(request,appId):
     request.session['appId'] = appId
     game= Jogo.objects.get(steam_id=appId)
@@ -93,7 +90,7 @@ def submitReview(request):
     return redirect('gameapp:gameDetailsView', appId=appId)
 
 def gameDetailsView(request,appId):
->>>>>>> Stashed changes
+
     try:
         jogo = Jogo.objects.get(steam_id=appId)
     except Jogo.DoesNotExist:
@@ -114,11 +111,9 @@ def gameDetailsView(request,appId):
     else:
         inList = False
 
-<<<<<<< Updated upstream
-    return render(request, 'gameapp/gameDetails.html', {'game_details': game_details, 'numeroRatings': numeroRatings, 'media': media, 'inList': inList})
-=======
+
     return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo':jogo, 'inList':inList})
->>>>>>> Stashed changes
+
 
 def userListView(request,userId):
     utilizador = Utilizador.objects.get(user_id=userId)
@@ -313,6 +308,8 @@ def profileView(request,userId):
     if request.user.is_authenticated:
         utilizador_logado = Utilizador.objects.get(user_id=request.user)
         isFriend = Lista_Amigos.objects.filter(utilizador_id=utilizador_logado, utilizador_seguido_id=utilizador).exists()
+    else:
+        isFriend = False
     return render(request, 'gameapp/profileView.html', {'utilizador':utilizador, 'isFriend':isFriend})
 
 def addFriend(request,userId):
