@@ -102,14 +102,14 @@ class Thread(models.Model):
     jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=127)
     descricao = models.CharField(max_length=511)
-    data = models.DateTimeField('data de publicacao')
+    created_at = models.DateTimeField(auto_now_add=True)
     
 
 class Comentario(models.Model):
     thread_id = models.ForeignKey(Thread, on_delete=models.CASCADE)
     poster_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     texto = models.CharField(max_length=255)
-    data = models.DateTimeField('data de publicacao')
+    created_at = models.DateTimeField(auto_now_add=True)
 
 """
 

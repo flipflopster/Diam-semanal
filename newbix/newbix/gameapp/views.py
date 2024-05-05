@@ -9,8 +9,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django import forms
-from .models import Utilizador, Thread
-from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached
+from .models import Utilizador, Thread, Comentario
+from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name
 from .models import ListaUtilizadorJogo
 from .models import Jogo
 
@@ -23,12 +23,35 @@ def index(request):
     return render(request, 'gameapp/index.html')
 
 def threadsForGameSearch(request,appId):
-    jogo = Jogo.objects.get(steam_id=appId)
+    if not Jogo.objects.filter(steam_id=appId).exists():
+        jogo = Jogo.objects.create(steam_id=appId, nome=get_name(appId))
+    else:
+        jogo = Jogo.objects.get(steam_id=appId)
+
     resultArrayThreads = Thread.objects.filter(jogo_id=jogo)
     print('test')
     for result in resultArrayThreads:
         print(result.titulo)
     return render(request, 'gameapp/threadsForGameSearch.html', {'resultArrayThreads':resultArrayThreads, 'gameName':jogo.nome})
+
+def threadView(request,threadId):
+    thread = Thread.objects.get(id=threadId)
+    commentArray= list(Comentario.objects.filter(thread_id=thread))
+    jogo = thread.jogo_id
+
+    if request.user.is_authenticated:
+        # Get the Utilizador object related to the User
+        utilizador = Utilizador.objects.get(user_id=request.user)
+
+        # Check if a ListaUtilizadorJogo record exists for the current user and game
+        if jogo:  # Only execute this line if jogo is not None
+            inList = ListaUtilizadorJogo.objects.filter(jogo_id=jogo, utilizador_id=utilizador).exists()
+        else:
+            inList = False
+    else:
+        inList = False
+    print(inList)
+    return render(request, 'gameapp/threadView.html', {'thread':thread, 'commentArray':commentArray, 'inList':inList})
 
 def search_results(request):
     filter = request.POST['filter']
@@ -95,6 +118,10 @@ def createThread(request,appId):
     request.session['appId'] = appId
     return render(request, 'gameapp/createThread.html')
 
+def createComment(request,threadId):
+    request.session['threadId'] = threadId
+    return render(request, 'gameapp/createComment.html')
+
 def submitThread(request):
     appId = request.session.get('appId')
     titulo = request.POST.get('titulo')
@@ -104,8 +131,13 @@ def submitThread(request):
     jogo = Jogo.objects.get(steam_id=appId)
     utilizador = Utilizador.objects.get(user_id=request.user)
 
-    Thread.objects.create(titulo=titulo, descricao=descricao, jogo_id=jogo, criador_id=utilizador,data=timezone.now())
+    Thread.objects.create(titulo=titulo, descricao=descricao, jogo_id=jogo, criador_id=utilizador)
     return threadsForGameSearch(request,appId)
+
+def submitComment(request):
+    threadId = request.session.get('threadId')
+
+    return threadView(request,threadId)
 
 def addToList(request,appId):
     game_details = request.session.get('game_details', None)

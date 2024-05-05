@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+    {% block main_article %}
+
+            <form method="POST" action="{% url 'gameapp:submitComment' %}">
+                <label for="text">Comment text:</label><br>
+                <textarea id="text" name="text"></textarea><br>
+            </form>
+    {% endblock %}
+</html>

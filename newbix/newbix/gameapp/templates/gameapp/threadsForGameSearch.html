@@ -8,7 +8,7 @@
 
     {% block main_article %}
         {% for result in resultArrayThreads %}
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="game-link entry" style="text-decoration: none; color: inherit;">
+            <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
                 <div>
                     <p>{{ result.titulo}}</p>
                     <p>Thread's game:</p>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+    {% block main_article %}
+        <h2>Titulo: {{ thread.titulo }}</h2><br>
+        <h2>Descrição:</h2>
+        <p>{{ thread.descricao }}</p><br><br>
+
+        {% if user.is_authenticated %}
+            {% if inList %}
+                <a href="{% url 'gameapp:createComment' thread.id %}">
+                    <button class="block-element button1">Create Comment</button>
+                </a>
+            {% else %}
+                    <button class="block-element button1 disabled-button" disabled title="Game must be in list">Create Comment</button>
+            {% endif %}
+        {% else %}
+            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Comment</button>
+        {% endif %}
+        {% if commentArray %}
+            {% for comment in commentArray %}
+                <h1>Comentário:</h1>
+                <p>{{ comment.texto }}</p><br><br>
+            {% endfor %}
+        {% else %}
+            <h1>Comentários:</h1>
+            <h2>No comments found</h2><br><br>
+        {% endif %}
+
+    {% endblock %}
+</html>

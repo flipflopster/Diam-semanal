@@ -25,6 +25,8 @@ urlpatterns = [
     path("<int:appId>/threadsForGameSearch", views.threadsForGameSearch, name='threadsForGameSearch'),
     path("<int:appId>/createThread", views.createThread, name='createThread'),
     path("submitThread", views.submitThread, name='submitThread'),
-
+    path("threadView/<int:threadId>",views.threadView, name='threadView'),
+    path("<int:threadId>/createComment", views.createComment, name='createComment'),
+    path("submitComment", views.submitComment, name='submitComment'),
 
 ]
