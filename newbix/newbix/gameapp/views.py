@@ -264,6 +264,15 @@ def gameAddedToList(request):
             jogo.numeroRatings = ListaUtilizadorJogo.objects.filter(jogo_id=jogo).count()
             jogo.save()
 
+            if lista_utilizador_jogo.estado == 'CM':
+                if estado != 'CM':
+                    utilizador.jogos_completos -= 1
+                    utilizador.save()
+            else:
+                if estado == 'CM':
+                    utilizador.jogos_completos += 1
+                    utilizador.save()
+
             # Update the estado and rating in the ListaUtilizadorJogo record
             lista_utilizador_jogo.estado = estado
             lista_utilizador_jogo.rating = new_rating

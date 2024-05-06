@@ -17,7 +17,7 @@
         <h2>Descrição:</h2>
         <p>{{ thread.descricao }}</p><br><br>
         <h2>Criador:</h2>
-        <a href="{% url 'gameapp:profileView' thread.criador_id.id %}">
+        <a href="{% url 'gameapp:profile_page' thread.criador_id.id %}">
         <p>{{ thread.criador_id.username }}</p><br><br>
         </a>
 
