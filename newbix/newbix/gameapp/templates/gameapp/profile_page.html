@@ -22,10 +22,28 @@
 
         <br>
 
-    <h6>{{ utilizador.username }}ya</h6>
+    <h6>{{ utilizador.user_id }}</h6>
+
+    {% if request.user.is_authenticated %}
+        {% if request.user == utilizador.user_id %}
+        <a href="{% url 'gameapp:settings' %}">
+            <button class="block-element button1">Edit Profile</button>
+        </a>
+        {% else %}
+            {% if not isFriend %}
+            <a href="{% url 'gameapp:addFriend' utilizador.id %}">
+                <button class="block-element button1">Add Friend</button>
+            </a>
+            {% else %}
+            <a href="{% url 'gameapp:removeFriend' utilizador.id %}">
+                <button class="block-element button1">Remove Friend</button>
+            </a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
 
     <p>
-        {% if request.user.last_login %}
+        {% if utilizador.user_id.last_login %}
         Last time online: {{ utilizador.user_id.last_login.date }}
         {% endif %}
     </p>
@@ -51,7 +69,7 @@
 
 
     {% block main_article %}
-    {{utilizador.biografia}}
+    {{ utilizador.biografia }}
     {% endblock %}
 
 </html>

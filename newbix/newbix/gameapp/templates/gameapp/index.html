@@ -56,7 +56,7 @@
 </head>
 
 
-<body id="page_body">
+<body {% block body_tags %} {% endblock %}>
 
 <header>
 
@@ -156,7 +156,7 @@
 
                     <a href="{% url 'gameapp:profile_page' request.user.id %}">Profile</a>
                     <a href="{% url 'gameapp:userListView' request.user.id %}">Games List</a>
-                    <a href="{% url 'gameapp:profile_settings' %}">Settings</a>
+                    <a href="{% url 'gameapp:settings' %}">Settings</a>
                     <a href="#">Gameplays</a>
                     <a href="#">Reviews</a>
                     <a href="#">Threads</a>
@@ -207,7 +207,7 @@
 </header>
 
 {% block main_body %}
-<section>
+<section {% block section_tags %} {% endblock %}>
 
     <aside>
         {% block left_aside %}
@@ -215,7 +215,7 @@
         {% endblock %}
     </aside>
 
-    <article>
+    <article {% block article_tags %} {% endblock %}>
         {% block main_article %}
             <h2>main bby</h2>
         {% endblock %}

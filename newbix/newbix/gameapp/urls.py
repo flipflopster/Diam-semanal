@@ -17,7 +17,7 @@ urlpatterns = [
     path("logout", views.logout_load, name='logout'),
 
     # Profile Urls
-    path("settings", views.profile_settings, name='profile_settings'),
+    path("settings", views.profile_settings, name='settings'),
     path("profile/<int:userId>", views.profile_page, name='profile_page'),
     path("addFriend/<int:userId>", views.addFriend, name='addFriend'),
     path("removeFriend/<int:userId>", views.removeFriend, name='removeFriend'),

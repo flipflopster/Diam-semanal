@@ -15,6 +15,10 @@ header {
 body {
     background-color: rgb(20, 20, 20);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     /*font-size: 16px;
     font-family: 'HelveticaNeueLT Std', sans-serif;*/
     width: 100%;

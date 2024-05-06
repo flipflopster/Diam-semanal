@@ -1,3 +1,6 @@
+import os
+import random
+
 import django.contrib.auth.models
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
@@ -119,7 +122,13 @@ def gameDetailsView(request, appId):
     else:
         inList = False
 
-    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'inList': inList})
+    background = None
+    if gameDetails.get("screenshots"):
+        background = random.choice(gameDetails.get("screenshots"))
+
+    print(background, gameDetails)
+
+    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'inList': inList, 'background': background})
 
 
 def userListView(request, userId):
@@ -255,6 +264,10 @@ def gameAddedToList(request):
         jogo.totalPontos += new_rating
         jogo.save()
 
+        if estado != 'CM':
+            utilizador.jogos_completos -= 1
+            utilizador.save()
+
     else:
         # If the ListaUtilizadorJogo object already exists and the form data is different, update it
         if lista_utilizador_jogo.estado != estado or lista_utilizador_jogo.rating != new_rating:
@@ -287,6 +300,10 @@ def gameRemovedFromList(request, appId):
     utilizador = Utilizador.objects.get(user_id=request.user)
 
     lista_utilizador_jogo = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=utilizador)
+    if lista_utilizador_jogo.estado == 'CM':
+        utilizador.jogos_completos -= 1
+        utilizador.save()
+
     ratingToSubtract = lista_utilizador_jogo.rating
     lista_utilizador_jogo.delete()
 

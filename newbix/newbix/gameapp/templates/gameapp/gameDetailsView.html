@@ -4,23 +4,21 @@
 
 {% load static %}
 
-    <script>
-    $(document).ready(function(){
-        function changeBackground() {
-            var imagePath = 'https://cdn.akamai.steamstatic.com/steam/apps/834530/header.jpg?t=1713430352';
-            $('#page_body').css('background-image', imagePath);
-        }
-        changeBackground();
-    });
-    </script>
-
-
     {% block title %} {{ game_details.name }} {% endblock %}
 
 
+    {% block body_tags %} background="{{ gameDetails.header_image }}" {% endblock %}
+    {% block section_tags %} style="background-color: rgba(0, 0, 0, 0)" {% endblock %}
+    {% block article_tags %} style="background-color: rgba(0, 0, 0, 75%);" {% endblock %}
+
+
+    {% block left_aside %} {% endblock %}
+
+
     {% block main_article %}
-        <h2 onload="changeBackground()">{{ gameDetails.name }}</h2>
-        <img src="{{ gameDetails.header_image }}" alt="{{ gameDetails.name }}"><br><br>
+        <h2>{{ gameDetails.name }}</h2>
+        <img style="width: 100%" src="{{ gameDetails.header_image }}" alt="{{ gameDetails.name }}">
+        <br>
         <div class="game-stats">
             <p class="game-rating">Número Ratings: {% if jogo %} {{ jogo.numeroRatings }} {%else%} 0 {% endif %}</p>
             <p class="game-points">Média: {% if jogo %} {{ jogo.media }} {%else%} 0 {% endif %}</p>
