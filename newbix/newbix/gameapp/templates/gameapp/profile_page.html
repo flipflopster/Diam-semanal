@@ -22,16 +22,16 @@
 
         <br>
 
-    <h6>{{ request.user }}</h6>
+    <h6>{{ utilizador.username }}ya</h6>
 
     <p>
         {% if request.user.last_login %}
-        Last time online: {{ request.user.last_login.date }}
+        Last time online: {{ utilizador.user_id.last_login.date }}
         {% endif %}
     </p>
 
     <p>
-        NewBixer since: {{ request.user.date_joined.date }}
+        NewBixer since: {{ utilizador.user_id.date_joined.date }}
     </p>
 
     <p>Completed Games: {{ utilizador.jogos_completos }}

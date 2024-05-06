@@ -17,7 +17,7 @@
 
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                         {% for result in resultArrayUsers %}
-                            <a href="{% url 'gameapp:profileView' result.user_id.id %}" class="game-link" style="text-decoration: none; color: inherit;">
+                            <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link" style="text-decoration: none; color: inherit;">
                                 <div>
                                     <p>{{ result.username}}</p>
                                     <img src="{{ result.profile_picture }}" alt="Image">
@@ -73,7 +73,7 @@
 
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
                         {% for result in resultArrayUsers %}
-                            <a href="{% url 'gameapp:profileView' result.user_id.id %}" class="game-link" style="text-decoration: none; color: inherit;">
+                            <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link" style="text-decoration: none; color: inherit;">
                                 <div class="game-div">
                                     <p>{{ result.username}}</p>
                                     <img src="{{ result.profile_picture }}" alt="Image">
