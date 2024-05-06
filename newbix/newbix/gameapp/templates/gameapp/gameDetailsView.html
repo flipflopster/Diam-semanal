@@ -6,10 +6,11 @@
 
     {% block title %} {{ game_details.name }} {% endblock %}
 
-
-    {% block body_tags %} background="{{ gameDetails.header_image }}" {% endblock %}
+    {% if background %}
+    {% block body_tags %} background="{{ background.path_full }}" {% endblock %}
     {% block section_tags %} style="background-color: rgba(0, 0, 0, 0)" {% endblock %}
     {% block article_tags %} style="background-color: rgba(0, 0, 0, 75%);" {% endblock %}
+    {% endif %}
 
 
     {% block left_aside %} {% endblock %}
