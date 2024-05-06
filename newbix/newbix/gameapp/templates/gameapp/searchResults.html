@@ -10,46 +10,47 @@
 
     {% block main_article %}
 
-    <p>Search Results for: {{ keyword}}</p>
+    Search Results for: {{ keyword }} <br>
+
         {% if filter == 'all' %}
-            {% if resultArrayUsers %}
-                <h1>Users:</h1>
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        {% for result in resultArrayUsers %}
-                            <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link" style="text-decoration: none; color: inherit;">
-                                <div>
-                                    <p>{{ result.username}}</p>
-                                    <img src="{{ result.profile_picture }}" alt="Image">
-                                </div>
-                            </a>
-                        {% endfor %}
-                    </div><br><br>
-
-            {% else %}
-                <h1>No users found</h1><br><br>
-            {% endif %}
-
+        <div class="results_box">
             {% if resultArrayGames %}
-                <h1>Games:</h1>
+            <h1>Games:</h1>
 
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        {% for result in resultArrayGames %}
-                            <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link" style="text-decoration: none; color: inherit;">
-                            <div>
-                                <p>{{ result.name }}</p>
-                                {% if result.img %}
-                                    <img src="{{ result.img }}" alt="Image">
-                                {% else %}
-                                    <img src="{{result.capsule_imagev5}}" alt="Image">
-                                {% endif %}
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div><br><br>
+            <div class="results_grid">
+                {% for result in resultArrayGames %}
+                <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link" style="text-decoration: none; color: inherit;">
+                    {{ result.name }} <br>
+                    {% if result.img %}
+                    <img src="{{ result.img }}" alt="Image">
+                    {% else %}
+                    <img src="{{result.capsule_imagev5}}" alt="Image">
+                    {% endif %}
+                </a>
+            {% endfor %}
+            </div>
 
             {% else %}
                 <h1>No games found</h1><br><br>
+            {% endif %}
+            </div>
+
+            {% if resultArrayUsers %}
+                <div>
+                <h1>Users:</h1>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                {% for result in resultArrayUsers %}
+                    <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link" style="text-decoration: none; color: inherit;">
+                        <div>
+                            <p>{{ result.username}}</p>
+                            <img src="{{ result.profile_picture }}" alt="Image">
+                        </div>
+                    </a>
+                {% endfor %}
+                </div><br><br>
+                </div>
+            {% else %}
+                <h1>No users found</h1><br><br>
             {% endif %}
 
             {% if resultArrayThreads %}

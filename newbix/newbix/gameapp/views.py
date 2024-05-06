@@ -65,20 +65,15 @@ def threadView(request, threadId):
 def search_results(request):
     filter = request.POST['filter']
     searchKeyword = request.POST['search']
-    resultArrayGames = ['empty']
-    resultArrayUsers = ['empty']
-    resultArrayThreads = ['empty']
-    if filter == 'games':
-        resultArrayGames = get_search_results_array(searchKeyword)
-    elif filter == 'threads':
-        resultArrayThreads = Thread.objects.filter(titulo__icontains=searchKeyword)
-    elif filter == 'users':
-        resultArrayUsers = Utilizador.objects.filter(username__icontains=searchKeyword)
-    elif filter == 'all':
-        resultArrayGames = get_search_results_array(searchKeyword)
-        resultArrayThreads = list(Thread.objects.filter(titulo__icontains=searchKeyword))
-        resultArrayUsers = list(Utilizador.objects.filter(username__icontains=searchKeyword))
-
+    resultArrayGames, resultArrayUsers, resultArrayThreads = ['empty'], ['empty'], ['empty']
+    match filter:
+        case 'games': resultArrayGames = get_search_results_array(searchKeyword)
+        case 'users': resultArrayUsers = Utilizador.objects.filter(username__icontains=searchKeyword)
+        case 'threads': resultArrayThreads = Thread.objects.filter(titulo__icontains=searchKeyword)
+        case 'all':
+            resultArrayGames = get_search_results_array(searchKeyword)
+            resultArrayThreads = list(Thread.objects.filter(titulo__icontains=searchKeyword))
+            resultArrayUsers = list(Utilizador.objects.filter(username__icontains=searchKeyword))
     return render(request, 'gameapp/searchResults.html',
                   {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
                    'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })

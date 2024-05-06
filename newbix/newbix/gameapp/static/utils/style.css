@@ -330,3 +330,20 @@ a:visited {
 a:hover {
     color: inherit;
 }
+
+.results_box {
+    text-align: left;
+    margin: 8px;
+    padding: 8px;
+    line-height: 1.8;
+}
+
+.results_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.result_link {
+    
+}
