@@ -17,6 +17,7 @@ urlpatterns = [
     path("logout", views.logout_load, name='logout'),
 
     # Profile Urls
+    path("update", views.update_profile, name='update'),
     path("settings", views.profile_settings, name='settings'),
     path("profile/<int:userId>", views.profile_page, name='profile_page'),
     path("addFriend/<int:userId>", views.addFriend, name='addFriend'),

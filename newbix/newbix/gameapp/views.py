@@ -72,8 +72,10 @@ def search_results(request):
             for game in gamesArray:
                 if get_game_details(game.get('id')[0]).get('type') == 'game':
                     resultArrayGames.append(get_game_details(game.get('id')[0]))
-        case 'users': resultArrayUsers = Utilizador.objects.filter(username__icontains=searchKeyword)
-        case 'threads': resultArrayThreads = Thread.objects.filter(titulo__icontains=searchKeyword)
+        case 'users':
+            resultArrayUsers = Utilizador.objects.filter(username__icontains=searchKeyword)
+        case 'threads':
+            resultArrayThreads = Thread.objects.filter(titulo__icontains=searchKeyword)
         case 'all':
             gamesArray = get_search_results_array(searchKeyword)
             for game in gamesArray:
@@ -130,7 +132,8 @@ def gameDetailsView(request, appId):
 
     print(gameDetails)
 
-    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'lista': lista, 'background': background})
+    return render(request, 'gameapp/gameDetailsView.html',
+                  {'gameDetails': gameDetails, 'jogo': jogo, 'lista': lista, 'background': background})
 
 
 def userListView(request, userId):
@@ -349,6 +352,38 @@ def profile_settings(request):
     return render(request, 'gameapp/profile_settings.html')
 
 
+@login_required(login_url='/gameapp/login')
 def logout_load(request):
     logout(request)
     return HttpResponseRedirect(reverse('gameapp:index'))
+
+
+@login_required(login_url='/gameapp/login')
+def update_profile(request):
+    context = None
+    utilizador = request.user.utilizador
+    if request.POST['bio']:
+        utilizador.biografia = request.POST['bio']
+        utilizador.save()
+        context = {'upadate': 'Profile updated'}
+    if request.POST['local']:
+        utilizador.localidade = request.POST['local']
+        utilizador.save()
+        context = {'upadate': 'Profile updated'}
+    if request.POST['genero']:
+        utilizador.genero = request.POST['genero']
+        utilizador.save()
+        context = {'upadate': 'Profile updated'}
+    try:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        if utilizador.profile_picture:
+            filename = utilizador.profile_picture
+            fs.delete(filename.split("/")[1])
+        filename = fs.save(myfile.name, myfile)
+        utilizador.profile_picture = "media/" + filename
+        utilizador.save()
+        context = {'upadate': 'Profile updated', 'uploaded_file_url': "media/" + filename}
+    except django.utils.datastructures.MultiValueDictKeyError:
+        _ = None
+    return render(request, 'gameapp/profile_settings.html', context)

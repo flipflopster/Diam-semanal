@@ -12,8 +12,8 @@
 
         <figure style="margin: 8px">
 
-            {% if request.user.utilizador.profile_picture %}
-            <img class="profile" src='{% static request.user.utilizador.profile_picture %}'>
+            {% if utilizador.profile_picture %}
+            <img class="profile" src='{% static utilizador.profile_picture %}'>
             {% else %}
             <img class="profile" src='{% static "utils/defaultpp.jpg" %}'>
             {% endif %}
@@ -58,13 +58,7 @@
     From: {{ utilizador.localidade }}
     {% endif %}</p>
 
-    <p>Genre: {% if utilizador.genero %}
-    {{ utilizador.genero }}
-    {% else %}
-    Not specified
-    {% endif %}</p>
-
-
+    <p>Gender: {{ utilizador.genero }}</p>
     {% endblock %}
 
 

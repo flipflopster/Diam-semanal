@@ -37,19 +37,25 @@
             {% endif %}
 
             {% if resultArrayUsers %}
-                <div>
                 <h1>Users:</h1>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+
+                <div class="results_grid" style="grid-template-columns: repeat(3, 1fr);">
                 {% for result in resultArrayUsers %}
-                    <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link" style="text-decoration: none; color: inherit;">
-                        <div>
-                            <p>{{ result.username}}</p>
-                            <img src="{{ result.profile_picture }}" alt="Image">
-                        </div>
-                    </a>
+                <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link">
+                    <div class="result_link" style="text-indent: 0; vertical-align: middle;">
+                        <table>
+                        <th style="width: 35%">{% if result.profile_picture %}
+                        <img class="profile" style="width: 60px; height: 60px;" src='{% static result.profile_picture %}'>
+                        {% else %}
+                        <img class="profile" style="width: 60px; height: 60px;" src='{% static "utils/defaultpp.jpg" %}'>
+                        {% endif %}</th>
+                        <th style="width: 65%">{{ result.username}}</th>
+                        </table>
+                    </div>
+                </a>
                 {% endfor %}
-                </div><br><br>
                 </div>
+
             {% else %}
                 <h1>No users found</h1><br><br>
             {% endif %}
@@ -73,16 +79,22 @@
             {% if resultArrayUsers %}
                 <h1>Users:</h1>
 
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        {% for result in resultArrayUsers %}
-                            <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link" style="text-decoration: none; color: inherit;">
-                                <div class="game-div">
-                                    <p>{{ result.username}}</p>
-                                    <img src="{{ result.profile_picture }}" alt="Image">
-                                </div>
-                            </a>
-                        {% endfor %}
-                    </div><br><br>
+                <div class="results_grid" style="grid-template-columns: repeat(3, 1fr);">
+                {% for result in resultArrayUsers %}
+                <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link">
+                    <div class="result_link" style="text-indent: 0; vertical-align: middle;">
+                        <table>
+                        <th style="width: 35%">{% if result.profile_picture %}
+                        <img class="profile" style="width: 60px; height: 60px;" src='{% static result.profile_picture %}'>
+                        {% else %}
+                        <img class="profile" style="width: 60px; height: 60px;" src='{% static "utils/defaultpp.jpg" %}'>
+                        {% endif %}</th>
+                        <th style="width: 65%">{{ result.username}}</th>
+                        </table>
+                    </div>
+                </a>
+                {% endfor %}
+                </div>
 
             {% else %}
                 <h1>No users found</h1><br><br>

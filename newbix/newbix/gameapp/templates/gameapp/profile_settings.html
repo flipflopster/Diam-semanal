@@ -18,14 +18,34 @@
     {% endblock %}
 
     {% block main_article %}
-        <form method="post" enctype="multipart/form-data" action="{% url 'votacao:uploadpp' %}">
-        {% csrf_token %}
-        <input type="file" name="myfile" required> <br>
-        {% if uploaded_file_url %}
-        Feito o upload para: <br>
-        <img width="200" height="200" src='{% static uploaded_file_url %}'>
-        {% endif %}
-        <br> <input class="button2" type="submit" value="Upload">
+        <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:update' %}">
+            {% csrf_token %}
+            <label>Bio: <br>
+                <textarea name="bio" rows="4" cols="50">{{ request.user.utilizador.biografia }}</textarea>
+            </label>
+
+            <br> <br>
+
+            <label>Country:
+                <input type="text" name="local" value="{{ request.user.utilizador.localidade }}">
+            </label>
+
+            <br> <br>
+
+            <label>Gender: <br>
+                <select name="genero">
+
+                    <option {% if 'Female' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Female">Female</option>
+                    <option {% if 'Male' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Male">Male</option>
+                    <option {% if 'Not Specified' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Not Specified">Not Specified</option>
+
+                </select>
+            </label>
+
+            <br> <br>
+
+            <input type="file" name="myfile"> <br> <br>
+            <input class="button1" type="submit" value="Update">
         </form>
     {% endblock %}
 
