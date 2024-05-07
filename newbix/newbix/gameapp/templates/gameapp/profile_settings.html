@@ -15,28 +15,18 @@
 
     {% block left_aside %}
 
-        {% if request.user.is_authenticated %}
-            {% if request.user == utilizador.user_id %}
-                <a href="{% url 'gameapp:profileEdit' %}">
-                    <button class="block-element button1" >Edit Profile</button>
-                </a>
-            {% else %}
-                {% if not isFriend %}
-                    <a href="{% url 'gameapp:addFriend' utilizador.id %}">
-                        <button class="block-element button1"  >Add Friend</button>
-                    </a>
-                {% else %}
-                    <a href="{% url 'gameapp:removeFriend' utilizador.id %}">
-                        <button class="block-element button1" >Remove Friend</button>
-                    </a>
-                {% endif %}
-            {% endif %}
-
-        {% endif %}
     {% endblock %}
 
     {% block main_article %}
-
+        <form method="post" enctype="multipart/form-data" action="{% url 'votacao:uploadpp' %}">
+        {% csrf_token %}
+        <input type="file" name="myfile" required> <br>
+        {% if uploaded_file_url %}
+        Feito o upload para: <br>
+        <img width="200" height="200" src='{% static uploaded_file_url %}'>
+        {% endif %}
+        <br> <input class="button2" type="submit" value="Upload">
+        </form>
     {% endblock %}
 
 </html>

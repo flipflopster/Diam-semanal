@@ -4,6 +4,18 @@
 
 {% load static %}
 
+    {% block javascript %}
+        $("#details").click(function() {
+            $("#game_details").toggle(
+                function() {
+                    if($("#details").text() == "Show more Details") {
+                        $("#details").text("Hide Details");
+                    } else {
+                        $("#details").text("Show more Details");
+            }});
+        });
+    {% endblock %}
+
     {% block title %} {{ game_details.name }} {% endblock %}
 
     {% if background %}
@@ -23,26 +35,17 @@
         <center><h2>{{ gameDetails.name }}</h2></center>
 
         <p>Ratings: {% if jogo %} {{ jogo.numeroRatings }} {%else%} 0 {% endif %}</p>
-        {% if lista %}<p>Your rating: {{ lista.rating }}</p>{% endif %}
-        {% if lista %}<p>Game State:
-            {% if lista.estado == 'CM' %} Completed
-            {% elif lista.estado == 'PP' %} Plan To Play
-            {% elif lista.estado == 'DR' %} Dropped
-            {% elif lista.estado == 'PL' %} Playing
-            {% elif lista.estado == 'OH' %} On Hold
-            {% endif %}
-        </p>{% endif %}
         <p>Score: {% if jogo %} {{ jogo.media }} {%else%} 0 {% endif %}</p>
 
         <center>
 
         {% if user.is_authenticated %}
 
-            <form class="search_form" action="{% url 'gameapp:gameAddedToList' %}" method="post">
+            <form class="search_form" style="width: 100%" action="{% url 'gameapp:gameAddedToList' %}" method="post">
                 {% csrf_token %}
 
-                <label class="header_bar" style="width: 40%">State:
-                <select class="header_bar" style="width: 15%" name="estado">
+                <label class="header_bar" style="width: 30%">State:
+                <select class="header_bar" style="width: 30%;" name="estado">
 
                     <option {% if lista %} {% if 'PP' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PP">Plan-to-Play</option>
                     <option {% if lista %} {% if 'PL' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PL">Playing</option>
@@ -53,8 +56,8 @@
                 </select>
                 </label>
 
-                <label class="header_bar" style="width: 40%">Rating:
-                <select class="header_bar" style="width: 15%" name="rating">
+                <label class="header_bar" style="width: 30%">Rating:
+                <select class="header_bar" style="width: 14%" name="rating">
 
                     <option {% if lista %} {% if 1 == lista.rating %} selected="selected" {% endif %} {% endif %} value="1">1</option>
                     <option {% if lista %} {% if 2 == lista.rating %} selected="selected" {% endif %} {% endif %} value="2">2</option>
@@ -70,13 +73,13 @@
                 </select>
                 </label>
 
-                <input class="header_bar" style="width:10%; cursor: pointer;" type="submit" name="result" {% if lista %} value="Change" {% else %} value="Add" {% endif %} />
+                <input class="header_bar" style="width:20%; cursor: pointer; background-color: rgba(0, 0, 0, 0%)" type="submit" name="result" {% if lista %} value="Change" {% else %} value="Add" {% endif %} />
 
-            </form>
+            </form> <br>
 
             {% if lista %}
-                <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
-                    <button class="button1">Change Entry</button>
+                <a href="{% url 'gameapp:gameRemovedFromList' gameDetails.steam_appid %}">
+                    <button class="button1">Remove Entry</button>
                 </a> <br> <br>
                 <a href="{% url 'gameapp:createThread' gameDetails.steam_appid %}">
                     <button class="button1">Create Thread</button>
@@ -88,16 +91,12 @@
                     <button class="button1">Create Gameplay</button>
                 </a> <br> <br>
             {% else %}
-                <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
-                    <button class="button1">Add to List</button>
-                </a> <br> <br>
                 <button class="button1 disabled-button" disabled title="Must be in list">Create Thread</button> <br> <br>
                 <button class="button1 disabled-button" disabled title="Must be in list">Create Review</button> <br> <br>
                 <button class="button1 disabled-button" disabled title="Must be in list">Create Gameplay</button> <br> <br>
             {% endif %}
 
         {% else %}
-            <button class="button1 disabled-button" disabled title="Must be logged in">Add to List</button> <br> <br>
             <button class="button1 disabled-button" disabled title="Must be logged in">Create Thread</button> <br> <br>
             <button class="button1 disabled-button" disabled title="Must be logged in">Create Review</button> <br> <br>
             <button class="button1 disabled-button" disabled title="Must be logged in">Create Gameplay</button> <br> <br>
@@ -111,11 +110,11 @@
 
 
     {% block main_article %}
-        <h3>About the Game</h3>
-        <p>{{ gameDetails.about_the_game|safe }}</p>
+        <h2>About the Game</h2>
+        <div class="results_box">{{ gameDetails.about_the_game|safe }}</div>
 
-        <h3>Detailed Description</h3>
-        <p>{{ gameDetails.detailed_description|safe }}</p>
+        <button id="details" class="button1">Show more Details</button>
+        <div id="game_details" class="results_box" style="display: none">{{ gameDetails.detailed_description|safe }}</div>
 
         <h3>Supported Languages</h3>
         <p>{{ gameDetails.supported_languages|safe }}</p>

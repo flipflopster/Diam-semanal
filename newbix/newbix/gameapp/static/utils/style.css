@@ -267,9 +267,12 @@ h6 {
     display: inline-block; /* this is needed for the pseudo-element to work correctly */
     padding-bottom: 10px; /* adjust this value as needed */
     padding-top: 10px;
+    border-radius: 12px;
+    transition: 0.2s;
 }
 
 .game-link:hover {
+    transition: 0.2s;
     background: rgba(0, 0, 0, 0.5);
 }
 

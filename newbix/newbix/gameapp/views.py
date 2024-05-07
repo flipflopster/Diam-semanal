@@ -65,15 +65,23 @@ def threadView(request, threadId):
 def search_results(request):
     filter = request.POST['filter']
     searchKeyword = request.POST['search']
-    resultArrayGames, resultArrayUsers, resultArrayThreads = ['empty'], ['empty'], ['empty']
+    resultArrayGames, resultArrayUsers, resultArrayThreads, gamesArray = [], [], [], []
     match filter:
-        case 'games': resultArrayGames = get_search_results_array(searchKeyword)
+        case 'games':
+            gamesArray = get_search_results_array(searchKeyword)
+            for game in gamesArray:
+                if get_game_details(game.get('id')[0]).get('type') == 'game':
+                    resultArrayGames.append(get_game_details(game.get('id')[0]))
         case 'users': resultArrayUsers = Utilizador.objects.filter(username__icontains=searchKeyword)
         case 'threads': resultArrayThreads = Thread.objects.filter(titulo__icontains=searchKeyword)
         case 'all':
-            resultArrayGames = get_search_results_array(searchKeyword)
+            gamesArray = get_search_results_array(searchKeyword)
+            for game in gamesArray:
+                if get_game_details(game.get('id')[0]).get('type') == 'game':
+                    resultArrayGames.append(get_game_details(game.get('id')[0]))
             resultArrayThreads = list(Thread.objects.filter(titulo__icontains=searchKeyword))
             resultArrayUsers = list(Utilizador.objects.filter(username__icontains=searchKeyword))
+    print(resultArrayGames, resultArrayUsers)
     return render(request, 'gameapp/searchResults.html',
                   {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
                    'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
@@ -111,13 +119,16 @@ def gameDetailsView(request, appId):
 
         # Check if a ListaUtilizadorJogo record exists for the current user and game
         if jogo:  # Only execute this line if jogo is not None
-            lista = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=utilizador)
+            try:
+                lista = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=utilizador)
+            except ListaUtilizadorJogo.DoesNotExist:
+                lista = None
 
     background = None
     if gameDetails.get("screenshots"):
         background = random.choice(gameDetails.get("screenshots"))
 
-    print(lista)
+    print(gameDetails)
 
     return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'lista': lista, 'background': background})
 
@@ -159,65 +170,28 @@ def submitComment(request):
     return redirect('gameapp:threadView', threadId=threadId)
 
 
-def addToList(request, appId):
-    gameDetails = request.session.get('gameDetails', None)
-
-    class GameForm(forms.Form):
-        RATING_CHOICES = [(i, str(i)) for i in range(11)]
-        STATUS_CHOICES = [
-            (ListaUtilizadorJogo.EstadosJogo.COMPLETED, 'Completed'),
-            (ListaUtilizadorJogo.EstadosJogo.PLANTOPLAY, 'Plan To Play'),
-            (ListaUtilizadorJogo.EstadosJogo.DROPPED, 'Dropped'),
-            (ListaUtilizadorJogo.EstadosJogo.PLAYING, 'Playing'),
-            (ListaUtilizadorJogo.EstadosJogo.ONHOLD, 'On Hold')
-        ]
-
-        rating = forms.ChoiceField(choices=RATING_CHOICES)
-        estado = forms.ChoiceField(choices=STATUS_CHOICES)
-
-    form = GameForm()
-    request.session['gameDetails'] = gameDetails
-    return render(request, 'gameapp/addToList.html', {'gameDetails': gameDetails, 'estado': form, })
-
-
 def topGamesResults(request):
-    filter = 'games'
-    searchKeyword = 'Top Games'
     resultArrayGamesAux = Jogo.objects.all().order_by('-media')
     resultArrayGames = []
     for game in resultArrayGamesAux:
         resultArrayGames.append(get_game_details(game.steam_id))
-    resultArrayThreads = ['empty']
-    resultArrayUsers = ['empty']
     return render(request, 'gameapp/searchResults.html',
-                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
-                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
+                  {'keyword': 'Top Games', 'resultArrayGames': resultArrayGames, 'filter': 'games', })
 
 
 def recentThreadsResults(request):
-    filter = 'threads'
-    searchKeyword = 'Recent Threads'
     resultArrayThreads = Thread.objects.all().order_by('-created_at')
-    resultArrayGames = ['empty']
-    resultArrayUsers = ['empty']
-
     return render(request, 'gameapp/searchResults.html',
-                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
-                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
+                  {'keyword': 'Recent Threads', 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
 
 
 def popularGamesResults(request):
-    filter = 'games'
-    searchKeyword = 'Popular Games'
     resultArrayGamesAux = Jogo.objects.all().order_by('-numeroRatings')
     resultArrayGames = []
     for game in resultArrayGamesAux:
         resultArrayGames.append(get_game_details(game.steam_id))
-    resultArrayThreads = ['empty']
-    resultArrayUsers = ['empty']
     return render(request, 'gameapp/searchResults.html',
-                  {'keyword': searchKeyword, 'resultArrayGames': resultArrayGames,
-                   'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
+                  {'keyword': 'Popular Games', 'resultArrayGames': resultArrayGames, 'filter': 'games', })
 
 
 def gameAddedToList(request):
@@ -249,21 +223,23 @@ def gameAddedToList(request):
         }
     )
 
-    if lista_utilizador_jogo.estado == 'CM':
-        if estado != 'CM':
-            utilizador.jogos_completos -= 1
-            utilizador.save()
-    else:
-        if estado == 'CM':
-            utilizador.jogos_completos += 1
-            utilizador.save()
-
     if created:
         # If the ListaUtilizadorJogo object is newly created, increment numeroRatings
         jogo.numeroRatings += 1
         jogo.totalPontos += new_rating
         jogo.save()
+        utilizador.jogos_completos += 1
+        utilizador.save()
     else:
+        if lista_utilizador_jogo.estado == 'CM':
+            if estado != 'CM':
+                utilizador.jogos_completos -= 1
+                utilizador.save()
+        else:
+            if estado == 'CM':
+                utilizador.jogos_completos += 1
+                utilizador.save()
+
         # If the ListaUtilizadorJogo object already exists and the form data is different, update it
         if lista_utilizador_jogo.estado != estado or lista_utilizador_jogo.rating != new_rating:
             # Subtract the existing rating from totalPontos and add the new rating
@@ -365,7 +341,7 @@ def removeFriend(request, userId):
     if not utilizador == utilizador_seguido:
         Lista_Amigos.objects.filter(utilizador_id=utilizador, utilizador_seguido_id=utilizador_seguido).delete()
 
-    return redirect('gameapp:profileView', userId=userId)
+    return redirect('gameapp:profile_page', userId=userId)
 
 
 @login_required(login_url='/gameapp/login')

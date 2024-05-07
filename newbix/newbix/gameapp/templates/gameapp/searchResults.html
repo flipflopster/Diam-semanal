@@ -12,15 +12,15 @@
 
     Search Results for: {{ keyword }} <br>
 
-        {% if filter == 'all' %}
         <div class="results_box">
+        {% if filter == 'all' %}
             {% if resultArrayGames %}
             <h1>Games:</h1>
 
             <div class="results_grid">
                 {% for result in resultArrayGames %}
                 <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
-                    <div class="result_link">
+                    <div class="result_link" style="text-indent: 0;">
                     {{ result.name }} <br>
                     {% if result.img %}
                     <img src="{{ result.img }}" alt="Image">
@@ -29,13 +29,12 @@
                     {% endif %}
                     </div>
                 </a>
-            {% endfor %}
+                {% endfor %}
             </div>
 
             {% else %}
                 <h1>No games found</h1><br><br>
             {% endif %}
-            </div>
 
             {% if resultArrayUsers %}
                 <div>
@@ -92,22 +91,22 @@
 
         {% if filter == 'games' %}
             {% if resultArrayGames %}
-                <h1>Games:</h1>
+            <h1>Games:</h1>
 
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                    {% for result in resultArrayGames %}
-                        <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link" style="text-decoration: none; color: inherit;">
-                            <div>
-                                <p>{{ result.name }}</p>
-                                {% if result.img %}
-                                    <img src="{{ result.img }}" alt="Image">
-                                {% else %}
-                                    <img src="{{result.capsule_imagev5}}" alt="Image">
-                                {% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div><br><br>
+            <div class="results_grid">
+                {% for result in resultArrayGames %}
+                <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
+                    <div class="result_link" style="text-indent: 0;">
+                    {{ result.name }} <br>
+                    {% if result.img %}
+                    <img src="{{ result.img }}" alt="Image">
+                    {% else %}
+                    <img src="{{result.capsule_imagev5}}" alt="Image">
+                    {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
             {% else %}
                 <h1>No games found</h1><br><br>
             {% endif %}
@@ -130,6 +129,7 @@
                 <h1>No threads found</h1><br><br>
             {% endif %}
         {% endif %}
+        </div>
 
     {% endblock %}
 

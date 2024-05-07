@@ -25,7 +25,6 @@ urlpatterns = [
     # Games Search and List Urls
     path("searchResults", views.search_results, name='searchResults'),
     path("<int:appId>/gameDetailsView", views.gameDetailsView, name='gameDetailsView'),
-    path("<int:appId>/addTolist", views.addToList, name='addToList'),
     path("topGamesResults", views.topGamesResults, name='topGamesResults'),
     path("popularGamesResults", views.popularGamesResults, name='popularGamesResults'),
     path("gameAddedToList", views.gameAddedToList, name='gameAddedToList'),
