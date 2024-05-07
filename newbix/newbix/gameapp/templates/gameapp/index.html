@@ -148,7 +148,7 @@
 
         <th style="width: 14%; text-align: right">
 
-            <div class="dropdown" style="text-align: center">
+            <div class="dropdown" style="text-align: center;">
 
                 <button id="dropdown_button3" class="dropbtn">{{ request.user }}</button>
 
@@ -209,7 +209,7 @@
 {% block main_body %}
 <section {% block section_tags %} {% endblock %}>
 
-    <aside>
+    <aside {% block aside_tags %} {% endblock %}>
         {% block left_aside %}
 
         {% endblock %}
@@ -221,7 +221,7 @@
         {% endblock %}
     </article>
 
-    <nav>
+    <nav {% block nav_tags %} {% endblock %}>
         {% block right_nav %}
 
         {% endblock %}

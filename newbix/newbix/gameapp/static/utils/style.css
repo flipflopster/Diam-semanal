@@ -132,6 +132,7 @@ h6 {
     color: white;
     font-weight: bold;
     cursor: pointer;
+    width: 70%;
 }
 
 .button1:hover {
@@ -150,7 +151,7 @@ h6 {
     border-radius: 8px;
     border: solid black 3px;
     transition: 0.4s;
-
+    width: 70%;
 }
   
 .dropbtn:hover, .dropbtn:focus {
@@ -161,7 +162,8 @@ h6 {
 .dropdown {
     position: relative;
     display: inline-block;
-    z-index: 2
+    z-index: 2;
+    width: 100%;
 }
   
 .dropdown_content {
@@ -260,15 +262,6 @@ h6 {
     opacity: 0.5; /* make the button appear greyed out */
 }
 
-.game-stats {
-    margin-bottom: 20px;
-}
-
-.game-rating, .game-points {
-    font-size: 20px;
-    color: #32a852;
-}
-
 .game-link {
     position: relative;
     display: inline-block; /* this is needed for the pseudo-element to work correctly */
@@ -276,19 +269,7 @@ h6 {
     padding-top: 10px;
 }
 
-.game-link::after {
-    content: "";
-    position: absolute;
-    top: 0; /* adjust these values to change the size of the rectangle */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0);
-    transition: background 0.5s ease;
-    z-index: 1; /* increased z-index */
-}
-
-.game-link:hover::after {
+.game-link:hover {
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -334,16 +315,26 @@ a:hover {
 .results_box {
     text-align: left;
     margin: 8px;
-    padding: 8px;
+    text-indent: 8px;
     line-height: 1.8;
 }
 
 .results_grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 8px;
 }
 
 .result_link {
-    
+    padding: 8px;
+}
+
+.game_image {
+    border: solid black 3px;
+    border-radius: 4px;
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }

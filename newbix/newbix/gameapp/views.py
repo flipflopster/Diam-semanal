@@ -105,25 +105,21 @@ def gameDetailsView(request, appId):
     gameDetails = get_game_details(appId)
     request.session['gameDetails'] = gameDetails
 
+    lista = None
     if request.user.is_authenticated:
-        # Get the Utilizador object related to the User
         utilizador = Utilizador.objects.get(user_id=request.user)
 
         # Check if a ListaUtilizadorJogo record exists for the current user and game
         if jogo:  # Only execute this line if jogo is not None
-            inList = ListaUtilizadorJogo.objects.filter(jogo_id=jogo, utilizador_id=utilizador).exists()
-        else:
-            inList = False
-    else:
-        inList = False
+            lista = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=utilizador)
 
     background = None
     if gameDetails.get("screenshots"):
         background = random.choice(gameDetails.get("screenshots"))
 
-    print(background, gameDetails)
+    print(lista)
 
-    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'inList': inList, 'background': background})
+    return render(request, 'gameapp/gameDetailsView.html', {'gameDetails': gameDetails, 'jogo': jogo, 'lista': lista, 'background': background})
 
 
 def userListView(request, userId):
@@ -253,16 +249,20 @@ def gameAddedToList(request):
         }
     )
 
+    if lista_utilizador_jogo.estado == 'CM':
+        if estado != 'CM':
+            utilizador.jogos_completos -= 1
+            utilizador.save()
+    else:
+        if estado == 'CM':
+            utilizador.jogos_completos += 1
+            utilizador.save()
+
     if created:
         # If the ListaUtilizadorJogo object is newly created, increment numeroRatings
         jogo.numeroRatings += 1
         jogo.totalPontos += new_rating
         jogo.save()
-
-        if estado != 'CM':
-            utilizador.jogos_completos -= 1
-            utilizador.save()
-
     else:
         # If the ListaUtilizadorJogo object already exists and the form data is different, update it
         if lista_utilizador_jogo.estado != estado or lista_utilizador_jogo.rating != new_rating:
@@ -271,15 +271,6 @@ def gameAddedToList(request):
             jogo.totalPontos += new_rating
             jogo.numeroRatings = ListaUtilizadorJogo.objects.filter(jogo_id=jogo).count()
             jogo.save()
-
-            if lista_utilizador_jogo.estado == 'CM':
-                if estado != 'CM':
-                    utilizador.jogos_completos -= 1
-                    utilizador.save()
-            else:
-                if estado == 'CM':
-                    utilizador.jogos_completos += 1
-                    utilizador.save()
 
             # Update the estado and rating in the ListaUtilizadorJogo record
             lista_utilizador_jogo.estado = estado

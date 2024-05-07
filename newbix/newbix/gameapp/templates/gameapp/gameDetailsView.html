@@ -9,56 +9,70 @@
     {% if background %}
     {% block body_tags %} background="{{ background.path_full }}" {% endblock %}
     {% block section_tags %} style="background-color: rgba(0, 0, 0, 0)" {% endblock %}
-    {% block article_tags %} style="background-color: rgba(0, 0, 0, 75%);" {% endblock %}
+    {% block article_tags %} style="background-color: rgba(0, 0, 0, 60%);" {% endblock %}
     {% endif %}
 
 
-    {% block left_aside %} {% endblock %}
+    {% block aside_tags %} style="padding: 20px; text-align: left;" {% endblock %}
+    {% block left_aside %}
+    <div style="background-color: rgba(0, 0, 0, 60%); padding: 8px; border-radius: 8px;">
+        <img class="game_image" src="{{ gameDetails.header_image }}" title="{{ gameDetails.name }}">
 
-
-    {% block main_article %}
-        <h2>{{ gameDetails.name }}</h2>
-        <img style="width: 100%" src="{{ gameDetails.header_image }}" alt="{{ gameDetails.name }}">
         <br>
-        <div class="game-stats">
-            <p class="game-rating">Número Ratings: {% if jogo %} {{ jogo.numeroRatings }} {%else%} 0 {% endif %}</p>
-            <p class="game-points">Média: {% if jogo %} {{ jogo.media }} {%else%} 0 {% endif %}</p>
-        </div><br><br>
+
+        <center><h2>{{ gameDetails.name }}</h2></center>
+
+        <p>Ratings: {% if jogo %} {{ jogo.numeroRatings }} {%else%} 0 {% endif %}</p>
+        {% if lista %}<p>Your rating: {{ lista.rating }}</p>{% endif %}
+        {% if lista %}<p>Game State:
+            {% if lista.estado == 'CM' %} Completed
+            {% elif lista.estado == 'PP' %} Plan To Play
+            {% elif lista.estado == 'DR' %} Dropped
+            {% elif lista.estado == 'PL' %} Playing
+            {% elif lista.estado == 'OH' %} On Hold
+            {% endif %}
+        </p>{% endif %}
+        <p>Score: {% if jogo %} {{ jogo.media }} {%else%} 0 {% endif %}</p>
+
+        <center>
         {% if user.is_authenticated %}
-            {% if inList %}
+            {% if lista %}
                 <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
-                    <button class="block-element button1">Alter list entry details</button>
-                </a>
+                    <button class="button1">Change Entry</button>
+                </a> <br> <br>
                 <a href="{% url 'gameapp:createThread' gameDetails.steam_appid %}">
-                    <button class="block-element button1">Create Thread</button>
-                </a>
+                    <button class="button1">Create Thread</button>
+                </a> <br> <br>
                 <a href="{% url 'gameapp:createReview' gameDetails.steam_appid %}">
-                    <button class="block-element button1">Create Review</button>
-                </a>
+                    <button class="button1">Create Review</button>
+                </a> <br> <br>
                 <a href="https://www.youtube.com/watch?v=5skpcb3881U">
-                    <button class="block-element button1">Create Gameplay</button>
-                </a>
+                    <button class="button1">Create Gameplay</button>
+                </a> <br> <br>
             {% else %}
                 <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
-                    <button class="block-element button1">Add to List</button>
-                </a>
-                <button class="block-element button1 disabled-button" disabled title="Must be in list">Create Thread</button>
-                <button class="block-element button1 disabled-button" disabled title="Must be in list">Create Review</button>
-                <button class="block-element button1 disabled-button" disabled title="Must be in list">Create Gameplay</button>
+                    <button class="button1">Add to List</button>
+                </a> <br> <br>
+                <button class="button1 disabled-button" disabled title="Must be in list">Create Thread</button> <br> <br>
+                <button class="button1 disabled-button" disabled title="Must be in list">Create Review</button> <br> <br>
+                <button class="button1 disabled-button" disabled title="Must be in list">Create Gameplay</button> <br> <br>
             {% endif %}
 
         {% else %}
-            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Add to List</button>
-            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Thread</button>
-            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Review</button>
-            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Gameplay</button>
+            <button class="button1 disabled-button" disabled title="Must be logged in">Add to List</button> <br> <br>
+            <button class="button1 disabled-button" disabled title="Must be logged in">Create Thread</button> <br> <br>
+            <button class="button1 disabled-button" disabled title="Must be logged in">Create Review</button> <br> <br>
+            <button class="button1 disabled-button" disabled title="Must be logged in">Create Gameplay</button> <br> <br>
         {% endif %}
+        <a href="{% url 'gameapp:threadsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
+                <button class="button1">Check threads</button>
+        </a> <br> <br>
+        </center>
+    </div>
+    {% endblock %}
 
 
-
-            <a href="{% url 'gameapp:threadsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
-                <button class="block-element button1">Check threads for game</button>
-            </a>
+    {% block main_article %}
         <h3>About the Game</h3>
         <p>{{ gameDetails.about_the_game|safe }}</p>
 

@@ -19,13 +19,15 @@
 
             <div class="results_grid">
                 {% for result in resultArrayGames %}
-                <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link" style="text-decoration: none; color: inherit;">
+                <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
+                    <div class="result_link">
                     {{ result.name }} <br>
                     {% if result.img %}
                     <img src="{{ result.img }}" alt="Image">
                     {% else %}
                     <img src="{{result.capsule_imagev5}}" alt="Image">
                     {% endif %}
+                    </div>
                 </a>
             {% endfor %}
             </div>
