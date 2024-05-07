@@ -177,7 +177,7 @@ def addToList(request, appId):
 
     form = GameForm()
     request.session['gameDetails'] = gameDetails
-    return render(request, 'gameapp/addToList.html', {'gameDetails': gameDetails, 'form': form, })
+    return render(request, 'gameapp/addToList.html', {'gameDetails': gameDetails, 'estado': form, })
 
 
 def topGamesResults(request):
@@ -356,7 +356,7 @@ def addFriend(request, userId):
     utilizador_seguido = Utilizador.objects.get(id=userId)
     if not utilizador == utilizador_seguido:
         Lista_Amigos.objects.create(utilizador_id=utilizador, utilizador_seguido_id=utilizador_seguido)
-    return redirect('gameapp:profileView', userId=userId)
+    return redirect('gameapp:profile_page', userId=userId)
 
 
 def removeFriend(request, userId):

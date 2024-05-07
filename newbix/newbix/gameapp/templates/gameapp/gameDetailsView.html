@@ -35,7 +35,45 @@
         <p>Score: {% if jogo %} {{ jogo.media }} {%else%} 0 {% endif %}</p>
 
         <center>
+
         {% if user.is_authenticated %}
+
+            <form class="search_form" action="{% url 'gameapp:gameAddedToList' %}" method="post">
+                {% csrf_token %}
+
+                <label class="header_bar" style="width: 40%">State:
+                <select class="header_bar" style="width: 15%" name="estado">
+
+                    <option {% if lista %} {% if 'PP' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PP">Plan-to-Play</option>
+                    <option {% if lista %} {% if 'PL' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PL">Playing</option>
+                    <option {% if lista %} {% if 'CM' == lista.estado %} selected="selected" {% endif %} {% endif %} value="CM">Completed</option>
+                    <option {% if lista %} {% if 'OH' == lista.estado %} selected="selected" {% endif %} {% endif %} value="OH">On Hold</option>
+                    <option {% if lista %} {% if 'DR' == lista.estado %} selected="selected" {% endif %} {% endif %} value="DR">Dropped</option>
+
+                </select>
+                </label>
+
+                <label class="header_bar" style="width: 40%">Rating:
+                <select class="header_bar" style="width: 15%" name="rating">
+
+                    <option {% if lista %} {% if 1 == lista.rating %} selected="selected" {% endif %} {% endif %} value="1">1</option>
+                    <option {% if lista %} {% if 2 == lista.rating %} selected="selected" {% endif %} {% endif %} value="2">2</option>
+                    <option {% if lista %} {% if 3 == lista.rating %} selected="selected" {% endif %} {% endif %} value="3">3</option>
+                    <option {% if lista %} {% if 4 == lista.rating %} selected="selected" {% endif %} {% endif %} value="4">4</option>
+                    <option {% if lista %} {% if 5 == lista.rating %} selected="selected" {% endif %} {% endif %} value="5">5</option>
+                    <option {% if lista %} {% if 6 == lista.rating %} selected="selected" {% endif %} {% endif %} value="6">6</option>
+                    <option {% if lista %} {% if 7 == lista.rating %} selected="selected" {% endif %} {% endif %} value="7">7</option>
+                    <option {% if lista %} {% if 8 == lista.rating %} selected="selected" {% endif %} {% endif %} value="8">8</option>
+                    <option {% if lista %} {% if 9 == lista.rating %} selected="selected" {% endif %} {% endif %} value="9">9</option>
+                    <option {% if lista %} {% if 10 == lista.rating %} selected="selected" {% endif %} {% endif %} value="10">10</option>
+
+                </select>
+                </label>
+
+                <input class="header_bar" style="width:10%; cursor: pointer;" type="submit" name="result" {% if lista %} value="Change" {% else %} value="Add" {% endif %} />
+
+            </form>
+
             {% if lista %}
                 <a href="{% url 'gameapp:addToList' gameDetails.steam_appid %}">
                     <button class="button1">Change Entry</button>
