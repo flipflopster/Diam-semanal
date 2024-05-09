@@ -21,29 +21,29 @@
 
             {% csrf_token %}
             <label class="label1"> Name:
-            <input class="form1" type="text" name="username" value="{{ username }}" required />
-            </label>
-
-            <br>
-
-            <label class="label1"> Email:
-            <input class="form1" type="email" name="email" value="{{ email }}" required />
-            </label>
-
-            <br>
-
-            <label class="label1"> Password:
-            <input class="form1" type="password" name="password" value="{{ password }}" required />
+            <input class="label2" style="width: 180px" type="text" name="username" required />
             </label>
 
             <br> <br>
 
-            <input class="button1" type="submit" value="Sign In" />
+            <label class="label1"> Email:
+            <input class="label2" style="width: 181px" type="email" name="email" required />
+            </label>
+
+            <br> <br>
+
+            <label class="label1"> Password:
+            <input class="label2" style="width: 149px" type="password" name="password" required />
+            </label>
+
+            <br> <br> <br>
+
+            <center><input class="button1" type="submit" value="Sign In" /></center>
         </form>
 
         <br> <br>
 
-        Already have an account? Click <a href="{% url 'gameapp:login' %}">Log In</a>
+        <center>Already have an account? Click <a href="{% url 'gameapp:login' %}">Log In</a></center>
         </aside>
 
     <aside></aside>

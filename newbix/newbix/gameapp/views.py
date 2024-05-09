@@ -386,20 +386,11 @@ def logout_load(request):
 
 @login_required(login_url='/gameapp/login')
 def update_profile(request):
-    context = None
     utilizador = request.user.utilizador
-    if request.POST['bio']:
-        utilizador.biografia = request.POST['bio']
-        utilizador.save()
-        context = {'upadate': 'Profile updated'}
-    if request.POST['local']:
-        utilizador.localidade = request.POST['local']
-        utilizador.save()
-        context = {'upadate': 'Profile updated'}
-    if request.POST['genero']:
-        utilizador.genero = request.POST['genero']
-        utilizador.save()
-        context = {'upadate': 'Profile updated'}
+    utilizador.biografia = request.POST['bio']
+    utilizador.localidade = request.POST['local']
+    utilizador.genero = request.POST['genero']
+    context = {'update': 'Profile updated'}
     try:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -408,8 +399,7 @@ def update_profile(request):
             fs.delete(filename.split("/")[1])
         filename = fs.save(myfile.name, myfile)
         utilizador.profile_picture = "media/" + filename
-        utilizador.save()
-        context = {'upadate': 'Profile updated', 'uploaded_file_url': "media/" + filename}
     except django.utils.datastructures.MultiValueDictKeyError:
         _ = None
+    utilizador.save()
     return render(request, 'gameapp/profile_settings.html', context)

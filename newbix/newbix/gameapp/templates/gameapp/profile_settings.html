@@ -15,38 +15,62 @@
 
     {% block left_aside %}
 
+        <br>
+
+        <figure style="margin: 8px">
+
+            {% if request.user.utilizador.profile_picture %}
+            <img class="profile" src='{% static request.user.utilizador.profile_picture %}'>
+            {% else %}
+            <img class="profile" src='{% static "utils/defaultpp.jpg" %}'>
+            {% endif %}
+
+        </figure>
+
+        <br>
+
+    <h2>{{ request.user.utilizador.username }}</h2>
+
+    {% if update %}
+    {{update}}
+    {% endif %}
+
     {% endblock %}
 
     {% block main_article %}
+    <div class="profile_Settings">
         <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:update' %}">
             {% csrf_token %}
-            <label>Bio: <br>
-                <textarea name="bio" rows="4" cols="50">{{ request.user.utilizador.biografia }}</textarea>
+            <label class="label1">Bio: <br>
+                <textarea name="bio" class="label2" rows="4" cols="50">{{ request.user.utilizador.biografia }}</textarea>
             </label>
 
             <br> <br>
 
-            <label>Country:
-                <input type="text" name="local" value="{{ request.user.utilizador.localidade }}">
+            <label class="label1">Country:
+                <input type="text" class="label2" style="width: 128px" name="local" value="{{ request.user.utilizador.localidade }}">
             </label>
 
             <br> <br>
 
-            <label>Gender: <br>
-                <select name="genero">
+            <label class="label1">Gender:
+                <select class="label2" style="width: 148px" name="genero">
 
-                    <option {% if 'Female' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Female">Female</option>
-                    <option {% if 'Male' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Male">Male</option>
-                    <option {% if 'Not Specified' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Not Specified">Not Specified</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Female' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Female">Female</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Male' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Male">Male</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Not Specified' == request.user.utilizador.genero %} selected="selected" {% endif %} value="Not Specified">Not Specified</option>
 
                 </select>
             </label>
 
             <br> <br>
 
+            <center>
             <input type="file" name="myfile"> <br> <br>
             <input class="button1" type="submit" value="Update">
+            </center>
         </form>
+    </div>
     {% endblock %}
 
 </html>
