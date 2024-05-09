@@ -269,12 +269,16 @@ h6 {
     padding-top: 10px;
     border-radius: 12px;
     transition: 0.2s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .game-link:hover {
     transition: 0.2s;
     background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.1);
 }
+
+
 
 .entry {
     margin-bottom: 0;  /* Adjust to remove space between entries */

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+    {% block main_article %}
+        {% for result in resultArrayReviews %}
+            <a href="{% url 'gameapp:reviewView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <div>
+                    <p>{{ result.titulo}}</p>
+                    <p>Review's game:</p>
+                    <p>{{ gameName }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    {% endblock %}
+</html>
