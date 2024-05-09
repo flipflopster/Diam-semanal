@@ -42,5 +42,10 @@ urlpatterns = [
     path("<int:appId>/createReview", views.createReview, name='createReview'),
     path("<int:userId>/userListView", views.userListView, name='userListView'),
     path("submitReview", views.submitReview, name='submitReview'),
+    path("<int:appId>/reviewsForGameSearch", views.reviewsForGameSearch, name='reviewsForGameSearch'),
+    path("reviewView/<int:reviewId>", views.reviewView, name='reviewView'),
+    path("recentReviewsResults", views.recentReviewsResults, name='recentReviewsResults'),
+
+
 
 ]

@@ -21,6 +21,14 @@
                     <p>Estado: {{ entry.estado }}</p>  <!-- Display the estado -->
                     <p>Last Modified: {{ entry.last_altered }}</p>
                 </div>
+                <div >
+                    <a href="https://www.youtube.com/watch?v=0E8H203aSkI">
+                        <button class="button1">Post Gameplay</button>
+                    </a>
+                    <a href="{% url 'gameapp:createReview' entry.jogo_id.steam_id %}">
+                        <button class="button1">Post Review</button>
+                    </a>
+                </div>
             </div>
         {% empty %}
         {% endfor %}

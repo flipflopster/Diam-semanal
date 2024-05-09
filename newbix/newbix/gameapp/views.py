@@ -42,6 +42,27 @@ def threadsForGameSearch(request, appId):
                   {'resultArrayThreads': resultArrayThreads, 'gameName': jogo.nome})
 
 
+def reviewsForGameSearch(request, appId):
+    if not Jogo.objects.filter(steam_id=appId).exists():
+        resultArrayReviews = []
+        render(request, 'gameapp/reviewsForGameSearch.html',
+               {'resultArrayReviews': resultArrayReviews, 'gameName': get_name(appId)})
+    else:
+        jogo = Jogo.objects.get(steam_id=appId)
+
+    resultArrayReviews = list(Review.objects.filter(listaUtliziadorJogo_id__jogo_id=jogo))
+    print(resultArrayReviews)
+    print(jogo.nome)
+    return render(request, 'gameapp/reviewsForGameSearch.html',
+                  {'resultArrayReviews': resultArrayReviews, 'gameName': jogo.nome})
+
+def reviewView(request,reviewId):
+    review = Review.objects.get(id=reviewId)
+    print(review.listaUtliziadorJogo_id.utilizador_id.username)
+
+    return render(request, 'gameapp/reviewView.html',{'review':review,'steam_id':review.listaUtliziadorJogo_id.jogo_id.steam_id})
+
+
 def threadView(request, threadId):
     thread = Thread.objects.get(id=threadId)
     commentArray = list(Comentario.objects.filter(thread_id=thread))
@@ -186,6 +207,11 @@ def recentThreadsResults(request):
     resultArrayThreads = Thread.objects.all().order_by('-created_at')
     return render(request, 'gameapp/searchResults.html',
                   {'keyword': 'Recent Threads', 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
+
+def recentReviewsResults(request):
+    resultArrayReviews = Review.objects.all().order_by('-created_at')
+    return render(request, 'gameapp/recentReviewsResults.html',
+                  {'keyword': 'Recent Reviews', 'resultArrayReviews': resultArrayReviews, 'filter': 'reviews', })
 
 
 def popularGamesResults(request):
