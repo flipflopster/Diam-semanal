@@ -14,6 +14,30 @@
                         $("#details").text("Show more Details");
             }});
         });
+        
+        $(document).ready(function() {
+            var currentImageIndex = 0;
+            var totalImages = {{ gameDetails.screenshots|length }};
+
+            function showImage(index) {
+                $('.screenshot').hide();
+                $('.screenshot').eq(index).show();
+            }
+
+            // Show the first image initially
+            showImage(currentImageIndex);
+
+            $('#prevBtn').click(function() {
+                currentImageIndex = Math.max(0, currentImageIndex - 1);
+                showImage(currentImageIndex);
+            });
+
+            $('#nextBtn').click(function() {
+                currentImageIndex = Math.min(totalImages - 1, currentImageIndex + 1);
+                showImage(currentImageIndex);
+            });
+        });
+        
     {% endblock %}
 
     {% block title %} {{ game_details.name }} {% endblock %}
@@ -155,9 +179,25 @@
             {% endfor %}
             </ul>
 -->
-        <h3>Screenshots</h3>
-        {% for screenshot in gameDetails.screenshots %}
-            <img src="{{ screenshot.path_thumbnail }}" alt="Screenshot {{ forloop.counter }}">
-        {% endfor %}
+       <h3>Screenshots</h3>
+    <div class="screenshot-gallery">
+    
+       
+                {% for screenshot in gameDetails.screenshots %}
+                <div class="screenshot" style="display: none;">
+                    <img src="{{ screenshot.path_thumbnail }}" alt="Screenshot {{ forloop.counter }}">
+                </div>
+                {% endfor %}
+                
+          <table>
+            <th>
+                <button id="prevBtn" class="button1"><</button>
+            </th>
+            <th>    
+                <button id="nextBtn" class="button1"> > </button>
+            </th>
+        </table>
+        
+    </div>
     {% endblock %}
 </html>
