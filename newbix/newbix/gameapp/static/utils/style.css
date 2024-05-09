@@ -88,6 +88,8 @@ h6 {
     border: solid black 3px;
     border-radius: 8px;
     transition: 0.4s;
+    font-size: medium;
+    font-weight: lighter;
 }
 
 .search_form:hover {
@@ -113,11 +115,11 @@ h6 {
     max-height: 28px;
     margin: 0;
     border: none;
-    padding: 2px 4px;
     color: inherit;
     background-color: white;
+    font-family: inherit;
     text-align: left;
-    font-weight: bold;
+    font-weight: lighter;
     transition: 0.4s;
 }
 

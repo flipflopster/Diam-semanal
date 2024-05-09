@@ -8,9 +8,11 @@
 
     {% block left_aside %}
 
+    <div style="text-align: left; background-color: rgb(20, 20, 20); padding: 16px; border-radius: 8px; margin: 32px; box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;" >
+
         <br>
 
-        <figure style="margin: 8px">
+        <center><figure style="margin: 8px">
 
             {% if utilizador.profile_picture %}
             <img class="profile" src='{% static utilizador.profile_picture %}'>
@@ -41,6 +43,7 @@
             {% endif %}
         {% endif %}
     {% endif %}
+    </center>
 
     <p>
         {% if utilizador.user_id.last_login %}
@@ -59,11 +62,59 @@
     {% endif %}</p>
 
     <p>Gender: {{ utilizador.genero }}</p>
+    </div>
+
+
     {% endblock %}
 
 
     {% block main_article %}
-    {{ utilizador.biografia }}
+    <div style="padding: 24px; text-align: left">
+        <h2>About Me</h2>
+        {{ utilizador.biografia }}
+
+        <br> <br>
+
+        {% if games %}
+        <h2>Favorite Games</h2>
+        <table style="text-align: center">
+            {% for game in games %}
+            <th>
+                <a href="{% url 'gameapp:gameDetailsView' game.jogo_id.steam_id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div style="align-items: center;">
+                    <img src="{{ game.jogo_id.get_img_url }}" alt="Image">
+                    <p style="margin: 4px">{{ game.jogo_id.nome }} </p>
+                    </div>
+                </a>
+            </th>
+            {% endfor %}
+        </table>
+        {% else %}
+        No Games Rated Yet.
+        {% endif %}
+
+        {% if friends %}
+        <h2>{{utilizador.user_id}}'s Friends</h2>
+        <table style="text-align: left; width: 100%">
+            {% for u in friends %}
+            <th style="width: 20%; padding: 10px;">
+                <a href="{% url 'gameapp:profile_page' u.utilizador_seguido_id.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div style="text-align: center;">
+                        {% if u.utilizador_seguido_id.profile_picture %}
+                        <img class="profile" style="width: 64px; height: 64px" src='{% static u.utilizador_seguido_id.profile_picture %}'>
+                        {% else %}
+                        <img class="profile" style="width: 64px; height: 64px" src='{% static "utils/defaultpp.jpg" %}'>
+                        {% endif %}
+                        <p style="margin: 4px">{{ u.utilizador_seguido_id.user_id }} </p>
+                    </div>
+                </a>
+            </th>
+            {% endfor %}
+        </table>
+        {% else %}
+        No Games Rated Yet.
+        {% endif %}
+    </div>
     {% endblock %}
 
 </html>

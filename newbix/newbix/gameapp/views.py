@@ -56,11 +56,13 @@ def reviewsForGameSearch(request, appId):
     return render(request, 'gameapp/reviewsForGameSearch.html',
                   {'resultArrayReviews': resultArrayReviews, 'gameName': jogo.nome})
 
-def reviewView(request,reviewId):
+
+def reviewView(request, reviewId):
     review = Review.objects.get(id=reviewId)
     print(review.listaUtliziadorJogo_id.utilizador_id.username)
 
-    return render(request, 'gameapp/reviewView.html',{'review':review,'steam_id':review.listaUtliziadorJogo_id.jogo_id.steam_id})
+    return render(request, 'gameapp/reviewView.html',
+                  {'review': review, 'steam_id': review.listaUtliziadorJogo_id.jogo_id.steam_id})
 
 
 def threadView(request, threadId):
@@ -208,6 +210,7 @@ def recentThreadsResults(request):
     return render(request, 'gameapp/searchResults.html',
                   {'keyword': 'Recent Threads', 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
 
+
 def recentReviewsResults(request):
     resultArrayReviews = Review.objects.all().order_by('-created_at')
     return render(request, 'gameapp/recentReviewsResults.html',
@@ -257,8 +260,9 @@ def gameAddedToList(request):
         jogo.numeroRatings += 1
         jogo.totalPontos += new_rating
         jogo.save()
-        utilizador.jogos_completos += 1
-        utilizador.save()
+        if estado == 'CM':
+            utilizador.jogos_completos += 1
+            utilizador.save()
     else:
         if lista_utilizador_jogo.estado == 'CM':
             if estado != 'CM':
@@ -353,7 +357,10 @@ def profile_page(request, userId):
                                                utilizador_seguido_id=utilizador).exists()
     else:
         isFriend = False
-    return render(request, 'gameapp/profile_page.html', {'utilizador': utilizador, 'isFriend': isFriend})
+    listaAmigos = Lista_Amigos.objects.filter(utilizador_id=utilizador).order_by('data')[:5]
+    listaJogos = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador).order_by('-rating')[:3]
+    print(listaAmigos, listaJogos)
+    return render(request, 'gameapp/profile_page.html', {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos})
 
 
 def addFriend(request, userId):

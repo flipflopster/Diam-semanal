@@ -49,6 +49,19 @@
     {% endif %}
 
 
+    {% block nav_tags %} style="padding: 20px;" {% endblock %}
+    {% block right_nav %}
+    <div style="background-color: rgba(0, 0, 0, 60%); padding: 8px; border-radius: 8px;">
+        <br> <br>
+         <a href="{% url 'gameapp:threadsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
+                <button class="button1">Check threads</button>
+        </a> <br><br>
+        <a href="{% url 'gameapp:reviewsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
+            <button class="button1">Check reviews</button>
+        </a> <br> <br> <br>
+    </div>
+    {% endblock %}
+
     {% block aside_tags %} style="padding: 20px; text-align: left;" {% endblock %}
     {% block left_aside %}
     <div style="background-color: rgba(0, 0, 0, 60%); padding: 8px; border-radius: 8px;">
@@ -65,10 +78,10 @@
 
         {% if user.is_authenticated %}
 
-            <form class="search_form" style="width: 100%" action="{% url 'gameapp:gameAddedToList' %}" method="post">
+            <form class="search_form" style="width: 100%; text-align: center" action="{% url 'gameapp:gameAddedToList' %}" method="post">
                 {% csrf_token %}
 
-                <label class="header_bar" style="width: 30%">State:
+                <label class="header_bar" style="width: 28%">State:
                 <select class="header_bar" style="width: 30%;" name="estado">
 
                     <option {% if lista %} {% if 'PP' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PP">Plan-to-Play</option>
@@ -125,12 +138,6 @@
             <button class="button1 disabled-button" disabled title="Must be logged in">Create Review</button> <br> <br>
             <button class="button1 disabled-button" disabled title="Must be logged in">Create Gameplay</button> <br> <br>
         {% endif %}
-        <a href="{% url 'gameapp:threadsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
-                <button class="button1">Check threads</button>
-        </a> <br><br>
-        <a href="{% url 'gameapp:reviewsForGameSearch' gameDetails.steam_appid %}"> <!-- replace with your forums URL -->
-            <button class="button1">Check reviews</button>
-        </a> <br> <br>
         </center>
     </div>
     {% endblock %}
