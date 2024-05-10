@@ -1,10 +1,11 @@
 import datetime
+import random
 
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, get_capsule_imagev5
+from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, get_capsule_imagev5, get_screenshots
 
 
 # def loginview(request):
@@ -53,6 +54,13 @@ class Jogo(models.Model):
 
     def get_img_url(self):
         return get_capsule_imagev5(self.steam_id)
+
+    def get_background(self):
+        sShots = get_screenshots(self.steam_id)
+        background = None
+        if sShots:
+            background = random.choice(sShots)
+        return background
 
     def save(self, *args, **kwargs):
         if not is_cached(self.steam_id):

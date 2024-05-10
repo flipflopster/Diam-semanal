@@ -150,17 +150,12 @@ def get_search_results_array(keyword):
     #print(result)
     return result['apps']
 
-def get_screenshots(app_id, n):
-    # Get game details
+def get_screenshots(app_id):
     game_details = get_game_details(app_id)
 
     # Get screenshots
     screenshots = game_details.get('screenshots', [])
-
-    # Get paths of first n screenshots
-    screenshot_paths = [screenshot['path_thumbnail'] for screenshot in screenshots[:n]]
-
-    return screenshot_paths
+    return screenshots
 
 def parse_type(game_details):
     return game_details.get('type')

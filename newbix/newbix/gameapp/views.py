@@ -149,9 +149,7 @@ def gameDetailsView(request, appId):
             except ListaUtilizadorJogo.DoesNotExist:
                 lista = None
 
-    background = None
-    if gameDetails.get("screenshots"):
-        background = random.choice(gameDetails.get("screenshots"))
+    background = jogo.get_background()
 
     print(gameDetails)
 
