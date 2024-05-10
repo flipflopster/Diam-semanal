@@ -15,7 +15,8 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django import forms
 from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review
-from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name
+from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name, \
+    get_background
 from .models import ListaUtilizadorJogo
 from .models import Jogo
 
@@ -149,7 +150,7 @@ def gameDetailsView(request, appId):
             except ListaUtilizadorJogo.DoesNotExist:
                 lista = None
 
-    background = jogo.get_background()
+    background = get_background(appId)
 
     print(gameDetails)
 
