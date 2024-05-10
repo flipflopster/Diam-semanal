@@ -79,6 +79,26 @@
 
         <br> <br> <br>
 
+        {% if last_review %}
+        <h2>{{utilizador.user_id}}'s Latest Review</h2>
+        <a href="{% url 'gameapp:reviewView' last_review.id %}" class="game-link entry" style="text-decoration: none; color: inherit; box-sizing: border-box; width: 50%; text-align: left;">
+
+            <table>
+
+                <th>{{last_review.listaUtliziadorJogo_id.jogo_id.nome}}</th>
+
+                <th style="text-align: right;">{{last_review.tipoReview}}</th>
+
+            </table>
+
+            <br>
+
+            <img src="{{ last_review.listaUtliziadorJogo_id.jogo_id.get_img_url }}" alt="Image">
+        </a>
+
+        <br> <br>
+        {% endif %}
+
         {% if games %}
         <h2>Favorite Games</h2>
         <table style="text-align: center">

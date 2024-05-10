@@ -152,8 +152,6 @@ def gameDetailsView(request, appId):
 
     background = get_background(appId)
 
-    print(gameDetails)
-
     return render(request, 'gameapp/gameDetailsView.html',
                   {'gameDetails': gameDetails, 'jogo': jogo, 'lista': lista, 'background': background})
 
@@ -357,21 +355,12 @@ def profile_page(request, userId):
     else:
         isFriend = False
     listaAmigos = Lista_Amigos.objects.filter(utilizador_id=utilizador).order_by('data')[:5]
-    listaJogos = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador).order_by('-rating')[:3]
+    listaJogos = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador).filter(estado='CM').order_by('-rating')[:3]
 
-    last_review = None
-    for game in ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador):
-        review = Review.objects.filter(listaUtliziadorJogo_id=game).first()
-        if review:
-            if last_review:
-                if review.updated > last_review.updated:
-                    last_review = review
-            else:
-                last_review = review
-    print(last_review.titulo)
+    last_review = utilizador.last_review()
 
     return render(request, 'gameapp/profile_page.html',
-                  {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos})
+                  {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos, 'last_review': last_review})
 
 
 def addFriend(request, userId):

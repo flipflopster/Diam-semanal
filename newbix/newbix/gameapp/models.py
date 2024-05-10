@@ -27,6 +27,18 @@ class Utilizador(models.Model):
     jogos_completos = models.IntegerField(default=0)
     profile_picture = models.CharField(max_length=100)
 
+    def last_review(self):
+        r = None
+        for game in ListaUtilizadorJogo.objects.filter(utilizador_id=self):
+            review = Review.objects.filter(listaUtliziadorJogo_id=game).first()
+            if review:
+                if r:
+                    if review.updated > r.updated:
+                        r = review
+                else:
+                    r = review
+        return r
+
 
 class Lista_Amigos(models.Model):
     utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_id')
