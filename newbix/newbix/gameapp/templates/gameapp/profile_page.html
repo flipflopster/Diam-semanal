@@ -71,9 +71,13 @@
     {% block main_article %}
     <div style="padding: 24px; text-align: left">
         <h2>About Me</h2>
+        {% if games %}
         {{ utilizador.biografia }}
+        {% else %}
+        New Newbie!
+        {% endif %}
 
-        <br> <br>
+        <br> <br> <br>
 
         {% if games %}
         <h2>Favorite Games</h2>
@@ -90,11 +94,13 @@
             {% endfor %}
         </table>
         {% else %}
-        No Games Rated Yet.
+        No Games Rated yet.
         {% endif %}
 
-        {% if friends %}
+        <br>
+
         <h2>{{utilizador.user_id}}'s Friends</h2>
+        {% if friends %}
         <table style="text-align: left; width: 100%">
             {% for u in friends %}
             <th style="width: 20%; padding: 10px;">
@@ -112,8 +118,14 @@
             {% endfor %}
         </table>
         {% else %}
-        No Games Rated Yet.
+        <div style="text-align: center">
+            <p>No friends yet. ; _ ;</p>
+            <img style="width: 25%; box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;" src='{% static "utils/kiryuCry.jpg" %}'>
+        </div>
         {% endif %}
+
+        <br>
+
     </div>
     {% endblock %}
 

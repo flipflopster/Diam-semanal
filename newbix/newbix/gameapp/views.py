@@ -358,8 +358,20 @@ def profile_page(request, userId):
         isFriend = False
     listaAmigos = Lista_Amigos.objects.filter(utilizador_id=utilizador).order_by('data')[:5]
     listaJogos = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador).order_by('-rating')[:3]
-    print(listaAmigos, listaJogos)
-    return render(request, 'gameapp/profile_page.html', {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos})
+
+    last_review = None
+    for game in ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador):
+        review = Review.objects.filter(listaUtliziadorJogo_id=game).first()
+        if review:
+            if last_review:
+                if review.updated > last_review.updated:
+                    last_review = review
+            else:
+                last_review = review
+    print(last_review.titulo)
+
+    return render(request, 'gameapp/profile_page.html',
+                  {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos})
 
 
 def addFriend(request, userId):
