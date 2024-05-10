@@ -103,6 +103,14 @@ class Review(models.Model):
     titulo = models.CharField(max_length=127)
     texto = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class tipoReview(models.TextChoices):
+        MIXED_FEELINGS = 'MF', 'Mixed Feelings'
+        RECOMMENDED = 'RC', 'Recommended'
+        NOT_RECOMMENDED = 'DR', 'Not Recommended'
+
+    tipoReview = models.CharField(max_length=2, choices=tipoReview.choices)
 
 
 class Gameplay(models.Model):
@@ -128,6 +136,24 @@ class Thread(models.Model):
     titulo = models.CharField(max_length=127)
     descricao = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class threadTopic(models.TextChoices):
+        GAME_BUILD = 'GB', 'Game Build'
+        STRATEGY = 'SG', 'Strategy'
+        COMPETITIVE = 'CP', 'Competitive'
+        MODDING = 'MO', 'Modding'
+        COMPLETION = 'CO', 'Completion'
+        GAME_UPDATES = 'GU', 'Game Updates'
+        GAME_EVENTS = 'GE', 'Game Events'
+        LORE = 'LO', 'Lore'
+        SOUNDTRACK = 'ST', 'Soundtrack'
+        GRAPHICS = 'GR', 'Graphics'
+        GAME_MECHANICS = 'GM', 'Game Mechanics'
+        EASTER_EGGS = 'EE', 'Easter Eggs'
+        OTHER = 'OT', 'Other'
+
+    threadTopic = models.CharField(max_length=2, choices=threadTopic.choices, default=threadTopic.OTHER)
 
 
 class Comentario(models.Model):
