@@ -36,41 +36,44 @@
                 currentImageIndex = Math.min(totalImages - 1, currentImageIndex + 1);
                 showImage(currentImageIndex);
             });
-        });
-        
-        $('#validarComentario').submit(function(event){
-        event.preventDefault(); // Isso evita o envio padrão do formulário
 
-        let texto = $('#text').val();
-        let palavras = texto.split(" ");
-        let arrayInsultos = [
-            "abecula","abentesma","achavascado","alimária",
-            "andrajoso", "barregã", "biltre", "cacóstomo",
-            "cuarra", "estólido", "estroso", "estultilóquio", 
-            "nefelibata","néscio", "pechenga", "sevandija", 
-            "somítico", "tatibitate", "xexé", "cheché", "xexelento"];
+            $('#validarComentario').submit(function(event){
+                event.preventDefault();
         
-        let existeInsulto = false;
-        let insulto = 'nenhum';
-        
-        for(let i = 0; i < palavras.length; i++) {
-            let palavrasmin = palavras[i].toLowerCase();
-            for (let z = 0; z < arrayInsultos.length; z++) {
-                if (palavrasmin === arrayInsultos[z]) {
-                    existeInsulto = true;
-                    insulto = palavrasmin;
-                    break;
+                let texto = $('#text').val();
+                let palavras = texto.split(" ");
+                let arrayInsultos = [
+                    "abecula","abentesma","achavascado","alimária",
+                    "andrajoso", "barregã", "biltre", "cacóstomo",
+                    "cuarra", "estólido", "estroso", "estultilóquio", 
+                    "nefelibata","néscio", "pechenga", "sevandija", 
+                    "somítico", "tatibitate", "xexé", "cheché", "xexelento"];
+                
+                let existeInsulto = Boolean(false);
+                let insulto = 'nenhum';
+                
+                for(let i = 0; i < palavras.length; i++) {
+                    let palavrasmin = palavras[i].toLowerCase();
+                    for (let z = 0; z < arrayInsultos.length; z++) {
+                        if (palavrasmin === arrayInsultos[z]) {
+                            existeInsulto = Boolean(true);
+                            insulto = palavrasmin;
+                            break;
+                        }
+                    }
+                    if (existeInsulto === true) {
+                        break;
+                    }
                 }
-            }
-            if (existeInsulto) {
-                break;
-            }
-        }
-        if (existeInsulto) {
-            $("#text").val("Comentário inválido, insultos não permitidos");
-        }
-    });
-        
+                if (existeInsulto === true) {
+                     $("#test").val("Por favor insira um cometario");
+                }
+            });
+
+
+
+        });
+
     {% endblock %}
 
     {% block title %} {{ game_details.name }} {% endblock %}
