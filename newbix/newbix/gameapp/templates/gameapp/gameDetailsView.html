@@ -36,42 +36,6 @@
                 currentImageIndex = Math.min(totalImages - 1, currentImageIndex + 1);
                 showImage(currentImageIndex);
             });
-
-            $('#validarComentario').submit(function(event){
-                event.preventDefault();
-        
-                let texto = $('#text').val();
-                let palavras = texto.split(" ");
-                let arrayInsultos = [
-                    "abecula","abentesma","achavascado","alimária",
-                    "andrajoso", "barregã", "biltre", "cacóstomo",
-                    "cuarra", "estólido", "estroso", "estultilóquio", 
-                    "nefelibata","néscio", "pechenga", "sevandija", 
-                    "somítico", "tatibitate", "xexé", "cheché", "xexelento"];
-                
-                let existeInsulto = Boolean(false);
-                let insulto = 'nenhum';
-                
-                for(let i = 0; i < palavras.length; i++) {
-                    let palavrasmin = palavras[i].toLowerCase();
-                    for (let z = 0; z < arrayInsultos.length; z++) {
-                        if (palavrasmin === arrayInsultos[z]) {
-                            existeInsulto = Boolean(true);
-                            insulto = palavrasmin;
-                            break;
-                        }
-                    }
-                    if (existeInsulto === true) {
-                        break;
-                    }
-                }
-                if (existeInsulto === true) {
-                     $("#test").val("Por favor insira um cometario");
-                }
-            });
-
-
-
         });
 
     {% endblock %}
