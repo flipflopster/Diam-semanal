@@ -17,6 +17,14 @@ from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, 
 #        login(request, user)
 #    else:
 
+def has_review(lista):
+    try:
+        review = ListaUtilizadorJogo.objects.get(listaUtilizadorJogo=lista)
+    except ListaUtilizadorJogo.DoesNotExist:
+        review = None
+    return lista
+
+
 class Utilizador(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
@@ -38,6 +46,13 @@ class Utilizador(models.Model):
                 else:
                     r = review
         return r
+
+    def is_on_List(self, jogo):
+        try:
+            lista = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=self)
+        except ListaUtilizadorJogo.DoesNotExist:
+            lista = None
+        return lista
 
 
 class Lista_Amigos(models.Model):
@@ -120,7 +135,6 @@ class ListaUtilizadorJogo(models.Model):
 
 class Review(models.Model):
     listaUtliziadorJogo_id = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
-    titulo = models.CharField(max_length=127)
     texto = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

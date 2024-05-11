@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django import forms
-from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review
+from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review, has_review
 from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name, \
     get_background
 from .models import ListaUtilizadorJogo
@@ -113,20 +113,26 @@ def search_results(request):
                    'resultArrayThreads': resultArrayThreads, 'resultArrayUsers': resultArrayUsers, 'filter': filter, })
 
 
+@login_required(login_url='/gameapp/login')
 def createReview(request, appId):
     request.session['appId'] = appId
     game = Jogo.objects.get(steam_id=appId)
     return render(request, 'gameapp/createReview.html', {'game': game})
 
 
+@login_required(login_url='/gameapp/login')
 def submitReview(request):
     appId = request.session.get('appId')
-    listaUtliziadorJogo_id = ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId),
-                                                             utilizador_id=Utilizador.objects.get(user_id=request.user))
-    titulo = request.POST.get('titulo')
-    texto = request.POST.get('texto')
+    luj = ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId),
+                                          utilizador_id=Utilizador.objects.get(user_id=request.user))
 
-    Review.objects.create(titulo=titulo, texto=texto, listaUtliziadorJogo_id=listaUtliziadorJogo_id)
+    possibleReview = Review.objects.filter(listaUtliziadorJogo_id=luj)
+    if possibleReview.length == 0:
+        titulo = request.POST.get('titulo')
+        texto = request.POST.get('texto')
+
+        Review.objects.create(titulo=titulo, texto=texto, listaUtliziadorJogo_id=luj)
+
     return redirect('gameapp:gameDetailsView', appId=appId)
 
 
@@ -141,19 +147,17 @@ def gameDetailsView(request, appId):
 
     lista = None
     if request.user.is_authenticated:
-        utilizador = Utilizador.objects.get(user_id=request.user)
+        if jogo:
+            lista = request.user.utilizador.is_on_List(jogo)
 
-        # Check if a ListaUtilizadorJogo record exists for the current user and game
-        if jogo:  # Only execute this line if jogo is not None
-            try:
-                lista = ListaUtilizadorJogo.objects.get(jogo_id=jogo, utilizador_id=utilizador)
-            except ListaUtilizadorJogo.DoesNotExist:
-                lista = None
+    review = None
+    if lista:
+        review = has_review(lista)
 
-    background = get_background(appId)
+    bg = get_background(appId)
+    context = {'jogo': jogo, 'gameDetails': gameDetails, 'lista': lista, 'review': review, 'background': bg}
 
-    return render(request, 'gameapp/gameDetailsView.html',
-                  {'gameDetails': gameDetails, 'jogo': jogo, 'lista': lista, 'background': background})
+    return render(request, 'gameapp/gameDetailsView.html', context)
 
 
 def userListView(request, userId):
@@ -163,16 +167,19 @@ def userListView(request, userId):
                   {'utilizador': utilizador, 'resultArrayEntries': resultArrayEntries})
 
 
+@login_required(login_url='/gameapp/login')
 def createThread(request, appId):
     request.session['appId'] = appId
     return render(request, 'gameapp/createThread.html')
 
 
+@login_required(login_url='/gameapp/login')
 def createComment(request, threadId):
     request.session['threadId'] = threadId
     return render(request, 'gameapp/createComment.html')
 
 
+@login_required(login_url='/gameapp/login')
 def submitThread(request):
     appId = request.session.get('appId')
     titulo = request.POST.get('titulo')
@@ -184,6 +191,7 @@ def submitThread(request):
     return threadsForGameSearch(request, appId)
 
 
+@login_required(login_url='/gameapp/login')
 def submitComment(request):
     threadId = request.session.get('threadId')
     texto = request.POST.get('text')
@@ -223,6 +231,7 @@ def popularGamesResults(request):
                   {'keyword': 'Popular Games', 'resultArrayGames': resultArrayGames, 'filter': 'games', })
 
 
+@login_required(login_url='/gameapp/login')
 def gameAddedToList(request):
     gameDetails = request.session.get('gameDetails', None)
     new_rating = int(request.POST.get('rating'))  # replace with the actual rating from the form
@@ -287,6 +296,7 @@ def gameAddedToList(request):
     return gameDetailsView(request, gameDetails.get('steam_appid'))
 
 
+@login_required(login_url='/gameapp/login')
 def gameRemovedFromList(request, appId):
     jogo = Jogo.objects.get(steam_id=appId)
     utilizador = Utilizador.objects.get(user_id=request.user)
@@ -355,12 +365,14 @@ def profile_page(request, userId):
     else:
         isFriend = False
     listaAmigos = Lista_Amigos.objects.filter(utilizador_id=utilizador).order_by('data')[:5]
-    listaJogos = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador).filter(estado='CM').order_by('-rating')[:3]
+    listaJogos = ListaUtilizadorJogo.objects.filter(utilizador_id=utilizador).filter(estado='CM').order_by('-rating')[
+                 :3]
 
     last_review = utilizador.last_review()
 
     return render(request, 'gameapp/profile_page.html',
-                  {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos, 'last_review': last_review})
+                  {'utilizador': utilizador, 'isFriend': isFriend, 'friends': listaAmigos, 'games': listaJogos,
+                   'last_review': last_review})
 
 
 def addFriend(request, userId):
