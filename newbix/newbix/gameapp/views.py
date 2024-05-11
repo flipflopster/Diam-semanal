@@ -47,7 +47,7 @@ def reviewsForGameSearch(request, appId):
     if not Jogo.objects.filter(steam_id=appId).exists():
         resultArrayReviews = []
         render(request, 'gameapp/searchResults.html.html',
-               {'resultArrayReviews': resultArrayReviews, 'keyword': jogo.nome, 'filter': 'reviews'})
+               {'resultArrayReviews': resultArrayReviews, 'keyword': get_name(appId), 'filter': 'reviews'})
     else:
         jogo = Jogo.objects.get(steam_id=appId)
 
