@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search {{ request.keyword }}{% endblock %}
+
+    {% block main_article %}
+        <div class="profile_Settings">
+                <h2 style="text-align: center">{% if numeroGameplays == 0 %}Postar a primeira gameplay!{% else %} Postar gameplay numero: {{numeroGameplays|add:"1"}}{% endif %}</h2> <br>
+
+                <a href="https://www.youtube.com/watch?v=GTH2IrC3wEE&list=PLUtGEsOlcdnzVO7jZWSTXTRxtnOSuVzXn&index=22">
+                    <center>
+                    <h1>Ir para o resto da lista!</h1>
+                    </center>
+                </a>
+
+                <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitGameplay' %}">
+                {% csrf_token %}
+
+
+                <br> <br>
+
+                <label class="label1">Insere o Link! <br><br>
+                    <textarea name="link" class="label2" rows="1" cols="50"></textarea>
+                </label><br><br><br>
+
+                <label class="label1">Escreve o Titulo do Video! <br><br>
+                    <textarea name="titulo" class="label2" rows="2" cols="50"></textarea>
+                </label><br><br><br>
+
+                <label class="label1">Escreve a descrição! <br><br>
+                    <textarea name="descricao" class="label2" rows="4" cols="50"></textarea>
+                </label><br><br><br>
+
+                <br> <br>
+
+                <center>
+                <input class="button1" type="submit" value=Submit>
+                </center>
+            </form>
+        </div>
+    {% endblock %}
+
+</html>

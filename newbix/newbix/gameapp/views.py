@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django import forms
-from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review, has_review
+from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review, has_review, ListaGameplays, Gameplay
 from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name, \
     get_background
 from .models import ListaUtilizadorJogo
@@ -204,6 +204,33 @@ def submitComment(request):
                               poster_id=Utilizador.objects.get(user_id=request.user))
 
     return redirect('gameapp:threadView', threadId=threadId)
+
+@login_required(login_url='/gameapp/login')
+def createGameplay(request, appId):
+    request.session['appId'] = appId
+    game = Jogo.objects.get(steam_id=appId)
+
+    listaUserJogo = ListaUtilizadorJogo.objects.get(jogo_id=game, utilizador_id=Utilizador.objects.get(user_id=request.user))
+    numeroGameplays = ListaGameplays.objects.filter(listaUtliziadorJogo_id=listaUserJogo).count()
+    if numeroGameplays == 0:
+        print('nao existe')
+
+    print(numeroGameplays)
+    return render(request, 'gameapp/createGameplay.html', {'game': game, 'numeroGameplays':numeroGameplays})
+
+
+@login_required(login_url='/gameapp/login')
+def submitGameplay(request):
+
+    appId = request.session.get('appId')
+    descricao = request.POST.get('descricao')
+    link = request.POST.get('link')
+    titulo = request.POST.get('titulo')
+    gameplay = Gameplay.objects.create(titulo=titulo, descricao=descricao, link=link)
+    listaGameplays = ListaGameplays.objects.create(gameplay_id=gameplay, listaUtliziadorJogo_id=ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId), utilizador_id=Utilizador.objects.get(user_id=request.user)))
+
+
+    return redirect('gameapp:gameDetailsView', appId=appId)
 
 
 def topGamesResults(request):
