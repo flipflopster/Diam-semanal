@@ -32,30 +32,28 @@ def index(request):
 def threadsForGameSearch(request, appId):
     if not Jogo.objects.filter(steam_id=appId).exists():
         resultArrayThreads = []
-        render(request, 'gameapp/threadsForGameSearch.html',
-               {'resultArrayThreads': resultArrayThreads, 'gameName': get_name(appId)})
+        return render(request, 'gameapp/searchResults.html',
+                      {'keyword': get_name(appId), 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
     else:
         jogo = Jogo.objects.get(steam_id=appId)
 
     resultArrayThreads = Thread.objects.filter(jogo_id=jogo)
 
-    return render(request, 'gameapp/threadsForGameSearch.html',
-                  {'resultArrayThreads': resultArrayThreads, 'gameName': jogo.nome})
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': jogo.nome, 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
 
 
 def reviewsForGameSearch(request, appId):
     if not Jogo.objects.filter(steam_id=appId).exists():
         resultArrayReviews = []
-        render(request, 'gameapp/reviewsForGameSearch.html',
-               {'resultArrayReviews': resultArrayReviews, 'gameName': get_name(appId)})
+        render(request, 'gameapp/searchResults.html.html',
+               {'resultArrayReviews': resultArrayReviews, 'keyword': jogo.nome, 'filter': 'reviews'})
     else:
         jogo = Jogo.objects.get(steam_id=appId)
 
     resultArrayReviews = list(Review.objects.filter(listaUtliziadorJogo_id__jogo_id=jogo))
-    print(resultArrayReviews)
-    print(jogo.nome)
-    return render(request, 'gameapp/reviewsForGameSearch.html',
-                  {'resultArrayReviews': resultArrayReviews, 'gameName': jogo.nome})
+    return render(request, 'gameapp/searchResults.html',
+                  {'resultArrayReviews': resultArrayReviews, 'keyword': jogo.nome, 'filter': 'reviews'})
 
 
 def reviewView(request, reviewId):
@@ -218,8 +216,8 @@ def recentThreadsResults(request):
 
 def recentReviewsResults(request):
     resultArrayReviews = Review.objects.all().order_by('-created_at')
-    return render(request, 'gameapp/recentReviewsResults.html',
-                  {'keyword': 'Recent Reviews', 'resultArrayReviews': resultArrayReviews, 'filter': 'reviews', })
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': 'Recent', 'resultArrayReviews': resultArrayReviews, 'filter': 'reviews'})
 
 
 def popularGamesResults(request):

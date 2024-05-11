@@ -19,8 +19,8 @@ from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, 
 
 def has_review(lista):
     try:
-        review = ListaUtilizadorJogo.objects.get(listaUtilizadorJogo=lista)
-    except ListaUtilizadorJogo.DoesNotExist:
+        review = Review.objects.get(listaUtliziadorJogo_id=lista)
+    except Review.DoesNotExist:
         review = None
     return lista
 

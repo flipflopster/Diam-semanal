@@ -61,19 +61,31 @@
             {% endif %}
 
             {% if resultArrayThreads %}
-                <h1>Threads:</h1>
+            <h1>Threads:</h1>
 
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        {% for result in resultArrayThreads %}
-                            <p>teste thread</p>
-                        {% endfor %}
+            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+                {% for result in resultArrayThreads %}
+                <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div class="result_link" style="text-indent: 0;">
+                        <table>
+                            <tr>
+                                <th>{{result.jogo_id.nome}}</th>
+                                <th style="text-align: right;">{{result.threadTopic}}</th>
+                            </tr>
+                            <tr>
+                                <th><img src="{{ result.jogo_id.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.criador_id.user_id}}</th>
+                            </tr>
+                        </table>
                     </div>
+                </a>
+                {% endfor %}
+            </div>
 
             {% else %}
-                <h1>No threads found</h1><br><br>
+            <h1>No threads found</h1><br><br>
             {% endif %}
-        {% endif %}
-
+            {% endif %}
 
         {% if filter == 'users' %}
             {% if resultArrayUsers %}
@@ -124,23 +136,60 @@
             {% endif %}
         {% endif %}
 
-        {% if filter == 'threads' %}
+            {% if filter == 'threads' %}
             {% if resultArrayThreads %}
-                <h1>Threads:</h1>
+            <h1>Threads:</h1>
+            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
                 {% for result in resultArrayThreads %}
-                    <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
-                        <div>
-                            <p>Titulo: {{ result.titulo}}</p>
-                            <p>Thread's game:</p>
-                            <p>{{ result.jogo_id.nome }}</p>
-                            <p>Creador: {{ result.criador_id.username }}</p>
-                        </div>
-                    </a>
+                <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div class="result_link" style="text-indent: 0;">
+                        <table>
+                            <tr>
+                                <th>{{result.jogo_id.nome}}</th>
+                                <th style="text-align: right;">{{result.threadTopic}}</th>
+                            </tr>
+                            <tr>
+                                <th><img src="{{ result.jogo_id.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.criador_id.user_id}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </a>
                 {% endfor %}
+            </div>
             {% else %}
-                <h1>No threads found</h1><br><br>
+            <h1>No threads found</h1><br><br>
             {% endif %}
-        {% endif %}
+            {% endif %}
+
+            {% if filter == 'reviews' %}
+            {% if resultArrayReviews %}
+            <h1>{{keyword}} Reviews:</h1>
+
+            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+                {% for review in resultArrayReviews %}
+                <a href="{% url 'gameapp:reviewView' review.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div class="result_link" style="text-indent: 0;">
+                        <table>
+                            <tr>
+                                <th>{{review.listaUtliziadorJogo_id.jogo_id.nome}}</th>
+                                <th style="text-align: right;">{{review.tipoReview}}</th>
+                            </tr>
+                            <tr>
+                                <th><img src="{{ review.listaUtliziadorJogo_id.jogo_id.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">Written by: {{review.listaUtliziadorJogo_id.utilizador_id.user_id}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+            {% else %}
+                <h1>No Reviews found</h1> <br> <br>
+            {% endif %}
+            {% endif %}
+
         </div>
 
     {% endblock %}
