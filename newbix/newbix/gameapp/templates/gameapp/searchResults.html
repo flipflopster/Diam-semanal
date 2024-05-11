@@ -185,8 +185,40 @@
                 {% endfor %}
             </div>
 
+
+
             {% else %}
                 <h1>No Reviews found</h1> <br> <br>
+            {% endif %}
+            {% endif %}
+
+            {% if filter == 'gameplays' %}
+            {% if resultArrayGameplays %}
+            <h1>{{keyword}} Gameplays:</h1>
+
+            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+                {% for result in resultArrayGameplays %}
+                <a href="{% url 'gameapp:gameplayView' result.gameplay_id.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div class="result_link" style="text-indent: 0;">
+                        <table>
+                            <tr>
+                                <th>{{result.listaUtliziadorJogo_id.jogo_id.nome}}</th>
+                                <th style="text-align: right;">{{result.gameplay_id.titulo}}</th>
+                            </tr>
+                            <tr>
+                                <th><img src="{{ result.listaUtliziadorJogo_id.jogo_id.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">Link: {{ result.gameplay_id.link}}<br>Written by: {{result.listaUtliziadorJogo_id.utilizador_id.username}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+
+
+            {% else %}
+                <h1>No Gameplays found</h1> <br> <br>
             {% endif %}
             {% endif %}
 

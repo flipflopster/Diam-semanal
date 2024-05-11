@@ -17,7 +17,7 @@
         <h2>Descrição:</h2>
         <p>{{ review.texto }}</p><br><br>
         <h2>Criador:</h2>
-        <a href="{% url 'gameapp:profile_page' steam_id %}">
+        <a href="{% url 'gameapp:profile_page' review.listaUtliziadorJogo_id.utilizador_id.id %}">
         <p>{{ review.listaUtliziadorJogo_id.utilizador_id.username }}</p><br><br>
         </a>
 

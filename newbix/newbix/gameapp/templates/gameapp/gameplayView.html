@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+    {% block main_article %}
+
+        <h1>Jogo: </h1>
+
+        <a href="{% url 'gameapp:gameDetailsView' gameplaylist.listaUtliziadorJogo_id.jogo_id.steam_id %}">
+        <h2>{{ gameplaylist.listaUtliziadorJogo_id.jogo_id.nome }}</h2><br>
+        </a>
+
+        <h2>Titulo: {{ gameplaylist.listaUtliziadorJogo_id.jogo_id.nome }}</h2><br>
+        <h2>Descrição:</h2>
+        <p>{{ gameplaylist.listaUtliziadorJogo_id.jogo_id.nome }}</p><br><br>
+        <h2>Video:</h2>
+        <p>{{ gameplaylist.gameplay_id.link }}</p><br><br>
+
+        <h2>Criador:</h2>
+        <a href="{% url 'gameapp:profile_page' gameplaylist.listaUtliziadorJogo_id.utilizador_id.id %}">
+        <p>{{ gameplaylist.listaUtliziadorJogo_id.jogo_id.nome }}</p><br><br>
+        </a>
+
+
+
+
+    {% endblock %}
+
+</html>

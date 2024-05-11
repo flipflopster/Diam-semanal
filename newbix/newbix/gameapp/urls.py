@@ -48,6 +48,8 @@ urlpatterns = [
     path("<int:appId>/createGameplay", views.createGameplay, name='createGameplay'),
     path("submitGameplay", views.submitGameplay, name='submitGameplay'),
     path("gameplayListView/<int:gameplayId>", views.gameplayListView, name='gameplayListView'),
+    path("<int:appId>/gameplaysForGameSearch", views.gameplaysForGameSearch, name='gameplaysForGameSearch'),
+    path("gameplayView/<int:gameplayId>", views.gameplayView, name='gameplayView'),
 
 
 ]

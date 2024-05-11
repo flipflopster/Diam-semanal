@@ -43,6 +43,18 @@ def threadsForGameSearch(request, appId):
                   {'keyword': jogo.nome, 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
 
 
+def gameplaysForGameSearch(request, appId):
+    if not Jogo.objects.filter(steam_id=appId).exists():
+        listaGameplaysAux = []
+        return render(request, 'gameapp/searchResults.html',{'keyword': get_name(appId), 'resultArrayGameplays': listaGameplaysAux, 'filter': 'gameplays', })
+    else:
+        jogo = Jogo.objects.get(steam_id=appId)
+
+    listaGameplaysAux = ListaGameplays.objects.filter(listaUtliziadorJogo_id__jogo_id=jogo)
+    print(listaGameplaysAux)
+    return render(request, 'gameapp/searchResults.html',{'keyword': jogo.nome, 'resultArrayGameplays': listaGameplaysAux, 'filter': 'gameplays', })
+
+
 def reviewsForGameSearch(request, appId):
     if not Jogo.objects.filter(steam_id=appId).exists():
         resultArrayReviews = []
@@ -62,6 +74,13 @@ def reviewView(request, reviewId):
 
     return render(request, 'gameapp/reviewView.html',
                   {'review': review, 'steam_id': review.listaUtliziadorJogo_id.jogo_id.steam_id})
+
+def gameplayView(request, gameplayId):
+    gameplay = Gameplay.objects.get(id=gameplayId)
+    gameplaylist = ListaGameplays.objects.get(gameplay_id=gameplay)
+
+    return render(request, 'gameapp/gameplayView.html',
+                  {'gameplaylist': gameplaylist, 'steam_id': gameplaylist.listaUtliziadorJogo_id.jogo_id.steam_id})
 
 
 def threadView(request, threadId):
@@ -214,6 +233,7 @@ def createGameplay(request, appId):
     numeroGameplays = ListaGameplays.objects.filter(listaUtliziadorJogo_id=listaUserJogo).count()
 
     return render(request, 'gameapp/createGameplay.html', {'game': game, 'numeroGameplays':numeroGameplays})
+
 
 
 @login_required(login_url='/gameapp/login')
