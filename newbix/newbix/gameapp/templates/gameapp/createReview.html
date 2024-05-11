@@ -8,14 +8,31 @@
     {% block title %}Search {{ request.keyword }}{% endblock %}
 
     {% block main_article %}
-        <h2>Create a new review for: {{game.nome}}</h2>
-        <form method="POST" action="{% url 'gameapp:submitReview' %}">
+    <div class="profile_Settings">
+        <h2 style="text-align: center">{% if review %}Update{% else %}New{% endif %} {{game.nome}} Review</h2> <br>
+        <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitReview' %}">
             {% csrf_token %}
-            <label for="titulo">Title:</label><br>
-            <input type="text" id="titulo" name="titulo"><br>
-            <label for="texto">Description:</label><br>
-            <textarea id="texto" name="texto"></textarea><br>
-            <input type="submit" value="Submit">
+            <label class="label1">Would you Recommend {{game.nome}}?
+                <select class="label2" style="width: 200px" name="tipo">
+
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'RC' == review.tipoReview %} selected="selected" {% endif %} value="RC">Recommended</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'MF' == review.tipoReview %} selected="selected" {% endif %} value="MF">Mixed Feelings</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'NR' == review.tipoReview %} selected="selected" {% endif %} value="NR">Not Recommended</option>
+
+                </select>
+            </label>
+
+            <br> <br>
+            <label class="label1">Describe your Experience <br> <br>
+                <textarea name="texto" class="label2" rows="4" cols="50">{{ review.texto }}</textarea>
+            </label>
+
+            <br> <br>
+
+            <center>
+            <input class="button1" type="submit" value={% if review %}"Update"{% else %}"Submit"{% endif %}>
+            </center>
         </form>
+    </div>
     {% endblock %}
 </html>

@@ -22,7 +22,7 @@ def has_review(lista):
         review = Review.objects.get(listaUtliziadorJogo_id=lista)
     except Review.DoesNotExist:
         review = None
-    return lista
+    return review
 
 
 class Utilizador(models.Model):
@@ -34,6 +34,14 @@ class Utilizador(models.Model):
     localidade = models.CharField(max_length=100)
     jogos_completos = models.IntegerField(default=0)
     profile_picture = models.CharField(max_length=100)
+
+    def get_review(self, jogo):
+        lista = self.is_on_List(jogo)
+        try:
+            review = Review.objects.get(listaUtliziadorJogo_id=lista)
+        except Review.DoesNotExist:
+            review = None
+        return review
 
     def last_review(self):
         r = None

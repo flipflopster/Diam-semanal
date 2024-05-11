@@ -115,21 +115,27 @@ def search_results(request):
 def createReview(request, appId):
     request.session['appId'] = appId
     game = Jogo.objects.get(steam_id=appId)
-    return render(request, 'gameapp/createReview.html', {'game': game})
+    review = request.user.utilizador.get_review(game)
+    return render(request, 'gameapp/createReview.html', {'game': game, 'review': review})
 
 
 @login_required(login_url='/gameapp/login')
 def submitReview(request):
     appId = request.session.get('appId')
+    game = Jogo.objects.get(steam_id=appId)
     luj = ListaUtilizadorJogo.objects.get(jogo_id=Jogo.objects.get(steam_id=appId),
                                           utilizador_id=Utilizador.objects.get(user_id=request.user))
 
-    possibleReview = Review.objects.filter(listaUtliziadorJogo_id=luj)
-    if possibleReview.length == 0:
-        titulo = request.POST.get('titulo')
-        texto = request.POST.get('texto')
+    tipo = request.POST.get('tipo')
+    texto = request.POST.get('texto')
 
-        Review.objects.create(titulo=titulo, texto=texto, listaUtliziadorJogo_id=luj)
+    review = request.user.utilizador.get_review(game)
+    if review:
+        review.tipoReview = tipo
+        review.texto = texto
+        review.save()
+    else:
+        Review.objects.create(tipoReview=tipo, texto=texto, listaUtliziadorJogo_id=luj)
 
     return redirect('gameapp:gameDetailsView', appId=appId)
 
@@ -167,8 +173,9 @@ def userListView(request, userId):
 
 @login_required(login_url='/gameapp/login')
 def createThread(request, appId):
+    game = Jogo.objects.get(steam_id=appId)
     request.session['appId'] = appId
-    return render(request, 'gameapp/createThread.html')
+    return render(request, 'gameapp/createThread.html', {'game': game})
 
 
 @login_required(login_url='/gameapp/login')
@@ -178,7 +185,7 @@ def createComment(request, threadId):
 
 
 @login_required(login_url='/gameapp/login')
-def submitThread(request):
+def submitThread(request, thread):
     appId = request.session.get('appId')
     titulo = request.POST.get('titulo')
     descricao = request.POST.get('descricao')
