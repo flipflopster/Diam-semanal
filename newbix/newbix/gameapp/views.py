@@ -212,10 +212,7 @@ def createGameplay(request, appId):
 
     listaUserJogo = ListaUtilizadorJogo.objects.get(jogo_id=game, utilizador_id=Utilizador.objects.get(user_id=request.user))
     numeroGameplays = ListaGameplays.objects.filter(listaUtliziadorJogo_id=listaUserJogo).count()
-    if numeroGameplays == 0:
-        print('nao existe')
 
-    print(numeroGameplays)
     return render(request, 'gameapp/createGameplay.html', {'game': game, 'numeroGameplays':numeroGameplays})
 
 
@@ -231,6 +228,11 @@ def submitGameplay(request):
 
 
     return redirect('gameapp:gameDetailsView', appId=appId)
+
+
+def gameplayListView(request,gameplayId):
+    gameplays = Gameplay.objects.all().order_by('-created_at')
+    return render(request, 'gameapp/gameplayListView.html', {'gameplays': gameplays})
 
 
 def topGamesResults(request):

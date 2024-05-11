@@ -47,6 +47,7 @@ urlpatterns = [
     path("recentReviewsResults", views.recentReviewsResults, name='recentReviewsResults'),
     path("<int:appId>/createGameplay", views.createGameplay, name='createGameplay'),
     path("submitGameplay", views.submitGameplay, name='submitGameplay'),
+    path("gameplayListView/<int:gameplayId>", views.gameplayListView, name='gameplayListView'),
 
 
 ]
