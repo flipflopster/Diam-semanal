@@ -47,6 +47,9 @@
         <br>
 
     <h2>{{ utilizador.user }}</h2>
+            {% if utilizador.user.is_superuser %}
+            <h2>Administrador</h2>
+            {% endif %}
 
     {% if request.user.is_authenticated %}
         {% if request.user == utilizador.user %}
