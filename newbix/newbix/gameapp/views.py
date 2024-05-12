@@ -27,7 +27,7 @@ def not_authenticated(user):
 
 
 def index(request):
-    randomGames = get_random_games(4)
+    randomGames = get_random_games(3)
     for result in randomGames:
         print(result)
 
