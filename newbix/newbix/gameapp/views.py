@@ -92,7 +92,8 @@ def gameplayView(request, gameplayId):
     gameplaylist = ListaGameplays.objects.get(gameplay_id=gameplay)
 
     return render(request, 'gameapp/resultView.html',
-                  {'result': gameplaylist, 'steam_id': gameplaylist.listaUtilizadorJogo.jogo.steam_id, 'tipo': 'gameplay'})
+                  {'result': gameplaylist, 'steam_id': gameplaylist.listaUtilizadorJogo.jogo.steam_id,
+                   'tipo': 'gameplay'})
 
 
 def threadView(request, threadId):
@@ -112,7 +113,8 @@ def threadView(request, threadId):
     else:
         inList = False
     return render(request, 'gameapp/resultView.html',
-                  {'steam_id': jogo.steam_id, 'result': thread.listaThreads, 'thread': thread, 'commentArray': commentArray, 'inList': inList, 'tipo': 'thread'})
+                  {'steam_id': jogo.steam_id, 'result': thread.listaThreads, 'thread': thread,
+                   'commentArray': commentArray, 'inList': inList, 'tipo': 'thread'})
 
 
 def search_results(request):
@@ -289,6 +291,58 @@ def recentThreadsResults(request):
     resultArrayThreads = Thread.objects.all().order_by('-created_at')
     return render(request, 'gameapp/searchResults.html',
                   {'keyword': 'Recent Threads', 'resultArrayThreads': resultArrayThreads, 'filter': 'threads', })
+
+
+def recentGameplayResults(request):
+    aux = Gameplay.objects.all().order_by('-created_at')
+    resultArrayGameplays = []
+    for gameplay in aux:
+        resultArrayGameplays.append(ListaGameplays.objects.get(gameplay=gameplay))
+
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': 'Recent', 'resultArrayGameplays': resultArrayGameplays, 'filter': 'gameplays', })
+
+
+def userReviewsResults(request, userId):
+    utilizador = Utilizador.objects.get(id=userId)
+    aux = ListaUtilizadorJogo.objects.filter(utilizador=utilizador)
+    resultArrayReviews = []
+    for luj in aux:
+        review = Review.objects.filter(listaUtilizadorJogo=luj)
+        if review:
+            resultArrayReviews.append(review[0])
+
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': utilizador.username, 'resultArrayReviews': resultArrayReviews, 'filter': 'reviews'})
+
+
+def userThreadResults(request, userId):
+    utilizador = Utilizador.objects.get(id=userId)
+    aux = ListaUtilizadorJogo.objects.filter(utilizador=utilizador)
+    resultArrayThreads = []
+    for luj in aux:
+        list = ListaThreads.objects.filter(listaUtilizadorJogo=luj)
+        if list:
+            for lt in list:
+                threads = Thread.objects.filter(listaThreads=lt)
+                for thread in threads:
+                    resultArrayThreads.append(thread)
+
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': utilizador.username, 'resultArrayThreads': resultArrayThreads, 'filter': 'threads'})
+
+
+def userGameplayResults(request, userId):
+    utilizador = Utilizador.objects.get(id=userId)
+    aux = ListaUtilizadorJogo.objects.filter(utilizador=utilizador)
+    resultArrayGameplays = []
+    for luj in aux:
+        lg = ListaGameplays.objects.filter(listaUtilizadorJogo=luj)
+        if lg:
+            resultArrayGameplays.append(lg[0])
+
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': utilizador.username, 'resultArrayGameplays': resultArrayGameplays, 'filter': 'gameplays'})
 
 
 def recentReviewsResults(request):
