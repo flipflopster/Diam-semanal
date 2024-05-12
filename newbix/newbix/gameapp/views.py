@@ -173,7 +173,7 @@ def submitReview(request):
     else:
         Review.objects.create(tipoReview=tipo, texto=texto, listaUtilizadorJogo=luj)
 
-    return redirect('gameapp:gameDetailsView', appId=appId)
+    return redirect('gameapp:reviewView', reviewId=review.id)
 
 
 def gameDetailsView(request, appId):

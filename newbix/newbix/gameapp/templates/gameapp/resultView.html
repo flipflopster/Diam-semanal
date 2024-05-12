@@ -35,7 +35,7 @@
         <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Review on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
         <h1>The game is: {{ result.tipoReview }}</h1><br>
         <h1>Description:</h1>
-        <p>{{ result.texto }}</p><br>
+        <p>{{ result.texto|safe }}</p><br>
         <br><p style="text-align: right"> Updated at: {{ result.updated.date }}</p><br>
 
         <center>
@@ -67,7 +67,7 @@
         <h2>{{ thread.titulo }}</h2>
         <h1>Tipo de thread: {{ thread.threadTopic }}</h1><br>
         <h1>Description:</h1>
-        <p>{{ thread.descricao }}</p><br>
+        <p>{{ thread.descricao|safe }}</p><br>
 
         <center>
         {% if user.is_authenticated %}
@@ -140,7 +140,7 @@
         <iframe width="560" height="315" src="https://www.youtube.com/embed/{{result.gameplay.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
         <h1>Description:</h1>
-        <p>{{ result.gameplay.descricao }}</p><br>
+        <p>{{ result.gameplay.descricao|safe }}</p><br>
         <br><p style="text-align: right"> Created at: {{ result.gameplay.created_at.date }}</p><br>
 
         <center>
