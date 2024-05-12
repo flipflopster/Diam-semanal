@@ -36,20 +36,27 @@ urlpatterns = [
     path("<int:appId>/createThread", views.createThread, name='createThread'),
     path("submitThread", views.submitThread, name='submitThread'),
     path("threadView/<int:threadId>", views.threadView, name='threadView'),
+    path("recentThreadsResults", views.recentThreadsResults, name='recentThreadsResults'),
+    path("threadList/<int:userId>", views.userThreadResults, name='userThreads'),
+
     path("<int:threadId>/createComment", views.createComment, name='createComment'),
     path("submitComment", views.submitComment, name='submitComment'),
-    path("recentThreadsResults", views.recentThreadsResults, name='recentThreadsResults'),
+
     path("<int:appId>/createReview", views.createReview, name='createReview'),
     path("<int:userId>/userListView", views.userListView, name='userListView'),
     path("submitReview", views.submitReview, name='submitReview'),
     path("<int:appId>/reviewsForGameSearch", views.reviewsForGameSearch, name='reviewsForGameSearch'),
     path("reviewView/<int:reviewId>", views.reviewView, name='reviewView'),
     path("recentReviewsResults", views.recentReviewsResults, name='recentReviewsResults'),
+    path("reviewList/<int:userId>", views.userReviewsResults, name='userReviews'),
+
     path("<int:appId>/createGameplay", views.createGameplay, name='createGameplay'),
     path("submitGameplay", views.submitGameplay, name='submitGameplay'),
     path("gameplayListView/<int:gameplayId>", views.gameplayListView, name='gameplayListView'),
     path("<int:appId>/gameplaysForGameSearch", views.gameplaysForGameSearch, name='gameplaysForGameSearch'),
     path("gameplayView/<int:gameplayId>", views.gameplayView, name='gameplayView'),
+    path("recentGameplays", views.recentGameplayResults, name='recentGameplays'),
+    path("gameplayList/<int:userId>", views.userGameplayResults, name='userGameplays'),
 
 
 ]

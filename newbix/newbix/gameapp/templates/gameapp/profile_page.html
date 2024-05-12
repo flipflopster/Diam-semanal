@@ -6,6 +6,28 @@
 
     {% block title %} {{ utilizador.username }} Profile {% endblock %}
 
+    {% block right_nav %}
+    <div style="text-align: center; background-color: rgb(20, 20, 20); padding: 16px; border-radius: 8px; margin: 32px; box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;" >
+
+        <br>
+
+        <a href="{% url 'gameapp:userListView' utilizador.user.id %}">
+            <button class="block-element button1">Game List</button>
+        </a> <br><br>
+        <a href="{% url 'gameapp:userGameplays' utilizador.user.id %}">
+            <button class="block-element button1">Gameplay List</button>
+        </a> <br><br>
+        <a href="{% url 'gameapp:userReviews' utilizador.user.id %}">
+            <button class="block-element button1">Review List</button>
+        </a> <br><br>
+        <a href="{% url 'gameapp:userThreads' utilizador.user.id %}">
+            <button class="block-element button1">Thread List</button>
+        </a> <br><br> <br>
+
+    </div>
+    {% endblock %}
+
+
     {% block left_aside %}
 
     <div style="text-align: left; background-color: rgb(20, 20, 20); padding: 16px; border-radius: 8px; margin: 32px; box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;" >

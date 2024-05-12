@@ -105,7 +105,7 @@
                 <div id="my_dropdown2" class="dropdown_content">
 
                     <a href="{% url 'gameapp:recentReviewsResults' %}">Reviews</a>
-                    <a href="#">Gameplays</a>
+                    <a href="{% url 'gameapp:recentGameplays' %}">Gameplays</a>
                     <a href="{% url 'gameapp:recentThreadsResults' %}">Threads</a>
 
                 </div>
@@ -157,9 +157,9 @@
                     <a href="{% url 'gameapp:profile_page' request.user.id %}">Profile</a>
                     <a href="{% url 'gameapp:userListView' request.user.id %}">Games List</a>
                     <a href="{% url 'gameapp:settings' %}">Settings</a>
-                    <a href="#">Gameplays</a>
-                    <a href="#">Reviews</a>
-                    <a href="#">Threads</a>
+                    <a href="{% url 'gameapp:userGameplays' request.user.id %}">Gameplays</a>
+                    <a href="{% url 'gameapp:userReviews' request.user.id %}">Reviews</a>
+                    <a href="{% url 'gameapp:userThreads' request.user.id %}">Threads</a>
                     <a href="{% url 'gameapp:logout' %}">LogOut</a>
 
                 </div>
