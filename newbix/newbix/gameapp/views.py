@@ -87,8 +87,8 @@ def gameplayView(request, gameplayId):
     gameplay = Gameplay.objects.get(id=gameplayId)
     gameplaylist = ListaGameplays.objects.get(gameplay_id=gameplay)
 
-    return render(request, 'gameapp/gameplayView.html',
-                  {'gameplaylist': gameplaylist, 'steam_id': gameplaylist.listaUtilizadorJogo.jogo.steam_id})
+    return render(request, 'gameapp/resultView.html',
+                  {'result': gameplaylist, 'steam_id': gameplaylist.listaUtilizadorJogo.jogo.steam_id, 'tipo': 'gameplay'})
 
 
 def threadView(request, threadId):

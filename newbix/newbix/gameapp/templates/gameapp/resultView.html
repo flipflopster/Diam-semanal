@@ -81,6 +81,17 @@
         <br><p style="text-align: right"> Updated at: {{ thread.updated.date }}</p><br>
         {% endif %}
 
+        {% if tipo == 'gameplay' %}
+        <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Gameplay on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
+        <h2>{{ result.gameplay.titulo }}</h2>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/{{result.gameplay.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+        <h1>Description:</h1>
+        <p>{{ result.gameplay.descricao }}</p><br>
+        <br><p style="text-align: right"> Created at: {{ result.gameplay.created_at.date }}</p><br>
+        {% endif %}
+
     </div>
 
     {% endblock %}
