@@ -42,12 +42,12 @@
         <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Thread on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
 
         {% if request.user.utilizador == result.ListaThreads.ListaUtliziadorJogo_ %}
-        <a href="https://www.youtube.com/">
-            <button class="block-element button1">Delete gameplay</button>
+        <a href="{% url 'gameapp:deleteThread' thread.id %}">
+            <button class="block-element button1">Delete thread</button>
         </a>
 
         <a href="https://www.youtube.com/watch?v=o6p0W4ZsLXw">
-            <button class="block-element button1">Edit gameplay</button>
+            <button class="block-element button1">Edit thread details</button>
         </a>
         {% endif %}
 

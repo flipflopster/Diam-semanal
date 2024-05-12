@@ -268,6 +268,11 @@ def deleteGameplay(request, gameplayId):
 
     return redirect('gameapp:index')
 
+def deleteThread(request, threadId):
+    thread = Thread.objects.get(id=threadId)
+    thread.delete()
+    return redirect('gameapp:index')
+
 @login_required(login_url='/gameapp/login')
 def createGameplay(request, appId):
     request.session['appId'] = appId
