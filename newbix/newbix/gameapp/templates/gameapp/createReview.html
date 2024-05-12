@@ -10,7 +10,7 @@
     {% block main_article %}
     <div class="profile_Settings">
         <h2 style="text-align: center">{% if review %}Update{% else %}New{% endif %} {{game.nome}} Review</h2> <br>
-        <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitReview' %}">
+        <form id="validarComentario" method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitReview' %}">
             {% csrf_token %}
             <label class="label1">Would you Recommend {{game.nome}}?
                 <select class="label2" style="width: 200px" name="tipo">
@@ -24,7 +24,7 @@
 
             <br> <br>
             <label class="label1">Describe your Experience <br> <br>
-                <textarea name="texto" class="label2" rows="4" cols="50">{{ review.texto }}</textarea>
+                <textarea id="text" name="texto" class="label2" rows="4" cols="50">{{ review.texto }}</textarea>
             </label>
 
             <br> <br>

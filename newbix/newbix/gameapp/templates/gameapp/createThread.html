@@ -9,7 +9,7 @@
     {% block main_article %}
 <div class="profile_Settings">
         <h2 style="text-align: center">New {{game.nome}} Thread</h2> <br>
-        <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitThread' %}">
+        <form id="validarComentario" method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitThread' %}">
             {% csrf_token %}
             <label class="label1">Title
                 <input type="text" class="label2" style="width: 254px" name="title">
@@ -37,7 +37,7 @@
 
             <br> <br>
             <label class="label1">Thread Body <br> <br>
-                <textarea name="texto" class="label2" rows="4" cols="50"></textarea>
+                <textarea id="text" name="texto" class="label2" rows="4" cols="50"></textarea>
             </label>
 
             <br> <br>
