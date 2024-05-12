@@ -71,12 +71,12 @@
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
-                                <th>{{result.jogo.nome}}</th>
+                                <th>{{result.listaThreads.listaUtilizadorJogo.jogo.nome}}</th>
                                 <th style="text-align: right;">{{result.threadTopic}}</th>
                             </tr>
                             <tr>
-                                <th><img src="{{ result.jogo.get_img_url }}" alt="Image"></th>
-                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.criador.user}}</th>
+                                <th><img src="{{ result.listaThreads.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.listaThreads.listaUtilizadorJogo.utilizador.user}}</th>
                             </tr>
                         </table>
                     </div>

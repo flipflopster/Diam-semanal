@@ -252,8 +252,10 @@
 
     <article {% block article_tags %} {% endblock %}>
         {% block main_article %}
-        <h2>Main page game roullete!</h2>
-        {% for result in randomGames %}
+        <div class="results_box">
+            <h1 style="text-indent: 0">In NewBix you'll be able to share your opinions on games in all sorts of fashions as well as read about what our users have to say. <br> <center>Let's go!</center></h1>
+        <center><h2>Main page game roullete!</h2>
+        {% for result in randomGame %}
 
             <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
                     <div class="result_link" style="text-indent: 0;">
@@ -266,10 +268,65 @@
                     </div>
                 </a>
         {% endfor %}
+        </center>
 
-<br><br>
-        <h1>In NewBix you'll be able to share your opinions on games in all sorts of fashions as well as read about what our users have to say. <br><br> Let's go!</h1>
+        {% if recentGameplay %}
+            <h1>Your friend posted this Gameplay!!</h1>
 
+            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+                <a href="{% url 'gameapp:gameplayView' recentGameplay.gameplay.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div class="result_link" style="text-indent: 0;">
+                        <table>
+                            <tr>
+                                <th>{{recentGameplay.listaUtilizadorJogo.jogo.nome}}</th>
+                                <th style="text-align: right;">{{recentGameplay.gameplay.titulo}}</th>
+                            </tr>
+                            <tr>
+                                <th><img src="{{ recentGameplay.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">Made by: {{recentGameplay.listaUtilizadorJogo.utilizador.username}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+
+            <br>
+
+            <h1>Try making new Friends, to see and share your Experiences.</h1>
+
+            {% endif %}
+
+            {% if recentThread %}
+            <h1>A new Thread was posted on one of your Recent Games!</h1>
+
+            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+                <a href="{% url 'gameapp:threadView' recentThread.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                    <div class="result_link" style="text-indent: 0;">
+                        <table>
+                            <tr>
+                                <th>{{recentThread.listaThreads.listaUtilizadorJogo.jogo.nome}}</th>
+                                <th style="text-align: right;">{{recentThread.threadTopic}}</th>
+                            </tr>
+                            <tr>
+                                <th><img src="{{ recentThread.listaThreads.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">{{ recentThread.titulo}}<br>Written by: {{recentThread.listaThreads.listaUtilizadorJogo.utilizador.user}}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </a>
+            </div>
+
+            {% else %}
+
+            <br>
+
+            <h1>Try adding Games to your List, to see and share your Experiences.</h1>
+
+            {% endif %}
+
+            <br>
+        </div>
         {% endblock %}
     </article>
 
@@ -287,17 +344,28 @@
 
 <div style="display: flex;">
 
-    <div style="flex: 1; padding-top: 20px; padding-left: 20px;">
-        <a href="https://www.iscte-iul.pt/">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Logo_ISCTE_Instituto_Universit%C3%A1rio_de_Lisboa.svg/1280px-Logo_ISCTE_Instituto_Universit%C3%A1rio_de_Lisboa.svg.png" alt="Image Description" style="width: 100%;">
-        </a>
-    </div>
-    <div style="flex: 2; padding-left: 150px;">
-        <p>Site construido por:</p>
-        <p>Filipe Delmotte</p>
-        <p>Guilherme Lopes</p>
-        <p>Tiago Gonçalves</p>
-    </div>
+    <table style="width: 100%; text-align: center">
+        <th style="width: 40%; box-sizing: border-box">
+            <a href="https://www.iscte-iul.pt/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Logo_ISCTE_Instituto_Universit%C3%A1rio_de_Lisboa.svg/1280px-Logo_ISCTE_Instituto_Universit%C3%A1rio_de_Lisboa.svg.png" alt="ISCTE" style="width: 400px;">
+            </a>
+        </th>
+        <th style="width: 20%; box-sizing: border-box; font-size: smaller; text-align: left; line-height: 0.6">
+            <br><br>Site built by:<br> <br> <br>
+            Filipe Delmotte<br> <br>
+            Guilherme Lopes<br> <br>
+            Tiago Gonçalves<br> <br>
+        </th>
+        <th style="width: 20%; box-sizing: border-box; font-size: smaller; text-align: left">
+            <p>Site built using python-steam-api 2.0</p>
+        </th>
+        <th style="width: 20%; box-sizing: border-box">
+            <a href="https://pypi.org/project/python-steam-api/">
+                <img src="https://cdn.freebiesupply.com/images/large/2x/steam-logo-black-transparent.png" alt="Steam API" style="height: 80px;">
+            </a>
+        </th>
+    </table>
+
 </div>
 
 </footer>
