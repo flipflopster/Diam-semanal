@@ -192,7 +192,8 @@
                     <a href="{% url 'gameapp:profile_page' request.user.id %}">Profile</a>
                     <a href="{% url 'gameapp:userListView' request.user.id %}">Games List</a>
                     <a href="{% url 'gameapp:settings' %}">Settings</a>
-                    <a href="{% url 'gameapp:userGameplays' request.user.id %}">Gameplays</a>
+                    <a href="{% url 'gameapp:settings' %}">Settings</a>
+                    <a href="{% url 'gameapp:listaAmigos' %}">Friends list</a>
                     <a href="{% url 'gameapp:userReviews' request.user.id %}">Reviews</a>
                     <a href="{% url 'gameapp:userThreads' request.user.id %}">Threads</a>
                     <a href="{% url 'gameapp:logout' %}">LogOut</a>
@@ -279,7 +280,7 @@
                         <table>
                             <tr>
                                 <th>{{recentGameplay.listaUtilizadorJogo.jogo.nome}}</th>
-                                <th style="text-align: right;">{{recentGameplay.gameplay.titulo}}</th>
+                                <th style="text-align: right;">Title: {{recentGameplay.gameplay.titulo}}</th>
                             </tr>
                             <tr>
                                 <th><img src="{{ recentGameplay.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
@@ -306,7 +307,7 @@
                         <table>
                             <tr>
                                 <th>{{recentThread.listaThreads.listaUtilizadorJogo.jogo.nome}}</th>
-                                <th style="text-align: right;">{{recentThread.threadTopic}}</th>
+                                <th style="text-align: right;">Thread's topic: {{recentThread.threadTopic}}</th>
                             </tr>
                             <tr>
                                 <th><img src="{{ recentThread.listaThreads.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>

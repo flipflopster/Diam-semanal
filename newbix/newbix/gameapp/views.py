@@ -302,6 +302,15 @@ def deleteGameplay(request, gameplayId):
 
     return redirect('gameapp:index')
 
+@login_required(login_url='/gameapp/login')
+def listaAmigos(request):
+    utilizador = Utilizador.objects.get(user=request.user)
+    resultArrayUsersAux = Lista_Amigos.objects.filter(utilizador=utilizador)
+    resultArrayUsers = []
+    for user in resultArrayUsersAux:
+        resultArrayUsers.append(user.utilizador_seguido)
+    return render(request, 'gameapp/searchResults.html',
+                  {'keyword': 'Amigos', 'resultArrayUsers': resultArrayUsers, 'filter': 'users', })
 
 @login_required(login_url='/gameapp/login')
 def deleteThread(request, threadId):
