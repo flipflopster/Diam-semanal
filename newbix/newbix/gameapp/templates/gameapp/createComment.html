@@ -3,8 +3,9 @@
 {% extends "gameapp/index.html" %}
 
 {% load static %}
+   
 
-
+    
 
     {% block title %}Search: {{ keyword }}{% endblock %}
 
@@ -13,7 +14,7 @@
             <form id="validarComentario" method="POST" action="{% url 'gameapp:submitComment' %}">
                 {% csrf_token %}
                 <label class="label1">Write the comment! <br><br>
-                    <textarea name="text" class="label2" rows="4" cols="50">{{ comment.texto }}</textarea>
+                    <textarea id="text" name="text" class="label2" rows="4" cols="50">{{ comment.texto }}</textarea>
                 </label><br><br><br>
                 <center>
                 <input class="button1" type="submit" value="Submit Comment">

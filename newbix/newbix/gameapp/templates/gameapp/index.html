@@ -15,6 +15,7 @@
     <!-- <script src="script.js"></script> -->
 
     <script>
+        
         $(document).ready(function() {
             $('#validarComentario').submit(function(event){
                 let texto = $('#text').val();
@@ -50,9 +51,7 @@
                     $('#error_message').hide();
                 }
             });
-        });
-
-        $(document).ready(function() {
+       
             $("#dropdown_button").click(function() {
             $("#my_dropdown").fadeIn(400);
         });
