@@ -152,10 +152,21 @@
         <div class="results_box">{{ gameDetails.about_the_game|safe }}</div>
 
         <button id="details" class="button1">Show more Details</button>
-        <div id="game_details" class="results_box" style="display: none">{{ gameDetails.detailed_description|safe }}</div>
+        <div id="game_details" class="results_box" style="display: none">
+            {{ gameDetails.detailed_description|safe }}
 
-        <h3>Supported Languages</h3>
-        <p>{{ gameDetails.supported_languages|safe }}</p>
+            <h3>Supported Languages</h3>
+            <p>{{ gameDetails.supported_languages|safe }}</p>
+
+            <h3>PC Requirements:</h3>
+
+            <p>{{ gameDetails.pc_requirements.minimum|safe }}</p>
+
+            <p>{{ gameDetails.pc_requirements.recommended|safe }}</p>
+
+            <h3>Legal Notice</h3>
+            <p>{{ gameDetails.legal_notice|safe }}</p>
+        </div>
 
         <!--
         <h3>System Requirements</h3>
