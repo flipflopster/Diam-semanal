@@ -238,12 +238,14 @@ def submitThread(request):
     return threadsForGameSearch(request, appId)
 
 
+@login_required(login_url='/gameapp/login')
 def editThread(request, threadId):
     thread = Thread.objects.get(id=threadId)
 
     return render(request, 'gameapp/updateThread.html', {'thread': thread})
 
 
+@login_required(login_url='/gameapp/login')
 def updateThread(request, threadId):
     thread = Thread.objects.get(id=threadId)
     thread.threadTopic = request.POST['topic']
@@ -254,6 +256,7 @@ def updateThread(request, threadId):
     return redirect('gameapp:threadView', threadId=threadId)
 
 
+@login_required(login_url='/gameapp/login')
 def editGameplay(request, gameplayId):
     gameplay = Gameplay.objects.get(id=gameplayId)
     gameplay = ListaGameplays.objects.get(gameplay=gameplay)
@@ -261,6 +264,7 @@ def editGameplay(request, gameplayId):
     return render(request, 'gameapp/updateGameplay.html', {'gameplayList': gameplay})
 
 
+@login_required(login_url='/gameapp/login')
 def updateGameplay(request, gameplayId):
     gameplay = Gameplay.objects.get(id=gameplayId)
     gameplay.link = request.POST['link']
@@ -556,6 +560,7 @@ def profile_page(request, userId):
                    'last_review': last_review})
 
 
+@login_required(login_url='/gameapp/login')
 def addFriend(request, userId):
     utilizador = Utilizador.objects.get(user=request.user)
     utilizador_seguido = Utilizador.objects.get(id=userId)
@@ -564,6 +569,7 @@ def addFriend(request, userId):
     return redirect('gameapp:profile_page', userId=userId)
 
 
+@login_required(login_url='/gameapp/login')
 def removeFriend(request, userId):
     utilizador = Utilizador.objects.get(user=request.user)
     utilizador_seguido = Utilizador.objects.get(id=userId)
