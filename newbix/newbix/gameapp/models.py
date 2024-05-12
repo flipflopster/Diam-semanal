@@ -27,6 +27,39 @@ class Utilizador(models.Model):
     jogos_completos = models.IntegerField(default=0)
     profile_picture = models.CharField(max_length=100)
 
+    def get_recentGameplays(self):
+        recent = None
+        gameplays = Gameplay.objects.all().order_by('-created_at')
+        for gameplay in gameplays:
+            if not recent:
+                lg = ListaGameplays.objects.get(gameplay=gameplay)
+                utilizador = lg.listaUtilizadorJogo.utilizador
+                amigos = Lista_Amigos.objects.filter(utilizador=self, utilizador_seguido=utilizador)
+                print(lg, utilizador, amigos)
+                if amigos:
+                    recent = lg
+            else:
+                break
+        return recent
+
+    def get_recentThread(self):
+        recent = None
+        game = ListaUtilizadorJogo.objects.filter(utilizador=self).order_by('-last_altered')
+        if game:
+            for g in game:
+                if recent:
+                    break
+                threads = Thread.objects.all().order_by('-created_at')
+                if threads:
+                    for thread in threads:
+                        if recent:
+                            break
+                        lista = thread.listaThreads.listaUtilizadorJogo
+                        if g.jogo == lista.jogo and not lista.utilizador == self:
+                            recent = thread
+        return recent
+
+
     def get_review(self, jogo):
         lista = self.is_on_List(jogo)
         try:
@@ -63,7 +96,7 @@ class Utilizador(models.Model):
 class Lista_Amigos(models.Model):
     utilizador = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_id')
     utilizador_seguido = models.ForeignKey(Utilizador, on_delete=models.CASCADE,
-                                              related_name='utilizador_seguido_id')
+                                           related_name='utilizador_seguido_id')
     data = models.DateTimeField(auto_now_add=True)
 
     def nomes(self):

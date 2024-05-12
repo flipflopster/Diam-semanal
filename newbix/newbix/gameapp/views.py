@@ -27,11 +27,14 @@ def not_authenticated(user):
 
 
 def index(request):
-    randomGames = get_random_games(1)
-    for result in randomGames:
-        print(result)
+    randomGame = get_random_games(1)
+    recentGameplay, recentThread = None, None
+    if request.user.is_authenticated:
+        recentGameplay = request.user.utilizador.get_recentGameplays()
+        recentThread = request.user.utilizador.get_recentThread()
+    print(recentThread)
+    return render(request, 'gameapp/index.html', {'randomGame': randomGame, 'recentGameplay': recentGameplay, 'recentThread': recentThread})
 
-    return render(request, 'gameapp/index.html',{'randomGames': randomGames})
 
 
 def threadsForGameSearch(request, appId):
@@ -289,11 +292,6 @@ def submitGameplay(request):
                                                        utilizador=Utilizador.objects.get(user=request.user)))
 
     return redirect('gameapp:gameDetailsView', appId=appId)
-
-
-def gameplayListView(request, gameplayId):
-    gameplays = Gameplay.objects.all().order_by('-created_at')
-    return render(request, 'gameapp/gameplayListView.html', {'gameplays': gameplays})
 
 
 def topGamesResults(request):
