@@ -217,7 +217,24 @@
 
     <article {% block article_tags %} {% endblock %}>
         {% block main_article %}
-            <h2>main bby</h2>
+        <h2>Main page game roullete!</h2>
+        {% for result in randomGames %}
+
+            <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
+                    <div class="result_link" style="text-indent: 0;">
+                    {{ result.name }} <br>
+                    {% if result.img %}
+                    <img src="{{ result.img }}" alt="Image">
+                    {% else %}
+                    <img src="{{result.capsule_imagev5}}" alt="Image">
+                    {% endif %}
+                    </div>
+                </a>
+        {% endfor %}
+
+<br><br>
+        <h1>In NewBix you'll be able to share your opinions on games in all sorts of fashions as well as read about what our users have to say. <br><br> Let's go!</h1>
+
         {% endblock %}
     </article>
 
@@ -233,7 +250,20 @@
 
 <footer>
 
-footer
+<div style="display: flex;">
+
+    <div style="flex: 1; padding-top: 20px; padding-left: 20px;">
+        <a href="https://www.iscte-iul.pt/">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Logo_ISCTE_Instituto_Universit%C3%A1rio_de_Lisboa.svg/1280px-Logo_ISCTE_Instituto_Universit%C3%A1rio_de_Lisboa.svg.png" alt="Image Description" style="width: 100%;">
+        </a>
+    </div>
+    <div style="flex: 2; padding-left: 150px;">
+        <p>Site construido por:</p>
+        <p>Filipe Delmotte</p>
+        <p>Guilherme Lopes</p>
+        <p>Tiago Gonçalves</p>
+    </div>
+</div>
 
 </footer>
 

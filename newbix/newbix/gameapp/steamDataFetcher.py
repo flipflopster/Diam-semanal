@@ -27,13 +27,20 @@ else:
 
 
 def get_random_appids(num_items):
-    print('before')
+
     results = random.sample(get_all_appids(), num_items)
     results = [str(appid) for appid in results]  # Convert app IDs to strings
-    print(results)
-    print('after')
+
     return results
 
+def get_random_games(num_games):
+    games = []
+    while len(games) < num_games:
+        app_id = get_random_appids(1)[0]
+        game_details = get_game_details(app_id)
+        if game_details is not None and game_details.get('type') == 'game':
+            games.append(game_details)
+    return games
 
 def get_all_appids():
     response = requests.get('https://api.steampowered.com/ISteamApps/GetAppList/v2/')

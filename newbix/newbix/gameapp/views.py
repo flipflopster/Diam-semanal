@@ -17,7 +17,7 @@ from django import forms
 from .models import Utilizador, Thread, Comentario, Lista_Amigos, Review, has_review, ListaGameplays, Gameplay, \
     ListaThreads
 from .steamDataFetcher import get_search_results_array, get_game_details, cache_game_details, is_cached, get_name, \
-    get_background
+    get_background, get_random_appids, get_random_games
 from .models import ListaUtilizadorJogo
 from .models import Jogo
 
@@ -27,7 +27,11 @@ def not_authenticated(user):
 
 
 def index(request):
-    return render(request, 'gameapp/index.html')
+    randomGames = get_random_games(4)
+    for result in randomGames:
+        print(result)
+
+    return render(request, 'gameapp/index.html',{'randomGames': randomGames})
 
 
 def threadsForGameSearch(request, appId):
