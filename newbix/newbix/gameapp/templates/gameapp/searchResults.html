@@ -21,12 +21,14 @@
                 {% for result in resultArrayGames %}
                 <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
                     <div class="result_link" style="text-indent: 0;">
-                    {{ result.name }} <br>
-                    {% if result.img %}
-                    <img src="{{ result.img }}" alt="Image">
-                    {% else %}
-                    <img src="{{result.capsule_imagev5}}" alt="Image">
-                    {% endif %}
+                        <center>
+                        {{ result.name }} <br>
+                        {% if result.img %}
+                        <img src="{{ result.img }}" alt="Image">
+                        {% else %}
+                        <img src="{{result.capsule_imagev5}}" alt="Image">
+                        {% endif %}
+                        </center>
                     </div>
                 </a>
                 {% endfor %}
@@ -121,12 +123,14 @@
                 {% for result in resultArrayGames %}
                 <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
                     <div class="result_link" style="text-indent: 0;">
-                    {{ result.name }} <br>
-                    {% if result.img %}
-                    <img src="{{ result.img }}" alt="Image">
-                    {% else %}
-                    <img src="{{result.capsule_imagev5}}" alt="Image">
-                    {% endif %}
+                        <center>
+                            {{ result.name }} <br>
+                            {% if result.img %}
+                            <img src="{{ result.img }}" alt="Image">
+                            {% else %}
+                            <img src="{{result.capsule_imagev5}}" alt="Image">
+                            {% endif %}
+                        </center>
                     </div>
                 </a>
                 {% endfor %}

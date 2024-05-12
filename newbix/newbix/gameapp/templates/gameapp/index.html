@@ -15,6 +15,42 @@
     <!-- <script src="script.js"></script> -->
 
     <script>
+        $(document).ready(function() {
+            $('#validarComentario').submit(function(event){
+                let texto = $('#text').val();
+                let palavras = texto.split(" ");
+                let arrayInsultos = [
+                    "abecula","abentesma","achavascado","alimária",
+                    "andrajoso", "barregã", "biltre", "cacóstomo",
+                    "cuarra", "estólido", "estroso", "estultilóquio",
+                    "nefelibata","néscio", "pechenga", "sevandija",
+                    "somítico", "tatibitate", "xexé", "cheché", "xexelento"];
+
+                let existeInsulto = Boolean(false);
+                let insulto = 'nenhum';
+
+                for(let i = 0; i < palavras.length; i++) {
+                    let palavrasmin = palavras[i].toLowerCase();
+                    for (let z = 0; z < arrayInsultos.length; z++) {
+                        if (palavrasmin === arrayInsultos[z]) {
+                            existeInsulto = Boolean(true);
+                            insulto = palavrasmin;
+                            break;
+                        }
+                    }
+                    if (existeInsulto === true) {
+                        break;
+                    }
+                }
+                if (existeInsulto) {
+                    $('#error_message').text('Erro: O texto contém o insulto "' + insulto + '". Por favor, insira um comentário válido.');
+                    $('#error_message').show();
+                    event.preventDefault();
+                } else {
+                    $('#error_message').hide();
+                }
+            });
+        });
 
         $(document).ready(function() {
             $("#dropdown_button").click(function() {

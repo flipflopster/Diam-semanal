@@ -8,13 +8,9 @@
 
     {% block main_article %}
         <div class="profile_Settings">
-                <h2 style="text-align: center">{% if numeroGameplays == 0 %}Postar a primeira gameplay de {{game.nome}}{% else %} Postar gameplay numero: {{numeroGameplays|add:"1"}}{% endif %}</h2> <br>
+                <h2 style="text-align: center">{% if numeroGameplays == 0 %}Postar a primeira gameplay de {{game.nome}}{% else %} Postar gameplay numero: {{numeroGameplays|add:"1"}}{% endif %}</h2>
                 {% if numeroGameplays != 0 %}
-                    <a href="https://www.youtube.com/watch?v=GTH2IrC3wEE&list=PLUtGEsOlcdnzVO7jZWSTXTRxtnOSuVzXn&index=22">
-                        <center>
-                        <h1>Ir para o resto da lista!</h1>
-                        </center>
-                    </a>
+                    <center><h1>You have a series going, congrats!</h1></center>
                 {% endif %}
 
                 <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitGameplay' %}">
@@ -23,7 +19,7 @@
 
                 <br> <br>
 
-                <label class="label1">Insere o Link! <br><br>
+                <label class="label1">Insere o id do Link! (caracteres a seguir a "watch?v=") <br><br>
                     <textarea name="link" class="label2" rows="1" cols="50"></textarea>
                 </label><br><br><br>
 

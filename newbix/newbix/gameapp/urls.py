@@ -57,6 +57,8 @@ urlpatterns = [
     path("gameplayView/<int:gameplayId>", views.gameplayView, name='gameplayView'),
     path("recentGameplays", views.recentGameplayResults, name='recentGameplays'),
     path("gameplayList/<int:userId>", views.userGameplayResults, name='userGameplays'),
+    path("<int:commentId>/deleteComment", views.deleteComment, name='deleteComment'),
+    path("<int:gameplayId>/deleteGameplay", views.deleteGameplay, name='deleteGameplay'),
 
 
 ]

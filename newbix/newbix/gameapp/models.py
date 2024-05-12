@@ -182,9 +182,11 @@ class ListaGameplays(models.Model):
     gameplay = models.ForeignKey(Gameplay, on_delete=models.CASCADE)
 
 
+
 class ListaThreads(models.Model):
     listaUtilizadorJogo = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
     contagem = models.IntegerField(default=0)
+
 
 
 class Thread(models.Model):

@@ -4,56 +4,20 @@
 
 {% load static %}
 
-    {% block javascript %}
-        $(document).ready(function() {
-            $('#validarComentario').submit(function(event){
-                let texto = $('#text').val();
-                let palavras = texto.split(" ");
-                let arrayInsultos = [
-                    "abecula","abentesma","achavascado","alimária",
-                    "andrajoso", "barregã", "biltre", "cacóstomo",
-                    "cuarra", "estólido", "estroso", "estultilóquio", 
-                    "nefelibata","néscio", "pechenga", "sevandija", 
-                    "somítico", "tatibitate", "xexé", "cheché", "xexelento"];
-                
-                let existeInsulto = Boolean(false);
-                let insulto = 'nenhum';
-                
-                for(let i = 0; i < palavras.length; i++) {
-                    let palavrasmin = palavras[i].toLowerCase();
-                    for (let z = 0; z < arrayInsultos.length; z++) {
-                        if (palavrasmin === arrayInsultos[z]) {
-                            existeInsulto = Boolean(true);
-                            insulto = palavrasmin;
-                            break;
-                        }
-                    }
-                    if (existeInsulto === true) {
-                        break;
-                    }
-                }
-                if (existeInsulto) {
-                    $('#error_message').text('Erro: O texto contém o insulto "' + insulto + '". Por favor, insira um comentário válido.');
-                    $('#error_message').show();
-                    event.preventDefault();
-                } else {
-                    $('#error_message').hide();
-                }
-            });
-        });
-    {% endblock %}
+
 
     {% block title %}Search: {{ keyword }}{% endblock %}
 
     {% block main_article %}
-        
+        <div class="profile_Settings">
             <form id="validarComentario" method="POST" action="{% url 'gameapp:submitComment' %}">
                 {% csrf_token %}
-                <label for="text">Comment text:</label><br>
-                <textarea id="text" name="text"></textarea><br>
-                <input type="submit" value="Submit Comment">
+                <label class="label1">Write the comment! <br><br>
+                    <textarea name="text" class="label2" rows="4" cols="50">{{ comment.texto }}</textarea>
+                </label><br><br><br>
+                <input class="button1" type="submit" value="Submit Comment">
             </form>
             <p id="error_message" style="color: red; display: none;"></p>
-
+        </div>
     {% endblock %}
 </html>

@@ -27,7 +27,7 @@ def not_authenticated(user):
 
 
 def index(request):
-    randomGames = get_random_games(3)
+    randomGames = get_random_games(1)
     for result in randomGames:
         print(result)
 
@@ -94,6 +94,7 @@ def gameplayView(request, gameplayId):
     return render(request, 'gameapp/resultView.html',
                   {'result': gameplaylist, 'steam_id': gameplaylist.listaUtilizadorJogo.jogo.steam_id,
                    'tipo': 'gameplay'})
+
 
 
 def threadView(request, threadId):
@@ -214,6 +215,7 @@ def createThread(request, appId):
 @login_required(login_url='/gameapp/login')
 def createComment(request, threadId):
     request.session['threadId'] = threadId
+
     return render(request, 'gameapp/createComment.html')
 
 
@@ -239,6 +241,7 @@ def submitComment(request):
     thread = request.session.get('threadId')
     thread = Thread.objects.get(id=thread)
     print(thread)
+    print(request.POST.get('text'))
     texto = request.POST.get('text')
     utilizador = Utilizador.objects.get(user=request.user)
 
@@ -246,6 +249,21 @@ def submitComment(request):
 
     return redirect('gameapp:threadView', threadId=thread.id)
 
+@login_required(login_url='/gameapp/login')
+def deleteComment(request, commentId):
+    comment = Comentario.objects.get(id=commentId)
+    thread = comment.thread
+    comment.delete()
+
+    return redirect('gameapp:threadView', threadId=thread.id)
+
+@login_required(login_url='/gameapp/login')
+def deleteGameplay(request, gameplayId):
+    gameplay = Gameplay.objects.get(id=gameplayId)
+
+    gameplay.delete()
+
+    return redirect('gameapp:index')
 
 @login_required(login_url='/gameapp/login')
 def createGameplay(request, appId):
