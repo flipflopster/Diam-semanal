@@ -38,9 +38,13 @@ urlpatterns = [
     path("threadView/<int:threadId>", views.threadView, name='threadView'),
     path("recentThreadsResults", views.recentThreadsResults, name='recentThreadsResults'),
     path("threadList/<int:userId>", views.userThreadResults, name='userThreads'),
+    path("<int:threadId>/deleteThread", views.deleteThread, name='deleteThread'),
+    path("<int:threadId>/editThread", views.editThread, name='editThread'),
+    path("<int:threadId>/updateThread", views.updateThread, name='updateThread'),
 
     path("<int:threadId>/createComment", views.createComment, name='createComment'),
     path("submitComment", views.submitComment, name='submitComment'),
+    path("<int:commentId>/deleteComment", views.deleteComment, name='deleteComment'),
 
     path("<int:appId>/createReview", views.createReview, name='createReview'),
     path("<int:userId>/userListView", views.userListView, name='userListView'),
@@ -49,6 +53,7 @@ urlpatterns = [
     path("reviewView/<int:reviewId>", views.reviewView, name='reviewView'),
     path("recentReviewsResults", views.recentReviewsResults, name='recentReviewsResults'),
     path("reviewList/<int:userId>", views.userReviewsResults, name='userReviews'),
+    path("<int:reviewId>/deleteReview", views.deleteReview, name='deleteReview'),
 
     path("<int:appId>/createGameplay", views.createGameplay, name='createGameplay'),
     path("submitGameplay", views.submitGameplay, name='submitGameplay'),
@@ -56,9 +61,8 @@ urlpatterns = [
     path("gameplayView/<int:gameplayId>", views.gameplayView, name='gameplayView'),
     path("recentGameplays", views.recentGameplayResults, name='recentGameplays'),
     path("gameplayList/<int:userId>", views.userGameplayResults, name='userGameplays'),
-    path("<int:commentId>/deleteComment", views.deleteComment, name='deleteComment'),
     path("<int:gameplayId>/deleteGameplay", views.deleteGameplay, name='deleteGameplay'),
-    path("<int:threadId>/deleteThread", views.deleteThread, name='deleteThread'),
-
+    path("<int:gameplayId>/editGameplay", views.editGameplay, name='editGameplay'),
+    path("<int:gameplayId>/updateGameplay", views.updateGameplay, name='updateGameplay'),
 
 ]

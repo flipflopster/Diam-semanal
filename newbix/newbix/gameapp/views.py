@@ -33,8 +33,8 @@ def index(request):
         recentGameplay = request.user.utilizador.get_recentGameplays()
         recentThread = request.user.utilizador.get_recentThread()
     print(recentThread)
-    return render(request, 'gameapp/index.html', {'randomGame': randomGame, 'recentGameplay': recentGameplay, 'recentThread': recentThread})
-
+    return render(request, 'gameapp/index.html',
+                  {'randomGame': randomGame, 'recentGameplay': recentGameplay, 'recentThread': recentThread})
 
 
 def threadsForGameSearch(request, appId):
@@ -97,7 +97,6 @@ def gameplayView(request, gameplayId):
     return render(request, 'gameapp/resultView.html',
                   {'result': gameplaylist, 'steam_id': gameplaylist.listaUtilizadorJogo.jogo.steam_id,
                    'tipo': 'gameplay'})
-
 
 
 def threadView(request, threadId):
@@ -239,6 +238,39 @@ def submitThread(request):
     return threadsForGameSearch(request, appId)
 
 
+def editThread(request, threadId):
+    thread = Thread.objects.get(id=threadId)
+
+    return render(request, 'gameapp/updateGameplay.html', {'thread': thread})
+
+
+def updateThread(request, threadId):
+    thread = Thread.objects.get(id=threadId)
+    thread.threadTopic = request.POST['topic']
+    thread.titulo = request.POST['titulo']
+    thread.descricao = request.POST['descricao']
+    thread.save()
+
+    return redirect('gameapp:gameplayView', threadId=threadId)
+
+
+def editGameplay(request, gameplayId):
+    gameplay = Gameplay.objects.get(id=gameplayId)
+    gameplay = ListaGameplays.objects.get(gameplay=gameplay)
+
+    return render(request, 'gameapp/updateGameplay.html', {'gameplayList': gameplay})
+
+
+def updateGameplay(request, gameplayId):
+    gameplay = Gameplay.objects.get(id=gameplayId)
+    gameplay.link = request.POST['link']
+    gameplay.titulo = request.POST['titulo']
+    gameplay.descricao = request.POST['descricao']
+    gameplay.save()
+
+    return redirect('gameapp:gameplayView', gameplayId=gameplayId)
+
+
 @login_required(login_url='/gameapp/login')
 def submitComment(request):
     thread = request.session.get('threadId')
@@ -252,6 +284,7 @@ def submitComment(request):
 
     return redirect('gameapp:threadView', threadId=thread.id)
 
+
 @login_required(login_url='/gameapp/login')
 def deleteComment(request, commentId):
     comment = Comentario.objects.get(id=commentId)
@@ -259,6 +292,7 @@ def deleteComment(request, commentId):
     comment.delete()
 
     return redirect('gameapp:threadView', threadId=thread.id)
+
 
 @login_required(login_url='/gameapp/login')
 def deleteGameplay(request, gameplayId):
@@ -268,10 +302,20 @@ def deleteGameplay(request, gameplayId):
 
     return redirect('gameapp:index')
 
+
+@login_required(login_url='/gameapp/login')
 def deleteThread(request, threadId):
     thread = Thread.objects.get(id=threadId)
     thread.delete()
     return redirect('gameapp:index')
+
+
+@login_required(login_url='/gameapp/login')
+def deleteReview(request, reviewId):
+    review = Review.objects.get(id=reviewId)
+    review.delete()
+    return redirect('gameapp:index')
+
 
 @login_required(login_url='/gameapp/login')
 def createGameplay(request, appId):

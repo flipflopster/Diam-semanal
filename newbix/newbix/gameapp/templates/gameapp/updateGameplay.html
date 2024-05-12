@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Edit Gameplay{% endblock %}
+
+    {% block main_article %}
+        <div class="profile_Settings">
+                <h2 style="text-align: center">Edit Gameplay</h2>
+
+                <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:updateGameplay' gameplayList.gameplay.id%}">
+                {% csrf_token %}
+
+
+                <br> <br>
+
+                <label class="label1">Video Link (caracters after "watch?v="): <br>
+                    <input name="link" class="label2" type="text" value="{{gameplayList.gameplay.link}}">
+                </label><br><br>
+
+
+                <label class="label1">Title: <br><br>
+                    <input name="titulo" class="label2" type="text" value="{{gameplayList.gameplay.titulo}}">
+                </label><br><br><br>
+
+                <label class="label1">Description: <br><br>
+                    <textarea name="descricao" class="label2" rows="4" cols="50">{{gameplayList.gameplay.descricao}}</textarea>
+                </label><br><br><br>
+
+                <br> <br>
+
+                <center>
+                <input class="button1" type="submit" value=Update>
+                </center>
+            </form>
+        </div>
+    {% endblock %}
+
+</html>

@@ -4,7 +4,7 @@
 
 {% load static %}
 
-    {% block title %}Search: {{ keyword }}{% endblock %}
+    {% block title %}View {{ tipo }}{% endblock %}
 
 
     {% block aside_tags %} style="padding: 20px; text-align: left;" {% endblock %}
@@ -35,27 +35,39 @@
         <h1>Description:</h1>
         <p>{{ result.texto }}</p><br>
         <br><p style="text-align: right"> Updated at: {{ result.updated.date }}</p><br>
+
+        <center>
+        {% if request.user.utilizador == result.listaUtilizadorJogo.utilizador %}
+        <a href="{% url 'gameapp:createReview' result.listaUtilizadorJogo.jogo.steam_id %}">
+            <button class="block-element button1">Update Review</button>
+        </a>
+
+        <br> <br>
+
+        <a href="{% url 'gameapp:deleteReview' result.id %}">
+            <button class="block-element button1">Delete thread</button>
+        </a>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+        <a href="{% url 'gameapp:deleteReview' result.id %}">
+            <button class="block-element button1">Delete thread</button>
+        </a>
+        {% endif %}
+        </center>
+
         {% endif %}
 
         {% if tipo == 'thread' %}
 
         <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Thread on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
 
-        {% if request.user.utilizador == result.ListaThreads.ListaUtliziadorJogo_ %}
-        <a href="{% url 'gameapp:deleteThread' thread.id %}">
-            <button class="block-element button1">Delete thread</button>
-        </a>
-
-        <a href="https://www.youtube.com/watch?v=o6p0W4ZsLXw">
-            <button class="block-element button1">Edit thread details</button>
-        </a>
-        {% endif %}
-
         <h2>{{ thread.titulo }}</h2>
         <h1>Tipo de thread: {{ thread.threadTopic }}</h1><br>
         <h1>Description:</h1>
         <p>{{ thread.descricao }}</p><br>
 
+        <center>
         {% if user.is_authenticated %}
 
                 <a href="{% url 'gameapp:createComment' thread.id %}">
@@ -65,6 +77,7 @@
         {% else %}
             <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Comment</button>
         {% endif %}
+                </center>
         <br><h2>Comentários:</h2><br>
         {% if commentArray %}
             <div class="forum-style">
@@ -72,16 +85,16 @@
                 <div class="comment">
                     <div class="user-info">
 
-                        <p>User: <a href="{% url 'gameapp:profile_page' result.listaUtilizadorJogo.utilizador.id %}">{{comment.utilizador.username}}</a></p>
+                        <p>Written By: <a href="{% url 'gameapp:profile_page' result.listaUtilizadorJogo.utilizador.id %}">{{comment.utilizador.username}}</a></p>
 
 
-                        <p>Data: {{comment.created_at}}</p>
+                        <p>Date: {{comment.created_at}}</p>
                     </div>
                     <div class="comment-text">
-                        <p>Comment: {{ comment.texto }}</p>
+                        <p>{{ comment.texto }}</p>
                         {% if request.user.utilizador == comment.utilizador %}
                             <a href="{% url 'gameapp:deleteComment' comment.id%}">
-                                <button class="block-element button1">Delete Comment</button>
+                                <center><button class="block-element button1">Delete Comment</button></center>
                             </a>
                         {% endif %}
                     </div>
@@ -89,30 +102,63 @@
             {% endfor %}
             </div>
         {% else %}
-            <h1>Comentários:</h1>
-            <h2>No comments found</h2><br><br>
+            <h2>No comments found</h2><br>
         {% endif %}
+
+        <center>
+        {% if request.user.utilizador == result.listaUtilizadorJogo.utilizador %}
+        <a href="{% url 'gameapp:editThread' result.id %}">
+            <button class="block-element button1">Edit Thread</button>
+        </a>
+
+        <br> <br>
+
+        <a href="{% url 'gameapp:deleteGameplay' result.id%}">
+            <button class="block-element button1">Delete Thread</button>
+        </a>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+        <a href="{% url 'gameapp:deleteThread' result.id%}">
+            <button class="block-element button1">Delete Thread</button>
+        </a>
+        {% endif %}
+        </center>
+
         <br><p style="text-align: right"> Updated at: {{ thread.updated.date }}</p><br>
         {% endif %}
 
         {% if tipo == 'gameplay' %}
-        <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Gameplay on {{ result.listaUtilizadorJogo.jogo.nome }}</h2><br><br>
+        <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Gameplay on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
 
-        <a href="{% url 'gameapp:deleteGameplay' result.gameplay.id%}">
-            <button class="block-element button1">Delete gameplay</button>
-        </a>
-
-        <a href="https://www.youtube.com/watch?v=o6p0W4ZsLXw">
-            <button class="block-element button1">Edit gameplay</button>
-        </a>
-
-        <h2>Titulo: {{ result.gameplay.titulo }}</h2>
+        <h2>{{ result.gameplay.titulo }}</h2>
 
         <iframe width="560" height="315" src="https://www.youtube.com/embed/{{result.gameplay.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
         <h1>Description:</h1>
         <p>{{ result.gameplay.descricao }}</p><br>
         <br><p style="text-align: right"> Created at: {{ result.gameplay.created_at.date }}</p><br>
+
+        <center>
+        {% if request.user.utilizador == result.listaUtilizadorJogo.utilizador %}
+        <a href="{% url 'gameapp:editGameplay' result.gameplay.id%}">
+            <button class="block-element button1">Edit gameplay</button>
+        </a>
+
+        <br> <br>
+
+        <a href="{% url 'gameapp:deleteGameplay' result.gameplay.id %}">
+            <button class="block-element button1">Delete gameplay</button>
+        </a>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+        <a href="{% url 'gameapp:deleteGameplay' result.gameplay.id%}">
+            <button class="block-element button1">Delete gameplay</button>
+        </a>
+        {% endif %}
+        </center>
+
         {% endif %}
 
     </div>

@@ -4,11 +4,11 @@
 
 {% load static %}
 
-    {% block title %}Search {{ request.keyword }}{% endblock %}
+    {% block title %}Gameplay for {{game.nome}}{% endblock %}
 
     {% block main_article %}
         <div class="profile_Settings">
-                <h2 style="text-align: center">{% if numeroGameplays == 0 %}Postar a primeira gameplay de {{game.nome}}{% else %} Postar gameplay numero: {{numeroGameplays|add:"1"}}{% endif %}</h2>
+                <h2 style="text-align: center">{% if numeroGameplays == 0 %}Post {{game.nome}} first Gameplay{% else %} Post Gameplay number: {{numeroGameplays|add:"1"}}{% endif %}</h2>
                 {% if numeroGameplays != 0 %}
                     <center><h1>You have a series going, congrats!</h1></center>
                 {% endif %}
@@ -19,15 +19,15 @@
 
                 <br> <br>
 
-                <label class="label1">Insere o id do Link! (caracteres a seguir a "watch?v=") <br><br>
-                    <textarea name="link" class="label2" rows="1" cols="50"></textarea>
+                <label class="label1">Insert video Link (caracters after "watch?v="): <br> <br>
+                    <input name="link" class="label2" type="text">
+                </label><br><br>
+
+                <label class="label1">Title: <br><br>
+                    <input name="titulo" class="label2" type="text">
                 </label><br><br><br>
 
-                <label class="label1">Escreve o Titulo do Video! <br><br>
-                    <textarea name="titulo" class="label2" rows="2" cols="50"></textarea>
-                </label><br><br><br>
-
-                <label class="label1">Escreve a descrição! <br><br>
+                <label class="label1">Description: <br><br>
                     <textarea name="descricao" class="label2" rows="4" cols="50"></textarea>
                 </label><br><br><br>
 

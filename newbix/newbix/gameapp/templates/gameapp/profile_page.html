@@ -93,8 +93,8 @@
     {% block main_article %}
     <div style="padding: 24px; text-align: left">
         <h2>About Me</h2>
-        {% if games %}
-        {{ utilizador.biografia }}
+        {% if utilizador.biografia %}
+        {{ utilizador.biografia|safe }}
         {% else %}
         New Newbie!
         {% endif %}
