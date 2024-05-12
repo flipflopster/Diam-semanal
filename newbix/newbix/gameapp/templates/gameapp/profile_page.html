@@ -47,13 +47,9 @@
         <br>
 
     <h2>{{ utilizador.user }}</h2>
-            {% if utilizador.user.is_superuser %}
-            <h2>Administrador</h2>
-            {% endif %}
-
     <p>
         {% if utilizador.user.is_superuser %}
-        Admin
+        Administrador
         {% endif %}
     </p>
 
