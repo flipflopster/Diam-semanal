@@ -51,6 +51,12 @@
             <h2>Administrador</h2>
             {% endif %}
 
+    <p>
+        {% if utilizador.user.is_superuser %}
+        Admin
+        {% endif %}
+    </p>
+
     {% if request.user.is_authenticated %}
         {% if request.user == utilizador.user %}
         <a href="{% url 'gameapp:settings' %}">

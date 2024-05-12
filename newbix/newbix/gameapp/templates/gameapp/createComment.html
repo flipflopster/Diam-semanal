@@ -14,7 +14,7 @@
             <form id="validarComentario" method="POST" action="{% url 'gameapp:submitComment' %}">
                 {% csrf_token %}
                 <label class="label1">Comment:<br><br>
-                    <textarea id="text" name="text" class="label2" rows="4" cols="50">{{ comment.texto }}</textarea>
+                    <textarea name="text" class="label2" rows="4" cols="50">{{ comment.texto }}</textarea>
                 </label><br><br><br>
                 <center>
                 <input class="button1" type="submit" value="Submit Comment">

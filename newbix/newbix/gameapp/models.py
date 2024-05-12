@@ -157,9 +157,10 @@ class Jogo(models.Model):
         lista = ListaUtilizadorJogo.objects.filter(jogo_id=self)
         total = 0
         for rating in lista:
-            total += rating.rating
+            if not rating.estado == 'Plan-to-Play':
+                total += rating.rating
 
-        self.numeroRatings = lista.count()
+        self.numeroRatings = lista.exclude(estado='Plan-to-Play').count()
         self.totalPontos = total
         self.save()
 

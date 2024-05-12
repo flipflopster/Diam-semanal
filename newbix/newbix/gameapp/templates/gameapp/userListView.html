@@ -4,21 +4,23 @@
 
 {% load static %}
 
+    {% block javascript %}var maxChildren = 3;{% endblock %}
+
     {% block title %}{{utilizador.username}}'s list{% endblock %}
 
     {% block main_article %}
-        <h1>{{utilizador.username}}'s list</h1>
+        <h2>{{utilizador.username}}'s list</h2>
 
         <div class="results_box">
         {% if resultArrayEntries %}
-        <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+        <div id="parent" class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
             {% for result in resultArrayEntries %}
-            <a href="{% url 'gameapp:gameDetailsView' result.jogo.steam_id %}" class="game-link">
+            <div class="child"><a href="{% url 'gameapp:gameDetailsView' result.jogo.steam_id %}" class="game-link" style="width: 100%;">
                 <div class="result_link" style="text-indent: 0;">
-                    <table>
+                    <table style="width: 100%">
                         <tr>
                             <th>{{result.jogo.nome}}</th>
-                            <th>Rated: {{ result.rating }}</th>
+                            <th>{% if result.estado != 'Plan-to-Play' %}Rated: {{ result.rating }}{% endif %}</th>
                             <th style="text-align: right;">{{ result.estado }}</th>
                         </tr>
                         <tr>
@@ -28,12 +30,14 @@
                         </tr>
                     </table>
                 </div>
-            </a>
+            </a></div>
             {% endfor %}
         </div>
         {% else %}
         User doesn't have Games on List.
         {% endif %}
+
+            <br> <br>
     </div>
     {% endblock %}
 </html>

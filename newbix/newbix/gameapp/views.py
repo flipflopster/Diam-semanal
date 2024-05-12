@@ -241,17 +241,17 @@ def submitThread(request):
 def editThread(request, threadId):
     thread = Thread.objects.get(id=threadId)
 
-    return render(request, 'gameapp/updateGameplay.html', {'thread': thread})
+    return render(request, 'gameapp/updateThread.html', {'thread': thread})
 
 
 def updateThread(request, threadId):
     thread = Thread.objects.get(id=threadId)
     thread.threadTopic = request.POST['topic']
-    thread.titulo = request.POST['titulo']
-    thread.descricao = request.POST['descricao']
+    thread.titulo = request.POST['title']
+    thread.descricao = request.POST['texto']
     thread.save()
 
-    return redirect('gameapp:gameplayView', threadId=threadId)
+    return redirect('gameapp:threadView', threadId=threadId)
 
 
 def editGameplay(request, gameplayId):

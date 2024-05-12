@@ -84,6 +84,19 @@
 
         {% block javascript %} {% endblock %}
 
+        var $parent = $('#parent');
+        var $children = $parent.children('.child');
+
+        if ($children.length > maxChildren) {
+            $children.slice(maxChildren).hide();
+            $parent.append('<button class="button1" id="show-more">Show More</button>');
+        }
+
+        $parent.on('click', '#show-more', function(){
+            $(this).siblings('.child:hidden').fadeIn(400);
+            $(this).fadeOut(400);
+        });
+
     });
 
     </script>
@@ -191,11 +204,11 @@
 
                     <a href="{% url 'gameapp:profile_page' request.user.id %}">Profile</a>
                     <a href="{% url 'gameapp:userListView' request.user.id %}">Games List</a>
-                    <a href="{% url 'gameapp:settings' %}">Settings</a>
-                    <a href="{% url 'gameapp:settings' %}">Settings</a>
                     <a href="{% url 'gameapp:listaAmigos' %}">Friends list</a>
+                    <a href="{% url 'gameapp:userGameplays' request.user.id %}">Gameplays</a>
                     <a href="{% url 'gameapp:userReviews' request.user.id %}">Reviews</a>
                     <a href="{% url 'gameapp:userThreads' request.user.id %}">Threads</a>
+                    <a href="{% url 'gameapp:settings' %}">Settings</a>
                     <a href="{% url 'gameapp:logout' %}">LogOut</a>
 
                 </div>

@@ -6,6 +6,44 @@
 
 {% load static %}
 
+    {% block javascript %}
+
+        var maxChildren = 6;
+
+        {% if filter == 'all' %}
+        var maxChildren2 = 3;
+        var maxChildren3 = 3;
+
+        var $parent2 = $('#parent2');
+        var $children2 = $parent2.children('.child2');
+
+        if ($children2.length > maxChildren2) {
+            $children2.slice(maxChildren2).hide();
+            $parent2.append('<button class="button1" style="margin-left: 110px; margin-right: 12%;" id="show-more2">Show More</button>');
+        }
+
+        $parent2.on('click', '#show-more2', function(){
+            $(this).siblings('.child2:hidden').fadeIn(400);
+            $(this).fadeOut(400);
+        });
+
+        var $parent3 = $('#parent3');
+        var $children3 = $parent3.children('.child3');
+
+        if ($children3.length > maxChildren3) {
+            $children3.slice(maxChildren3).hide();
+            $parent3.append('<button class="button1" style="margin-left: 110px; margin-right: 12%;" id="show-more3">Show More</button>');
+        }
+
+        $parent3.on('click', '#show-more3', function(){
+            $(this).siblings('.child3:hidden').fadeIn(400);
+            $(this).fadeOut(400);
+        });
+        {% endif %}
+
+    {% endblock %}
+
+
     {% block title %}Search: {{ keyword }}{% endblock %}
 
     {% block main_article %}
@@ -17,9 +55,9 @@
             {% if resultArrayGames %}
             <h1>Games:</h1>
 
-            <div class="results_grid">
+            <div id="parent" class="results_grid">
                 {% for result in resultArrayGames %}
-                <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
+                <div class="child"><a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
                     <div class="result_link" style="text-indent: 0;">
                         <center>
                         {{ result.name }} <br>
@@ -30,7 +68,7 @@
                         {% endif %}
                         </center>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
             </div>
 
@@ -41,9 +79,9 @@
             {% if resultArrayUsers %}
                 <h1>Users:</h1>
 
-                <div class="results_grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div id="parent2" class="results_grid" style="grid-template-columns: repeat(3, 1fr);">
                 {% for result in resultArrayUsers %}
-                <a href="{% url 'gameapp:profile_page' result.id %}" class="game-link">
+                <div class="child2"><a href="{% url 'gameapp:profile_page' result.id %}" class="game-link">
                     <div class="result_link" style="text-indent: 0; vertical-align: middle;">
                         <table>
                         <th style="width: 35%">{% if result.profile_picture %}
@@ -54,7 +92,7 @@
                         <th style="width: 65%">{{ result.username}}</th>
                         </table>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
                 </div>
 
@@ -65,9 +103,9 @@
             {% if resultArrayThreads %}
             <h1>Threads:</h1>
 
-            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+            <div id="parent3" class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
                 {% for result in resultArrayThreads %}
-                <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <div class="child3"><a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
@@ -80,7 +118,7 @@
                             </tr>
                         </table>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
             </div>
 
@@ -119,9 +157,9 @@
             {% if resultArrayGames %}
             <h1>Games:</h1>
 
-            <div class="results_grid">
+            <div id="parent" class="results_grid">
                 {% for result in resultArrayGames %}
-                <a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
+                <div class="child"><a {% if result.img %} href="{% url 'gameapp:gameDetailsView' result.id.0 %}" {% else %} href="{% url 'gameapp:gameDetailsView' result.steam_appid %}" {% endif %} class="game-link">
                     <div class="result_link" style="text-indent: 0;">
                         <center>
                             {{ result.name }} <br>
@@ -132,7 +170,7 @@
                             {% endif %}
                         </center>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
             </div>
             {% else %}
@@ -143,9 +181,9 @@
             {% if filter == 'threads' %}
             {% if resultArrayThreads %}
             <h1>Threads:</h1>
-            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+            <div id="parent" class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
                 {% for result in resultArrayThreads %}
-                <a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <div class="child"><a href="{% url 'gameapp:threadView' result.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
@@ -158,7 +196,7 @@
                             </tr>
                         </table>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
             </div>
             {% else %}
@@ -170,9 +208,9 @@
             {% if resultArrayReviews %}
             <h1>{{keyword}} Reviews:</h1>
 
-            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+            <div id="parent" class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
                 {% for review in resultArrayReviews %}
-                <a href="{% url 'gameapp:reviewView' review.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <div class="child"><a href="{% url 'gameapp:reviewView' review.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
@@ -185,7 +223,7 @@
                             </tr>
                         </table>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
             </div>
 
@@ -200,9 +238,9 @@
             {% if resultArrayGameplays %}
             <h1>{{keyword}} Gameplays:</h1>
 
-            <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
+            <div id="parent" class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
                 {% for result in resultArrayGameplays %}
-                <a href="{% url 'gameapp:gameplayView' result.gameplay.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <div class="child"><a href="{% url 'gameapp:gameplayView' result.gameplay.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
@@ -215,7 +253,7 @@
                             </tr>
                         </table>
                     </div>
-                </a>
+                </a></div>
                 {% endfor %}
             </div>
 
@@ -226,7 +264,9 @@
             {% endif %}
             {% endif %}
 
+            <br> <br>
         </div>
+
 
     {% endblock %}
 

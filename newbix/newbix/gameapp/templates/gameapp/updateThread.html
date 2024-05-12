@@ -8,11 +8,11 @@
 
     {% block main_article %}
 <div class="profile_Settings">
-        <h2 style="text-align: center">New {{game.nome}} Thread</h2> <br>
-        <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:updateThread' %}">
+        <h2 style="text-align: center">Update Thread</h2> <br>
+        <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:updateThread' thread.id %}">
             {% csrf_token %}
             <label class="label1">Title
-                <input type="text" class="label2" style="width: 254px" name="title">
+                <input type="texto" class="label2" style="width: 254px" name="title" value="{{thread.titulo}}">
             </label>
             <br> <br>
             <label class="label1">Thread Topic:
@@ -37,7 +37,7 @@
 
             <br> <br>
             <label class="label1">Thread Body <br> <br>
-                <textarea name="texto" class="label2" rows="4" cols="50"></textarea>
+                <textarea name="texto" class="label2" rows="4" cols="50">{{thread.descricao}}</textarea>
             </label>
 
             <br> <br>

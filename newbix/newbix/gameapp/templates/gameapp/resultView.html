@@ -4,6 +4,8 @@
 
 {% load static %}
 
+    {% block javascript %}var maxChildren = 3;{% endblock %}
+
     {% block title %}View {{ tipo }}{% endblock %}
 
 
@@ -45,13 +47,13 @@
         <br> <br>
 
         <a href="{% url 'gameapp:deleteReview' result.id %}">
-            <button class="block-element button1">Delete thread</button>
+            <button class="block-element button1">Delete Review</button>
         </a>
         {% endif %}
 
         {% if request.user.is_superuser %}
         <a href="{% url 'gameapp:deleteReview' result.id %}">
-            <button class="block-element button1">Delete thread</button>
+            <button class="block-element button1">Delete Review</button>
         </a>
         {% endif %}
         </center>
@@ -80,9 +82,9 @@
                 </center>
         <br><h2>Comentários:</h2><br>
         {% if commentArray %}
-            <div class="forum-style">
+            <div id="parent" class="forum-style">
             {% for comment in commentArray %}
-                <div class="comment">
+                <div class="child"><div class="comment">
                     <div class="user-info">
 
                         <p>Written By: <a href="{% url 'gameapp:profile_page' result.listaUtilizadorJogo.utilizador.id %}">{{comment.utilizador.username}}</a></p>
@@ -92,13 +94,13 @@
                     </div>
                     <div class="comment-text">
                         <p>{{ comment.texto }}</p>
-                        {% if request.user.utilizador == comment.utilizador %}
+                        {% if request.user.utilizador == comment.utilizador or request.user.is_superuser %}
                             <a href="{% url 'gameapp:deleteComment' comment.id%}">
                                 <center><button class="block-element button1">Delete Comment</button></center>
                             </a>
                         {% endif %}
                     </div>
-                </div>
+                </div> <br> </div>
             {% endfor %}
             </div>
         {% else %}
@@ -107,19 +109,21 @@
 
         <center>
         {% if request.user.utilizador == result.listaUtilizadorJogo.utilizador %}
-        <a href="{% url 'gameapp:editThread' result.id %}">
+            <br>
+        <a href="{% url 'gameapp:editThread' thread.id %}">
             <button class="block-element button1">Edit Thread</button>
         </a>
 
         <br> <br>
 
-        <a href="{% url 'gameapp:deleteGameplay' result.id%}">
+        <a href="{% url 'gameapp:deleteThread' thread.id%}">
             <button class="block-element button1">Delete Thread</button>
         </a>
         {% endif %}
 
         {% if request.user.is_superuser %}
-        <a href="{% url 'gameapp:deleteThread' result.id%}">
+            <br>
+        <a href="{% url 'gameapp:deleteThread' thread.id%}">
             <button class="block-element button1">Delete Thread</button>
         </a>
         {% endif %}
