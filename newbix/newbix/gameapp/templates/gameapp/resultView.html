@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "gameapp/index.html" %}
+
+{% load static %}
+
+    {% block title %}Search: {{ keyword }}{% endblock %}
+
+
+    {% block aside_tags %} style="padding: 20px; text-align: left;" {% endblock %}
+    {% block left_aside %}
+    <div style="background-color: rgb(20, 20, 20); padding: 24px 8px;border-radius: 8px;">
+        <a href="{% url 'gameapp:gameDetailsView' steam_id %}">
+        <img class="game_image" src="{{ result.listaUtilizadorJogo.jogo.get_header }}" title="{{ result.listaUtilizadorJogo.jogo.nome }}">
+        </a>
+        <center><h2>{{ result.listaUtilizadorJogo.jogo.nome }}</h2></center>
+    </div>
+    {% endblock %}
+
+    {% block nav_tags %} style="padding: 20px; text-align: left;" {% endblock %}
+    {% block right_nav %}
+    <div style="background-color: rgb(20, 20, 20); padding: 24px 8px;border-radius: 8px; text-align: center">
+        <a href="{% url 'gameapp:profile_page' result.listaUtilizadorJogo.utilizador.id %}">
+            <img class="profilepic" style="border-radius: 148px; width: 148px; height: 148px;" src='{% if result.listaUtilizadorJogo.utilizador.profile_picture %} {% static result.listaUtilizadorJogo.utilizador.profile_picture %} {% else %} {% static "utils/defaultpp.jpg" %} {% endif %}' title="{{ result.listaUtilizadorJogo.utilizador.username }}">
+        </a>
+        <center><h2>Written by: {{ result.listaUtilizadorJogo.utilizador.username }}</h2></center>
+    </div>
+    {% endblock %}
+
+    {% block main_article %}
+    <div class="results_box" style="text-align: left">
+        {% if tipo == 'review' %}
+        <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Review on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
+        <h1>{{ result.tipoReview }}</h1><br>
+        <h1>Description:</h1>
+        <p>{{ result.texto }}</p><br>
+        <br><p style="text-align: right"> Updated at: {{ result.updated.date }}</p><br>
+        {% endif %}
+
+        {% if tipo == 'thread' %}
+
+        <h2 style="text-align: center">{{ result.listaUtilizadorJogo.utilizador.username }}'s Thread on {{ result.listaUtilizadorJogo.jogo.nome }}</h2>
+        <h2>{{ thread.titulo }}</h2>
+        <h1>{{ thread.threadTopic }}</h1><br>
+        <h1>Description:</h1>
+        <p>{{ thread.descricao }}</p><br>
+
+        {% if user.is_authenticated %}
+
+                <a href="{% url 'gameapp:createComment' thread.id %}">
+                    <button class="block-element button1">Create Comment</button>
+                </a>
+
+        {% else %}
+            <button class="block-element button1 disabled-button" disabled title="Must be logged in">Create Comment</button>
+        {% endif %}
+        <br><h2>Comentários:</h2><br>
+        {% if commentArray %}
+            <div class="forum-style">
+            {% for comment in commentArray %}
+                <div class="comment">
+                    <div class="user-info">
+                        <p>User: {{comment.poster_id.username}}</p>
+                        <p>Data: {{comment.created_at}}</p>
+                    </div>
+                    <div class="comment-text">
+                        <p>Comment: {{ comment.texto }}</p>
+                        {% if request.user.utilizador == comment.poster_id %}
+                            <a href="google.com">
+                                <button class="block-element button1">Delete Comment</button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <h1>Comentários:</h1>
+            <h2>No comments found</h2><br><br>
+        {% endif %}
+        <br><p style="text-align: right"> Updated at: {{ thread.updated.date }}</p><br>
+        {% endif %}
+
+    </div>
+
+    {% endblock %}
+</html>

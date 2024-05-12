@@ -8,42 +8,42 @@
 
     {% block main_article %}
 <div class="profile_Settings">
-        <h2 style="text-align: center">{% if thread %}Update{% else %}New{% endif %} {{game.nome}} Thread</h2> <br>
+        <h2 style="text-align: center">New {{game.nome}} Thread</h2> <br>
         <form method="post" enctype="multipart/form-data" action="{% url 'gameapp:submitThread' %}">
             {% csrf_token %}
             <label class="label1">Title
-                <input type="text" class="label2" style="width: 254px" name="title" value="{{ thread.titulo }}">
+                <input type="text" class="label2" style="width: 254px" name="title">
             </label>
             <br> <br>
             <label class="label1">Thread Topic:
                 <select class="label2" style="width: 200px" name="topic">
 
                     <option style="background-color: rgb(20, 20, 20); border: none" {% if 'GB' == thread.threadTopic %} selected="selected" {% endif %} value="GB">Game Build</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'SG' == thread.threadTopic %} selected="selected" {% endif %} value="SG">Strategy</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'CP' == thread.threadTopic %} selected="selected" {% endif %} value="CP">Competitive</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'MO' == thread.threadTopic %} selected="selected" {% endif %} value="MO">Modding</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'CO' == thread.threadTopic %} selected="selected" {% endif %} value="CO">Completion</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'GU' == thread.threadTopic %} selected="selected" {% endif %} value="GU">Game Updates</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'GE' == thread.threadTopic %} selected="selected" {% endif %} value="GE">Game Events</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'LO' == thread.threadTopic %} selected="selected" {% endif %} value="LO">Lore</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'ST' == thread.threadTopic %} selected="selected" {% endif %} value="ST">Soundtrack</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'GR' == thread.threadTopic %} selected="selected" {% endif %} value="GR">Graphics</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'GM' == thread.threadTopic %} selected="selected" {% endif %} value="GM">Game Mechanics</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'EE' == thread.threadTopic %} selected="selected" {% endif %} value="EE">Easter Eggs</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'OT' == thread.threadTopic %} selected="selected" {% endif %} value="OT">Other</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Strategy' == thread.threadTopic %} selected="selected" {% endif %} value="Strategy">Strategy</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Competitive' == thread.threadTopic %} selected="selected" {% endif %} value="Competitive">Competitive</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Modding' == thread.threadTopic %} selected="selected" {% endif %} value="Modding">Modding</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Completion' == thread.threadTopic %} selected="selected" {% endif %} value="Completion">Completion</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Game Updates' == thread.threadTopic %} selected="selected" {% endif %} value="Game Updates">Game Updates</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Game Events' == thread.threadTopic %} selected="selected" {% endif %} value="Game Events">Game Events</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Lore' == thread.threadTopic %} selected="selected" {% endif %} value="Lore">Lore</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Soundtrack' == thread.threadTopic %} selected="selected" {% endif %} value="Soundtrack">Soundtrack</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Graphics' == thread.threadTopic %} selected="selected" {% endif %} value="Graphics">Graphics</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Game Mechanics' == thread.threadTopic %} selected="selected" {% endif %} value="Game Mechanics">Game Mechanics</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Easter Eggs' == thread.threadTopic %} selected="selected" {% endif %} value="Easter Eggs">Easter Eggs</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Other' == thread.threadTopic %} selected="selected" {% endif %} value="Other">Other</option>
 
                 </select>
             </label>
 
             <br> <br>
             <label class="label1">Thread Body <br> <br>
-                <textarea name="texto" class="label2" rows="4" cols="50">{{ thread.descricao }}</textarea>
+                <textarea name="texto" class="label2" rows="4" cols="50"></textarea>
             </label>
 
             <br> <br>
 
             <center>
-            <input class="button1" type="submit" value={% if thread %}"Update"{% else %}"Submit"{% endif %}>
+            <input class="button1" type="submit" value="Submit">
             </center>
         </form>
     </div>

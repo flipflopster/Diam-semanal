@@ -187,6 +187,11 @@ def get_background(app_id):
     return background
 
 
+def get_header_img(app_id):
+    game_details = get_game_details(app_id)
+    return parse_header_image(game_details)
+
+
 def parse_type(game_details):
     return game_details.get('type')
 

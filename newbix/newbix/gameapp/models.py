@@ -5,28 +5,20 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, get_capsule_imagev5, get_screenshots
+from .steamDataFetcher import is_cached, cache_game_details, remove_from_cache, get_capsule_imagev5, get_screenshots, \
+    get_header_img
 
-
-# def loginview(request):
-#    username = request.POST['username']
-#    password = request.POST['password']
-#    user = authenticate(username=username,
-#                        password=password)
-#    if user is not None:
-#        login(request, user)
-#    else:
 
 def has_review(lista):
     try:
-        review = Review.objects.get(listaUtliziadorJogo_id=lista)
+        review = Review.objects.get(listaUtilizadorJogo_id=lista)
     except Review.DoesNotExist:
         review = None
     return review
 
 
 class Utilizador(models.Model):
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
 
     genero = models.CharField(max_length=50, default='Not Specified')
@@ -38,7 +30,7 @@ class Utilizador(models.Model):
     def get_review(self, jogo):
         lista = self.is_on_List(jogo)
         try:
-            review = Review.objects.get(listaUtliziadorJogo_id=lista)
+            review = Review.objects.get(listaUtilizadorJogo_id=lista)
         except Review.DoesNotExist:
             review = None
         return review
@@ -46,7 +38,7 @@ class Utilizador(models.Model):
     def last_review(self):
         r = None
         for game in ListaUtilizadorJogo.objects.filter(utilizador_id=self):
-            review = Review.objects.filter(listaUtliziadorJogo_id=game).first()
+            review = Review.objects.filter(listaUtilizadorJogo_id=game).first()
             if review:
                 if r:
                     if review.updated > r.updated:
@@ -62,10 +54,15 @@ class Utilizador(models.Model):
             lista = None
         return lista
 
+    def count_completes(self):
+        lista = ListaUtilizadorJogo.objects.filter(utilizador_id=self, estado='Completed')
+        self.jogos_completos = lista.count()
+        self.save()
+
 
 class Lista_Amigos(models.Model):
-    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_id')
-    utilizador_seguido_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE,
+    utilizador = models.ForeignKey(Utilizador, on_delete=models.CASCADE, related_name='utilizador_id')
+    utilizador_seguido = models.ForeignKey(Utilizador, on_delete=models.CASCADE,
                                               related_name='utilizador_seguido_id')
     data = models.DateTimeField(auto_now_add=True)
 
@@ -86,6 +83,9 @@ class Jogo(models.Model):
     totalPontos = models.IntegerField(default=0)
     numeroRatings = models.IntegerField(default=0)
     media = models.FloatField(default=0)
+
+    def get_header(self):
+        return get_header_img(self.steam_id)
 
     def get_img_url(self):
         return get_capsule_imagev5(self.steam_id)
@@ -120,6 +120,16 @@ class Jogo(models.Model):
     def steamId(self):
         return self.steam_id
 
+    def count_media(self):
+        lista = ListaUtilizadorJogo.objects.filter(jogo_id=self)
+        total = 0
+        for rating in lista:
+            total += rating.rating
+
+        self.numeroRatings = lista.count()
+        self.totalPontos = total
+        self.save()
+
 
 class ListaUtilizadorJogo(models.Model):
     class EstadosJogo(models.TextChoices):
@@ -134,15 +144,15 @@ class ListaUtilizadorJogo(models.Model):
         choices=EstadosJogo.choices,
         default=EstadosJogo.PLANTOPLAY,
     )
-    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
-    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
+    utilizador = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    jogo = models.ForeignKey(Jogo, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     last_altered = models.DateTimeField(auto_now=True)
 
 
 class Review(models.Model):
-    listaUtliziadorJogo_id = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
+    listaUtilizadorJogo = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
     texto = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -163,18 +173,22 @@ class Gameplay(models.Model):
 
 
 class LinksUtilizador(models.Model):
-    utilizador_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    utilizador = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     link = models.CharField(max_length=127)
 
 
 class ListaGameplays(models.Model):
-    listaUtliziadorJogo_id = models.ForeignKey(ListaUtilizadorJogo, on_delete=models.CASCADE)
-    gameplay_id = models.ForeignKey(Gameplay, on_delete=models.CASCADE)
+    listaUtilizadorJogo = models.ForeignKey(ListaUtilizadorJogo, on_delete=models.CASCADE)
+    gameplay = models.ForeignKey(Gameplay, on_delete=models.CASCADE)
+
+
+class ListaThreads(models.Model):
+    listaUtilizadorJogo = models.OneToOneField(ListaUtilizadorJogo, on_delete=models.CASCADE)
+    contagem = models.IntegerField(default=0)
 
 
 class Thread(models.Model):
-    criador_id = models.ForeignKey(Utilizador, on_delete=models.SET_NULL, null=True)
-    jogo_id = models.ForeignKey(Jogo, on_delete=models.CASCADE)
+    listaThreads = models.ForeignKey(ListaThreads, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=127)
     descricao = models.CharField(max_length=511)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -199,64 +213,7 @@ class Thread(models.Model):
 
 
 class Comentario(models.Model):
-    thread_id = models.ForeignKey(Thread, on_delete=models.CASCADE)
-    poster_id = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    utilizador = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
     texto = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-"""
-
-
-class Empresa(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=255)
-
-class Personagem(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=255)
-
-
-class ListaJogoPersonagem(models.Model):
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
-    personagem_id = models.OneToManyField(Pesonagem, on_delete=models.CASCADE)
-
-class FotosJogo(models.Model):
-    jogo_id = models.OneToManyField(Jogo, on_delete=models.CASCADE)
-    fotoLink = models.CharField(max_length=255)
-
-    class TiposImagens(models.TextChoices):
-        THUMBNAIL = 'TN', _('Thumbnail')
-        BANNER = 'BN', _('Banner')
-        INGAME = 'IG', _('In Game')
-
-
-    tipo = models.CharField(
-        max_length=2,
-        choices=TiposImagens.choices,
-        default=TiposImagens.INGAME,
-    )
-
-
-    curso = models.CharField(max_length=100)
-    votosmax = models.IntegerField()
-    votos = models.IntegerField(default=0)
-    profile_picture = models.CharField(max_length=100)
-
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
-    opcao_texto = models.CharField(max_length=200)
-    votos = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.opcao_texto
-
-    objects = None
-    questao_texto = models.CharField(max_length=200)
-    pub_data = models.DateTimeField('data de publicacao')
-
-    def __str__(self):
-        return self.questao_texto
-
-    def recente(self):
-        return self.pub_data >= timezone.now() - datetime.timedelta(days=1)
-"""

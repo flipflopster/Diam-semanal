@@ -69,12 +69,12 @@
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
-                                <th>{{result.jogo_id.nome}}</th>
+                                <th>{{result.jogo.nome}}</th>
                                 <th style="text-align: right;">{{result.threadTopic}}</th>
                             </tr>
                             <tr>
-                                <th><img src="{{ result.jogo_id.get_img_url }}" alt="Image"></th>
-                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.criador_id.user_id}}</th>
+                                <th><img src="{{ result.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.criador.user}}</th>
                             </tr>
                         </table>
                     </div>
@@ -145,12 +145,12 @@
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
-                                <th>{{result.jogo_id.nome}}</th>
+                                <th>{{result.listaThreads.listaUtilizadorJogo.jogo.nome}}</th>
                                 <th style="text-align: right;">{{result.threadTopic}}</th>
                             </tr>
                             <tr>
-                                <th><img src="{{ result.jogo_id.get_img_url }}" alt="Image"></th>
-                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.criador_id.user_id}}</th>
+                                <th><img src="{{ result.listaThreads.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">{{ result.titulo}}<br>Written by: {{result.listaThreads.listaUtilizadorJogo.utilizador.user}}</th>
                             </tr>
                         </table>
                     </div>
@@ -172,12 +172,12 @@
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
-                                <th>{{review.listaUtliziadorJogo_id.jogo_id.nome}}</th>
+                                <th>{{review.listaUtilizadorJogo.jogo.nome}}</th>
                                 <th style="text-align: right;">{{review.tipoReview}}</th>
                             </tr>
                             <tr>
-                                <th><img src="{{ review.listaUtliziadorJogo_id.jogo_id.get_img_url }}" alt="Image"></th>
-                                <th style="text-align: right;">Written by: {{review.listaUtliziadorJogo_id.utilizador_id.user_id}}</th>
+                                <th><img src="{{ review.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">Written by: {{review.listaUtilizadorJogo.utilizador.user}}</th>
                             </tr>
                         </table>
                     </div>
@@ -198,16 +198,16 @@
 
             <div class="results_grid" style="grid-template-columns: repeat(1, 1fr);">
                 {% for result in resultArrayGameplays %}
-                <a href="{% url 'gameapp:gameplayView' result.gameplay_id.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
+                <a href="{% url 'gameapp:gameplayView' result.gameplay.id %}" class="game-link entry" style="text-decoration: none; color: inherit;">
                     <div class="result_link" style="text-indent: 0;">
                         <table>
                             <tr>
-                                <th>{{result.listaUtliziadorJogo_id.jogo_id.nome}}</th>
-                                <th style="text-align: right;">{{result.gameplay_id.titulo}}</th>
+                                <th>{{result.listaUtilizadorJogo.jogo.nome}}</th>
+                                <th style="text-align: right;">{{result.gameplay.titulo}}</th>
                             </tr>
                             <tr>
-                                <th><img src="{{ result.listaUtliziadorJogo_id.jogo_id.get_img_url }}" alt="Image"></th>
-                                <th style="text-align: right;">Link: {{ result.gameplay_id.link}}<br>Written by: {{result.listaUtliziadorJogo_id.utilizador_id.username}}</th>
+                                <th><img src="{{ result.listaUtilizadorJogo.jogo.get_img_url }}" alt="Image"></th>
+                                <th style="text-align: right;">Link: {{ result.gameplay.link}}<br>Written by: {{result.listaUtilizadorJogo.utilizador.username}}</th>
                             </tr>
                         </table>
                     </div>

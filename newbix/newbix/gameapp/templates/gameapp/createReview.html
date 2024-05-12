@@ -15,9 +15,9 @@
             <label class="label1">Would you Recommend {{game.nome}}?
                 <select class="label2" style="width: 200px" name="tipo">
 
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'RC' == review.tipoReview %} selected="selected" {% endif %} value="RC">Recommended</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'MF' == review.tipoReview %} selected="selected" {% endif %} value="MF">Mixed Feelings</option>
-                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'NR' == review.tipoReview %} selected="selected" {% endif %} value="NR">Not Recommended</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Recommended' == review.tipoReview %} selected="selected" {% endif %} value="Recommended">Recommended</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Mixed Feelings' == review.tipoReview %} selected="selected" {% endif %} value="Mixed Feelings">Mixed Feelings</option>
+                    <option style="background-color: rgb(20, 20, 20); border: none" {% if 'Not Recommended' == review.tipoReview %} selected="selected" {% endif %} value="Not Recommended">Not Recommended</option>
 
                 </select>
             </label>

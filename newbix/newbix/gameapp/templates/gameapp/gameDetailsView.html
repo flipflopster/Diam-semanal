@@ -87,11 +87,11 @@
                 <label class="header_bar" style="width: 28%">State:
                 <select class="header_bar" style="width: 30%;" name="estado">
 
-                    <option {% if lista %} {% if 'PP' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PP">Plan-to-Play</option>
-                    <option {% if lista %} {% if 'PL' == lista.estado %} selected="selected" {% endif %} {% endif %} value="PL">Playing</option>
-                    <option {% if lista %} {% if 'CM' == lista.estado %} selected="selected" {% endif %} {% endif %} value="CM">Completed</option>
-                    <option {% if lista %} {% if 'OH' == lista.estado %} selected="selected" {% endif %} {% endif %} value="OH">On Hold</option>
-                    <option {% if lista %} {% if 'DR' == lista.estado %} selected="selected" {% endif %} {% endif %} value="DR">Dropped</option>
+                    <option {% if lista %} {% if 'Plan-to-Play' == lista.estado %} selected="selected" {% endif %} {% endif %} value="Plan-to-Play">Plan-to-Play</option>
+                    <option {% if lista %} {% if 'Playing' == lista.estado %} selected="selected" {% endif %} {% endif %} value="Playing">Playing</option>
+                    <option {% if lista %} {% if 'Completed' == lista.estado %} selected="selected" {% endif %} {% endif %} value="Completed">Completed</option>
+                    <option {% if lista %} {% if 'On Hold' == lista.estado %} selected="selected" {% endif %} {% endif %} value="On Hold">On Hold</option>
+                    <option {% if lista %} {% if 'Dropped' == lista.estado %} selected="selected" {% endif %} {% endif %} value="Dropped">Dropped</option>
 
                 </select>
                 </label>
